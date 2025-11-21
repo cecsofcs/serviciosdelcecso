@@ -17,7 +17,12 @@
       background-color: #35b0b3;
       font-family: 'IBM Plex Serif', serif;
     }
-
+    @media (min-width: 900px) {
+  body {
+    transform: scale(1.25);
+    transform-origin: top center;
+  }
+}
     /* Pantalla de inicio centrada */
     #pantalla-inicio {
       min-height: 100vh;
@@ -627,3 +632,4 @@ btnVolverIntermedia.addEventListener("click", function() {
   </script>
 </body>
 </html>
+
