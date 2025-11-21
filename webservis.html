@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Librillos CECSo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <h1>Librillos CECSo</h1>
+
+  <h2>Catálogo</h2>
+  <div id="catalogo"></div>
+
+  <h2>Carrito</h2>
+  <div id="carrito"></div>
+  <button id="btnEnviar">Enviar pedido</button>
+
+  <h2>¿Dudas sobre tu trayectoria?</h2>
+  <form id="consultaForm">
+    <input type="text" id="cNombre" placeholder="Nombre (opcional)">
+    <input type="email" id="cEmail" placeholder="Email" required>
+    <textarea id="cMensaje" placeholder="Tu consulta" required></textarea>
+    <button type="submit">Enviar consulta</button>
+  </form>
+
+<script>
+const API = "PEGA_ACÁ_TU_URL_WEBAPP"; 
+let catalogo = [];
+let carrito = [];
+
+async function cargarCatalogo() {
+  const r = await fetch(API + "?action=getCatalogo");
+  catalogo = await r.json();
+  mostrarCatalogo();
+}
+
+function mostrarCatalogo() {
+  const div = document.getElementById("catalogo");
+  div.innerHTML = "";
+  catalogo.forEach((item, i) => {
+    const d = document.createElement("div");
+    d.innerHTML = `
+      <strong>${item.materia}</strong> - ${item.librillo} - $${item.precio}
+      <button onclick="agregar(${i})">Agregar</button>
+    `;
+    div.append(d);
+  });
+}
+
+function agregar(i) {
+  const it = catalogo[i];
+  carrito.push({
+    materia: it.materia,
+    librillo: it.librillo,
+    cantidad: 1,
+    precioUnitario: it.precio
+  });
+  mostrarCarrito();
+}
+
+function mostrarCarrito() {
+  const div = document.getElementById("carrito");
+  div.innerHTML = "";
+  let total = 0;
+
+  carrito.forEach((it, i) => {
+    total += it.cantidad * it.precioUnitario;
+    const d = document.createElement("div");
+    d.innerHTML = `
+      ${it.materia} - ${it.librillo} - $${it.precioUnitario}
+      <button onclick="quitar(${i})">Quitar</button>
+    `;
+    div.append(d);
+  });
+
+  div.innerHTML += `<strong>Total: $${total}</strong>`;
+}
+
+function quitar(i) {
+  carrito.splice(i, 1);
+  mostrarCarrito();
+}
+
+document.getElementById("btnEnviar").onclick = async () => {
+  const email = prompt("Mail:");
+  const nombre = prompt("Nombre (opcional):");
+
+  const body = {
+    email,
+    nombre,
+    items: carrito
+  };
+
+  const r = await fetch(API + "?action=crearPedido", {
+    method: "POST",
+    body: JSON.stringify(body)
+  });
+
+  const data = await r.json();
+  alert("Pedido enviado!");
+
+  carrito = [];
+  mostrarCarrito();
+};
+
+// CONSULTAS
+document.getElementById("consultaForm").onsubmit = async e => {
+  e.preventDefault();
+  const body = {
+    nombre: document.getElementById("cNombre").value,
+    email: document.getElementById("cEmail").value,
+    mensaje: document.getElementById("cMensaje").value
+  };
+
+  await fetch(API + "?action=consultaTrayectoria", {
+    method: "POST",
+    body: JSON.stringify(body)
+  });
+
+  alert("Consulta enviada!");
+  e.target.reset();
+};
+
+cargarCatalogo();
+</script>
+</body>
+</html>
