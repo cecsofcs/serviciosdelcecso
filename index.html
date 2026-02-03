@@ -2,21 +2,22 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
   <title>Servicios del CECSo — ¡Conseguí tus librillos!</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600;800&display=swap&subset=latin-ext" rel="stylesheet">
 
   <style>
     :root {
         --petroleo: #1b5e63;
         --terracota: #d97d60;
         --crema-papel: #fdfaf6;
-        --rosa-suave: #fce4ec; /* El rosado suave solicitado */
+        --rosa-suave: #fce4ec;
         --negro: #000000;
         --borde-grueso: 4px solid #000000;
         --sombra-dura: 8px 8px 0px #000000;
-        --sombra-sm: 4px 4px 0px #000000;
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -30,9 +31,8 @@
       font-family: 'Inter', sans-serif; color: var(--negro);
     }
 
-    /* Fuentes Pro */
-    .font-logo { font-family: 'Archivo Black', sans-serif; text-transform: uppercase; letter-spacing: -2px; }
-    .font-titulo { font-family: 'Inter', sans-serif; font-weight: 900; text-transform: uppercase; }
+    .font-logo { font-family: 'Archivo Black', sans-serif; text-transform: uppercase; letter-spacing: -1.5px; }
+    .font-elegante { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-style: italic; }
 
     /* ============ NAVBAR ============ */
     .navbar {
@@ -40,30 +40,30 @@
         padding: 15px 30px; background: white; border-bottom: var(--borde-grueso);
         position: sticky; top: 0; z-index: 1000;
     }
-    .brand { cursor: pointer; font-size: 1.4rem; color: var(--petroleo); transition: 0.2s; }
-    .brand:hover { transform: scale(1.02); }
+    .brand { cursor: pointer; font-size: 1.3rem; color: var(--petroleo); white-space: nowrap; }
     
     .nav-links button {
-        background: var(--rosa-suave); border: 3px solid var(--negro); padding: 8px 20px;
+        background: var(--rosa-suave); border: 3px solid var(--negro); padding: 8px 18px;
         font-weight: 800; cursor: pointer; box-shadow: 4px 4px 0px var(--negro);
-        transition: 0.1s; text-transform: uppercase; font-size: 0.75rem; margin-left: 10px;
+        transition: 0.1s; text-transform: uppercase; font-size: 0.7rem; margin-left: 8px;
     }
     .nav-links button:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px var(--negro); }
 
     /* ============ SECCIÓN INICIO ============ */
     #seccion-inicio { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
     
+    .hero { text-align: left; margin-bottom: 50px; }
     .hero h1 { 
-        font-size: clamp(2rem, 7vw, 4.5rem); color: var(--petroleo); line-height: 0.9; 
+        font-size: clamp(1.8rem, 6.5vw, 5rem); color: var(--petroleo); line-height: 1; 
         margin: 0; -webkit-text-stroke: 1px var(--negro);
+        white-space: nowrap; 
     }
 
     .btn-cta-top {
-        display: inline-block; margin: 30px 0 50px 0; padding: 25px 40px;
+        display: inline-block; margin: 40px 0; padding: 22px 45px;
         background: var(--terracota); color: white; border: var(--borde-grueso);
-        font-family: 'Inter', sans-serif; font-weight: 900; font-size: 1.5rem;
+        font-weight: 900; font-size: 1.4rem; text-transform: uppercase;
         cursor: pointer; box-shadow: 8px 8px 0px var(--negro); transition: 0.1s;
-        text-transform: uppercase;
     }
     .btn-cta-top:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--negro); }
 
@@ -71,11 +71,10 @@
         background: white; border: var(--borde-grueso); padding: 40px;
         box-shadow: var(--sombra-dura); margin-bottom: 40px; border-radius: 4px;
     }
-    .content-box h2 { font-size: 1.3rem; margin-top: 0; color: var(--petroleo); border-bottom: 4px solid var(--rosa-suave); display: inline-block; }
+    .content-box h2 { font-size: 1.4rem; font-family: 'Archivo Black'; margin-top: 0; color: var(--petroleo); border-bottom: 6px solid var(--rosa-suave); display: inline-block; }
     .content-box p { font-weight: 600; line-height: 1.6; font-size: 1rem; }
 
-    .grid-bubbles { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 40px; }
-    
+    .grid-bubbles { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
     .neo-bubble {
         background: white; border: var(--borde-grueso); padding: 30px;
         border-radius: 20px; position: relative; box-shadow: var(--sombra-dura);
@@ -85,64 +84,57 @@
         width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent;
         border-top: 20px solid var(--negro);
     }
-    .neo-bubble h3 { font-size: 1.2rem; margin-top: 0; color: var(--petroleo); }
 
     /* ============ APP / BUSCADOR ============ */
     #app-container { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
     .step-view { display: flex; flex-direction: column; align-items: center; min-height: 70vh; }
     
-    .step-title { font-size: 2.8rem; color: var(--terracota); margin-bottom: 40px; text-align: center; }
+    .step-title { 
+        font-family: 'Cormorant Garamond', serif; 
+        font-size: 4rem; 
+        color: var(--terracota); 
+        margin-bottom: 20px; 
+        font-style: italic;
+    }
 
     .btn-choice {
-        background: white; border: var(--borde-grueso); padding: 20px;
-        width: 100%; max-width: 450px; margin-bottom: 15px; font-weight: 900;
-        font-size: 1.1rem; cursor: pointer; box-shadow: 6px 6px 0px var(--petroleo); transition: 0.1s;
+        background: white; border: var(--borde-grueso); padding: 18px;
+        width: 100%; max-width: 450px; margin-bottom: 12px; font-weight: 800;
+        font-size: 1rem; cursor: pointer; box-shadow: 5px 5px 0px var(--petroleo); transition: 0.1s;
         text-transform: uppercase;
     }
-    .btn-choice:hover { background: var(--rosa-suave); transform: translate(-2px, -2px); box-shadow: 8px 8px 0px var(--terracota); }
+    .btn-choice:hover { background: var(--rosa-suave); transform: translate(-2px, -2px); box-shadow: 7px 7px 0px var(--terracota); }
 
     #buscador-librillos {
-        width: 100%; max-width: 600px; padding: 20px 30px; border: var(--borde-grueso);
-        font-size: 1.1rem; font-weight: 800; outline: none; box-shadow: 6px 6px 0px var(--petroleo);
-        margin-bottom: 50px; background: white;
+        width: 100%; max-width: 600px; padding: 18px 25px; border: var(--borde-grueso);
+        font-size: 1.1rem; font-weight: 700; outline: none; box-shadow: 6px 6px 0px var(--petroleo);
+        margin-bottom: 40px; background: white;
     }
 
     /* TARJETAS */
+    .grid-libros { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
     .lib-bubble {
         background: white; border: var(--borde-grueso); padding: 25px;
-        border-radius: 20px; position: relative; box-shadow: 5px 5px 0px rgba(0,0,0,0.1);
+        border-radius: 20px; box-shadow: 5px 5px 0px rgba(0,0,0,0.05);
         display: flex; flex-direction: column; height: 100%; transition: 0.2s;
     }
-    .lib-bubble:hover { transform: translateY(-5px); box-shadow: 8px 8px 0px var(--terracota); }
-    .lib-title { font-weight: 800; font-size: 1.1rem; margin: 0 0 20px 0; color: var(--petroleo); line-height: 1.2; }
-    
-    .lib-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 2px solid #eee; }
+    .lib-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 20px; color: var(--petroleo); }
+    .lib-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px dashed #ddd; }
     .lib-price { font-weight: 900; font-size: 1.3rem; color: var(--terracota); }
-    .btn-add {
-        background: white; border: 3px solid var(--negro); padding: 8px 15px;
-        font-weight: 900; cursor: pointer; font-size: 0.75rem; box-shadow: 3px 3px 0px var(--negro);
-    }
-    .btn-add.active { background: var(--petroleo); color: white; }
-
+    
     /* ============ CARRITO ============ */
     .cart-box {
         background: white; border: var(--borde-grueso); padding: 25px;
         box-shadow: 8px 8px 0px var(--petroleo); position: sticky; top: 120px;
     }
-    .cart-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 2px solid #eee; }
-    .cart-item-info { font-weight: 700; font-size: 0.85rem; max-width: 65%; }
-    .cart-item-price { font-weight: 900; font-size: 0.9rem; color: var(--terracota); }
-    
-    .shipping-box {
-        margin: 20px 0; padding: 12px; background: var(--crema-papel); border: 2px solid var(--negro);
-        display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 0.8rem;
-    }
+    .cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
     .total-amount { font-family: 'Archivo Black'; font-size: 2.2rem; color: var(--petroleo); text-align: right; }
 
     @media (max-width: 900px) {
         .main-layout { flex-direction: column; }
         .cart-box { position: static; margin-bottom: 40px; }
-        .hero h1 { font-size: 2.5rem; }
+        .hero h1 { font-size: 1.8rem; white-space: normal; } 
+        .step-title { font-size: 3rem; }
     }
   </style>
 </head>
@@ -159,7 +151,7 @@
 
   <section id="seccion-inicio">
     <div class="hero">
-        <h1 class="font-logo">Servicios <br>del CECSo</h1>
+        <h1 class="font-logo">Servicios del CECSo</h1>
         <button class="btn-cta-top" onclick="navegar('app')">Conseguí tus librillos</button>
     </div>
 
@@ -195,7 +187,7 @@
   <div id="app-container">
       
       <div id="step-carrera" class="step-view">
-          <h2 class="font-titulo step-title">Elegí tu Carrera</h2>
+          <h2 class="step-title">Elegí tu Carrera</h2>
           <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
               <button class="btn-choice" onclick="seleccionarCarrera('Ciclo Inicial')">Ciclo Inicial</button>
               <button class="btn-choice" onclick="seleccionarCarrera('Sociología')">Sociología</button>
@@ -206,32 +198,31 @@
       </div>
 
       <div id="step-tipo" class="step-view" style="display:none;">
-          <h2 id="txt-carrera-sel" class="font-titulo" style="font-size: 2.2rem; color: var(--terracota); margin-bottom: 10px;"></h2>
-          <h3 class="font-titulo" style="font-size: 1.2rem; margin-bottom: 30px;">Seleccioná el tipo</h3>
+          <h2 id="txt-carrera-sel" class="step-title" style="font-size: 3.5rem;"></h2>
+          <h3 style="font-family:'Cormorant Garamond'; font-size: 1.8rem; margin-bottom: 25px; font-style: italic;">Seleccioná el tipo:</h3>
           <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
               <button class="btn-choice" onclick="iniciarCarga('Obligatorias')">Materias Obligatorias</button>
               <button class="btn-choice" onclick="iniciarCarga('Optativas')">Materias Optativas</button>
-              <button onclick="navegarApp('step-carrera')" style="margin-top:20px; font-weight:900; cursor:pointer; background:none; border:none; text-decoration:underline;">← Volver</button>
+              <button onclick="navegarApp('step-carrera')" style="margin-top:20px; font-weight:800; cursor:pointer; background:none; border:none; text-decoration:underline;">← Volver</button>
           </div>
       </div>
 
       <div id="step-catalogo" style="display:none;">
           <div style="text-align: center; margin-bottom: 40px;">
-              <h2 id="txt-hoja-sel" class="font-titulo" style="font-size: 1.8rem; border-bottom: 6px solid var(--rosa-suave); display: inline-block;"></h2>
+              <h2 id="txt-hoja-sel" class="step-title" style="border-bottom: 2px solid var(--rosa-suave); display: inline-block;"></h2>
               <br><br>
-              <input type="text" id="buscador-librillos" placeholder="🔍 Buscar materia (sin tildes)..."/>
-              <p id="txt-loading" style="font-weight:900;">Buscando en los estantes...</p>
+              <input type="text" id="buscador-librillos" placeholder="🔍 Buscar materia (ej: 'socio')..."/>
           </div>
 
           <div class="main-layout" style="display: flex; gap: 40px; align-items: flex-start;">
               <div id="lista-libros" class="grid-libros" style="flex:2;"></div>
               
               <div class="cart-box" style="flex:1;">
-                  <h3 class="font-titulo" style="margin:0; font-size: 1.2rem; border-bottom: 4px solid var(--negro); padding-bottom: 10px;">Tu Pedido</h3>
+                  <h3 class="font-logo" style="margin:0; font-size: 1.1rem; border-bottom: 4px solid var(--negro); padding-bottom: 10px;">Tu Pedido</h3>
                   <div id="cart-items-container" style="margin: 20px 0;"></div>
                   
-                  <label class="shipping-box">
-                      <input type="checkbox" id="chk-envio" onchange="renderCarrito()" style="width:18px; height:18px;">
+                  <label class="shipping-box" style="cursor:pointer;">
+                      <input type="checkbox" id="chk-envio" onchange="renderCarrito()" style="width:18px; height:18px; cursor:pointer;">
                       ENVÍO AL INTERIOR (+$100)
                   </label>
 
@@ -250,8 +241,10 @@
     let db = [], filtered = [];
     let licActual = "", tipoActual = "";
 
-    // Normalizador de texto (ignora tildes y mayúsculas)
-    const normalizar = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const normalizar = (str) => {
+        if (!str) return "";
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    };
 
     window.navegar = function(seccion) {
         window.scrollTo(0,0);
@@ -287,16 +280,13 @@
     };
 
     function fetchAPI(hoja) {
-        const loading = document.getElementById('txt-loading');
-        loading.style.display = 'block';
-        document.getElementById('lista-libros').innerHTML = "";
+        document.getElementById('lista-libros').innerHTML = "<p style='font-weight:900;'>Cargando materiales...</p>";
         fetch(`${API_URL}?action=obtenerCatalogo&licenciatura=${encodeURIComponent(hoja)}`)
             .then(res => res.json())
             .then(data => {
                 db = data; filtered = data;
-                loading.style.display = 'none';
                 renderCatalogo();
-            }).catch(e => loading.innerText = "Error de conexión.");
+            }).catch(e => console.error("Error en el fetch:", e));
     }
 
     function renderCatalogo() {
@@ -334,9 +324,9 @@
             subtotal += c.precio;
             container.innerHTML += `
                 <div class="cart-item">
-                    <span class="cart-item-info">${c.titulo}</span>
+                    <span style="font-weight:700; font-size:0.85rem; max-width:70%;">${c.titulo}</span>
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <span class="cart-item-price">$${c.precio}</span>
+                        <span style="font-weight:900; color:var(--terracota);">$${c.precio}</span>
                         <button onclick="removeCart(${i})" style="border:none; background:none; cursor:pointer;">✕</button>
                     </div>
                 </div>`;
