@@ -37,7 +37,7 @@
         padding: 15px 30px; background: white; border-bottom: var(--borde);
         position: sticky; top: 0; z-index: 1000;
     }
-    .brand { cursor: pointer; font-size: 1.3rem; color: var(--petroleo); white-space: nowrap; transition: 0.2s; }
+    .brand { cursor: pointer; font-size: 1.3rem; color: var(--petroleo); white-space: nowrap; }
     
     .nav-links { display: flex; gap: 10px; }
     .nav-links button {
@@ -45,10 +45,10 @@
         font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0px var(--negro);
         transition: 0.1s; text-transform: uppercase; font-size: 0.75rem;
     }
-    .nav-links button:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px var(--negro); }
 
     /* ============ SECCIÓN INICIO ============ */
     #seccion-inicio { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+    .hero { text-align: left; }
     .hero h1 { 
         font-size: clamp(1.8rem, 6.5vw, 4.5rem); color: var(--petroleo); line-height: 1; 
         margin: 0; -webkit-text-stroke: 1px var(--negro); white-space: nowrap; 
@@ -60,6 +60,7 @@
         cursor: pointer; box-shadow: var(--sombra); transition: 0.1s;
     }
 
+    /* BUBBLES */
     .neo-bubble {
         background: white; border: var(--borde); padding: 40px;
         box-shadow: var(--sombra); margin-bottom: 60px; border-radius: 20px;
@@ -76,24 +77,15 @@
         border-top: 21px solid white;
     }
 
-    .neo-bubble h2 { font-size: 1.3rem; font-family: 'Archivo Black'; margin-top: 0; color: var(--petroleo); border-bottom: 6px solid var(--rosa-suave); display: inline-block; }
-    .neo-bubble p { font-weight: 600; line-height: 1.6; }
-
     /* ============ APP / BUSCADOR ============ */
     #app-container { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
     .step-view { display: flex; flex-direction: column; align-items: center; min-height: 70vh; text-align: center; }
     
-    .step-title { 
-        font-family: 'Inter', sans-serif; font-weight: 300; 
-        font-size: 3.5rem; color: var(--terracota); 
-        margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px;
-    }
+    .step-title { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 3.5rem; color: var(--terracota); text-transform: uppercase; letter-spacing: 2px; }
 
     .btn-choice {
-        background: white; border: var(--borde); padding: 20px;
-        width: 100%; max-width: 450px; margin-bottom: 12px; font-weight: 800;
-        font-size: 1.1rem; cursor: pointer; box-shadow: 6px 6px 0px var(--petroleo); transition: 0.1s;
-        text-transform: uppercase;
+        background: white; border: var(--borde); padding: 20px; width: 100%; max-width: 450px; 
+        margin-bottom: 12px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 6px 6px 0px var(--petroleo);
     }
 
     #buscador-librillos {
@@ -103,58 +95,46 @@
     }
 
     .grid-libros { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-    .lib-bubble {
-        background: white; border: var(--borde); padding: 25px;
-        border-radius: 20px; box-shadow: 6px 6px 0px rgba(0,0,0,0.05);
-        display: flex; flex-direction: column; height: 100%;
-    }
-    .lib-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 20px; color: var(--petroleo); line-height: 1.2; }
+    .lib-bubble { background: white; border: var(--borde); padding: 25px; border-radius: 20px; box-shadow: 6px 6px 0px rgba(0,0,0,0.05); display: flex; flex-direction: column; height: 100%; }
     
-    .btn-add {
-        background: white; border: 3px solid var(--negro); padding: 10px 18px;
-        font-weight: 900; cursor: pointer; font-size: 0.75rem; 
-        box-shadow: 4px 4px 0px var(--negro); text-transform: uppercase; transition: 0.1s;
-    }
+    .btn-add { background: white; border: 3px solid var(--negro); padding: 10px 18px; font-weight: 900; cursor: pointer; font-size: 0.75rem; box-shadow: 4px 4px 0px var(--negro); text-transform: uppercase; }
     .btn-add.active { background: var(--petroleo); color: white; border-color: var(--petroleo); box-shadow: 4px 4px 0px var(--terracota); }
 
-    .cart-box {
-        background: white; border: var(--borde); padding: 25px;
-        box-shadow: var(--sombra); position: sticky; top: 120px;
-    }
+    /* ============ CARRITO DESKTOP ============ */
+    .cart-box { background: white; border: var(--borde); padding: 25px; box-shadow: var(--sombra); position: sticky; top: 120px; }
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
     .total-amount { font-family: 'Archivo Black'; font-size: 2.2rem; color: var(--petroleo); text-align: right; margin-bottom: 20px; }
 
-    /* ============ MEDIA QUERIES (CAMBIOS MÓVIL) ============ */
+    /* MOBILE TOGGLE BUTTON (NUEVO) */
+    #cart-toggle-btn { display: none; position: fixed; bottom: 20px; right: 20px; background: var(--terracota); border: 3px solid #000; padding: 15px 25px; color: white; font-weight: 900; box-shadow: 5px 5px 0px #000; z-index: 3000; cursor: pointer; border-radius: 50px; text-transform: uppercase; font-size: 0.9rem; }
+
+    /* ============ MEDIA QUERIES (MOBILE FIXES) ============ */
     @media (max-width: 900px) {
         .navbar .brand { display: none; }
         .navbar { justify-content: center; padding: 10px; }
-        .nav-links { width: 100%; justify-content: center; gap: 8px; }
+        .nav-links { width: 100%; justify-content: space-evenly; }
         
         .main-layout { flex-direction: column; }
         
-        /* Título Hero optimizado para móvil */
+        .hero { text-align: center; }
         .hero h1 { 
-            font-size: 1.8rem; 
-            white-space: normal; 
-            -webkit-text-stroke: 0.5px var(--negro); /* Más fino para legibilidad */
-            letter-spacing: 2px; /* Más espacio entre letras */
-            line-height: 1.2;
+            font-size: 1.8rem; white-space: normal; 
+            -webkit-text-stroke: 0.5px var(--negro); letter-spacing: 2px; 
         } 
 
         .step-title { font-size: 2.2rem; }
 
+        /* Estilo para carrito colapsable */
         .cart-box {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            margin-bottom: 0;
-            z-index: 2000;
-            border-top: var(--borde);
-            box-shadow: 0px -4px 15px rgba(0,0,0,0.15);
-            padding: 15px 25px;
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            z-index: 2500; border-top: var(--borde); transform: translateY(100%);
+            transition: 0.3s ease-in-out; box-shadow: 0px -5px 15px rgba(0,0,0,0.1);
+            background: white; padding: 20px; max-height: 80vh; overflow-y: auto;
         }
-        #app-container { padding-bottom: 220px; }
+        .cart-box.open { transform: translateY(0); }
+        
+        #cart-toggle-btn { display: block; }
+        #app-container { padding-bottom: 100px; }
     }
   </style>
 </head>
@@ -169,6 +149,8 @@
       </div>
   </nav>
 
+  <div id="cart-toggle-btn" onclick="toggleCartView()">🛒 Mi Pedido: $0</div>
+
   <section id="seccion-inicio">
     <div class="hero">
         <h1 class="font-logo">Servicios del CECSo</h1>
@@ -178,14 +160,13 @@
     <div class="neo-bubble">
         <h2>¿Qué son los Servis?</h2>
         <p>Los Servis son el <strong>mayor proyecto político del Centro de Estudiantes de Ciencias Sociales.</strong><br><br>
-        Su objetivo es brindar becas de trabajo para que estudiantes de FCS puedan continuar con sus trayectorias estudiantiles como también ofrecer la bibliografía de los cursos y productos de cantina a precios accesibles.<br><br>
-        <strong>La sostenibilidad de este proyecto es uno de los cometidos fundamentales del CECSO.</strong></p>
+        Su objetivo es brindar becas de trabajo para que estudiantes de FCS puedan continuar con sus trayectorias estudiantiles como también ofrecer la bibliografía de los cursos y productos de cantina a precios accesibles.</p>
     </div>
 
     <div class="neo-bubble" style="border-color: var(--terracota);">
         <h2>Materiales y Carpetas</h2>
         <p>Para encargar tus librillos, hacé click en <strong>"Conseguí tus librillos"</strong>.<br><br>
-        Si hay materias que no encontrás, consultanos por ig: <strong>@serviciosdelcecso</strong>.</p>
+        Consultanos por ig: <strong>@serviciosdelcecso</strong>.</p>
         
         <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
             <button class="btn-choice" style="max-width: 330px; font-size: 0.85rem; background: var(--rosa-suave); flex: 1; min-width: 250px;" onclick="window.open('https://drive.google.com/drive/folders/1FHf3V4HAhwpLYOpaevKk3GsVMGEFqgXs', '_blank')">
@@ -228,11 +209,15 @@
 
           <div class="main-layout" style="display: flex; gap: 40px; align-items: flex-start;">
               <div id="lista-libros" class="grid-libros" style="flex:2;"></div>
-              <div class="cart-box" id="cart-fixed-mobile">
-                  <h3 class="font-logo" style="margin:0; font-size: 1.1rem; border-bottom: 4px solid var(--negro); padding-bottom: 10px;">Tu Pedido</h3>
-                  <div id="cart-items-container" style="margin: 20px 0; max-height: 100px; overflow-y: auto;"></div>
+              
+              <div class="cart-box" id="carrito-panel">
+                  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--negro); padding-bottom: 10px; margin-bottom: 20px;">
+                      <h3 class="font-logo" style="margin:0; font-size: 1.1rem;">Tu Pedido</h3>
+                      <button onclick="toggleCartView()" class="mobile-only" style="background: none; border: none; font-weight: 900; font-size: 1.2rem; cursor: pointer;">✕</button>
+                  </div>
+                  <div id="cart-items-container"></div>
                   <div class="total-amount" id="display-total">$0</div>
-                  <button class="btn-cta-top" style="width:100%; margin:0; padding:15px; font-size: 1rem;" onclick="finalizar()">FINALIZAR COMPRA</button>
+                  <button class="btn-cta-top" style="width:100%; margin:0; padding:20px;" onclick="finalizar()">FINALIZAR COMPRA</button>
               </div>
           </div>
       </div>
@@ -259,6 +244,11 @@
     let db = [], filtered = [];
     let licActual = "", tipoActual = "";
 
+    window.toggleCartView = function() {
+        const cart = document.getElementById('carrito-panel');
+        cart.classList.toggle('open');
+    };
+
     const normalizar = (str) => {
         if (!str) return "";
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
@@ -266,10 +256,8 @@
 
     window.navegar = function(seccion) {
         window.scrollTo(0,0);
-        const inicio = document.getElementById('seccion-inicio');
-        const app = document.getElementById('app-container');
-        inicio.style.display = (seccion === 'inicio') ? 'block' : 'none';
-        app.style.display = (seccion === 'app') ? 'block' : 'none';
+        document.getElementById('seccion-inicio').style.display = (seccion === 'inicio') ? 'block' : 'none';
+        document.getElementById('app-container').style.display = (seccion === 'app') ? 'block' : 'none';
         if(seccion === 'app') navegarApp('step-carrera');
     };
 
@@ -295,8 +283,7 @@
 
     function fetchAPI(hoja) {
         const lista = document.getElementById('lista-libros');
-        lista.innerHTML = "<p style='font-weight:900;'>Saneando catálogo...</p>";
-        
+        lista.innerHTML = "<p style='font-weight:900;'>Cargando catálogo...</p>";
         fetch(`${API_URL}?action=obtenerCatalogo&licenciatura=${encodeURIComponent(hoja)}`)
             .then(res => res.json())
             .then(data => {
@@ -351,6 +338,7 @@
             </div>`;
         });
         document.getElementById('display-total').innerText = `$${subtotal}`;
+        document.getElementById('cart-toggle-btn').innerText = `🛒 Mi Pedido: $${subtotal}`;
     }
 
     window.removeCart = function(i) {
@@ -366,7 +354,7 @@
     };
 
     window.finalizar = function() {
-        if(carrito.length === 0) return alert("Tu carrito está vacío.");
+        if(carrito.length === 0) return alert("El carrito está vacío.");
         const titulos = carrito.map(c => c.titulo).join(", ");
         const total = document.getElementById('display-total').innerText.replace("$","");
         const url = `https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url&entry.539670442=${encodeURIComponent(titulos)}&entry.482914514=${encodeURIComponent(total)}`;
