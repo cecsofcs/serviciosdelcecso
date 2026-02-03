@@ -2,127 +2,118 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8"/>
-  <title>Librillos CECSo — De estudiantes para estudiantes</title>
+  <title>Servicios del CECSo — De estudiantes para estudiantes</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Permanent+Marker&family=IBM+Plex+Serif:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-        --verde-cecso: #2a9d8f;
-        --amarillo-resaltador: #ffea00;
-        --naranja-pop: #f4a261;
-        --negro-tinta: #264653;
-        --bg-hoja: #fdfdfd;
+        --teal-cecso: #1b5e63;
+        --coral-accion: #c96f53;
+        --bg-papel: #fdfaf6;
+        --texto-negro: #2d3a3a;
+        --borde: #d8cfc4;
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
     body {
       margin: 0; padding: 0; 
-      background-color: var(--bg-hoja);
-      /* Fondo de hoja de cuaderno cuadriculada */
-      background-image: radial-gradient(#d1d1d1 1px, transparent 1px);
-      background-size: 25px 25px;
+      background-color: var(--bg-papel);
+      background-image: radial-gradient(#d8cfc4 0.8px, transparent 0.8px);
+      background-size: 24px 24px;
       font-family: 'Montserrat', sans-serif;
-      color: var(--negro-tinta);
+      color: var(--texto-negro);
     }
 
-    /* ============ NAVBAR ESTILO "RECORTADO" ============ */
+    /* ============ NAVEGACIÓN ============ */
     .navbar {
         display: flex; justify-content: space-between; align-items: center;
-        padding: 15px 20px; background: white;
-        border-bottom: 5px solid var(--negro-tinta);
-        position: sticky; top: 0; z-index: 1000;
+        padding: 15px 25px; background: rgba(253, 250, 246, 0.95);
+        border-bottom: 2px solid var(--teal-cecso);
+        position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(5px);
     }
-    .brand { font-family: 'Permanent Marker', cursive; font-size: 1.8rem; color: var(--negro-tinta); }
-    
+    .brand { font-family: 'Permanent Marker', cursive; font-size: 1.6rem; color: var(--teal-cecso); }
     .nav-links button {
-        background: var(--amarillo-resaltador); border: 3px solid black;
-        font-weight: 900; padding: 8px 15px; cursor: pointer;
-        box-shadow: 4px 4px 0px black; transition: 0.1s;
+        background: none; border: 2px solid var(--teal-cecso); border-radius: 50px;
+        font-weight: 700; padding: 8px 18px; cursor: pointer; color: var(--teal-cecso);
+        transition: 0.2s; font-family: 'Montserrat';
     }
-    .nav-links button:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px black; }
+    .nav-links button:hover { background: var(--teal-cecso); color: white; }
 
-    /* ============ PORTADA FANZINE ============ */
-    #seccion-portada { max-width: 800px; margin: 0 auto; padding: 60px 20px; text-align: center; }
-    
-    .logo-cecso-sketch { 
-        font-family: 'Permanent Marker', cursive; 
-        font-size: 4rem; color: var(--verde-cecso);
-        transform: rotate(-3deg); display: inline-block;
-        margin-bottom: 10px;
+    /* ============ SECCIÓN INICIO (CONTENIDO RECUPERADO) ============ */
+    #seccion-inicio { max-width: 900px; margin: 0 auto; padding: 50px 20px; }
+    .hero { text-align: center; margin-bottom: 60px; }
+    .hero h1 { font-family: 'IBM Plex Serif', serif; font-size: 3.2rem; color: var(--teal-cecso); margin: 0 0 15px; }
+    .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 30px; line-height: 1.6; }
+
+    .grid-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px; }
+    .card-info { background: white; padding: 35px; border-radius: 25px; border: 1px solid var(--borde); box-shadow: 0 10px 25px rgba(0,0,0,0.03); }
+    .card-info h3 { font-family: 'Permanent Marker', cursive; color: var(--coral-accion); font-size: 1.8rem; margin-top: 0; }
+
+    .btn-entrar {
+        display: block; width: fit-content; margin: 0 auto;
+        padding: 20px 50px; background: var(--teal-cecso); color: white;
+        border: none; border-radius: 50px; font-size: 1.3rem; font-weight: 800;
+        cursor: pointer; box-shadow: 0 10px 20px rgba(27, 94, 99, 0.2);
     }
 
-    h1 { font-size: 3.5rem; font-weight: 900; text-transform: uppercase; line-height: 0.8; margin: 0 0 40px 0; }
-    h1 span { background: var(--amarillo-resaltador); padding: 5px 15px; display: inline-block; transform: rotate(1deg); }
-
-    .btn-principal {
-        padding: 20px 40px; background: var(--negro-tinta); color: white;
-        border: 4px solid black; font-size: 1.5rem; font-weight: 900;
-        cursor: pointer; box-shadow: 10px 10px 0px var(--verde-cecso);
-        text-transform: uppercase; transition: 0.2s;
-    }
-    .btn-principal:hover { transform: translate(-4px, -4px); box-shadow: 14px 14px 0px var(--verde-cecso); }
-
-    /* ============ BURBUJAS DE DIÁLOGO (LITERALES) ============ */
-    .grid-libros { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
-
+    /* ============ BURBUJAS DE DIÁLOGO ============ */
     .comic-bubble {
-        background: white; padding: 30px; border-radius: 40px;
-        border: 3px solid var(--negro-tinta);
-        position: relative; 
-        box-shadow: 10px 10px 0px rgba(0,0,0,0.05);
-        display: flex; flex-direction: column; transition: 0.2s;
-        height: 100%;
+        background: white; padding: 25px; border-radius: 35px; border: 2px solid var(--teal-cecso);
+        position: relative; box-shadow: 0 8px 15px rgba(0,0,0,0.04);
+        display: flex; flex-direction: column; transition: 0.2s; height: 100%;
     }
-    /* La "colita" del globo de diálogo */
     .comic-bubble::after {
-        content: ''; position: absolute; bottom: -18px; left: 45px;
-        width: 0; height: 0;
-        border-left: 15px solid transparent; border-right: 15px solid transparent;
-        border-top: 20px solid var(--negro-tinta);
+        content: ''; position: absolute; bottom: -18px; left: 40px;
+        width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent;
+        border-top: 20px solid var(--teal-cecso);
     }
     .comic-bubble::before {
-        content: ''; position: absolute; bottom: -12px; left: 48px;
-        width: 0; height: 0; z-index: 1;
-        border-left: 12px solid transparent; border-right: 12px solid transparent;
+        content: ''; position: absolute; bottom: -14px; left: 43px;
+        width: 0; height: 0; z-index: 1; border-left: 9px solid transparent; border-right: 9px solid transparent;
         border-top: 17px solid white;
     }
 
-    .libro-header { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px; }
-    .carrera-icon { width: 50px; height: 50px; flex-shrink: 0; filter: grayscale(0.2); }
-    .libro-titulo { margin: 0; font-size: 1.2rem; font-weight: 900; color: var(--negro-tinta); line-height: 1.2; }
-    
+    .libro-header { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; }
+    .carrera-icon { width: 45px; height: 45px; flex-shrink: 0; }
+    .libro-titulo { font-family: 'IBM Plex Serif', serif; font-weight: 700; font-size: 1.1rem; margin: 0; line-height: 1.2; }
+
     .btn-add {
-        margin-top: auto; width: 100%; padding: 12px; border: 3px solid black;
-        background: var(--verde-cecso); color: white; font-weight: 900; cursor: pointer;
-        box-shadow: 4px 4px 0px black; text-transform: uppercase;
+        margin-top: auto; width: 100%; padding: 12px; border-radius: 50px; border: none;
+        background: var(--coral-accion); color: white; font-weight: 800; cursor: pointer;
     }
-    .btn-add:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px black; }
-    .btn-add.in-cart { background: var(--naranja-pop); }
+    .btn-add.in-cart { background: var(--teal-cecso); }
 
-    /* ============ CARRITO ESTILO "NOTA ADHESIVA" ============ */
+    /* ============ CARRITO RECUPERADO ============ */
     .carrito-sidebar {
-        background: #fff9c4; border: 2px solid #fbc02d; padding: 25px; 
-        box-shadow: 8px 8px 0px rgba(0,0,0,0.1); transform: rotate(1deg);
+        background: white; border: 1px solid var(--borde); border-radius: 25px;
+        padding: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.05);
     }
-    .total-box { font-size: 2.2rem; font-weight: 900; color: var(--negro-tinta); text-align: right; margin: 20px 0; }
-
-    #app-container { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
-    .view-step { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; text-align: center; }
-    .view-step h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 30px; }
-
-    .btn-carrera {
-        background: white; border: 3px solid black; padding: 20px; font-size: 1.2rem;
-        font-weight: 900; cursor: pointer; box-shadow: 6px 6px 0px var(--verde-cecso);
-        margin-bottom: 15px; width: 100%; max-width: 400px; transition: 0.1s;
+    .total-box { font-size: 2.2rem; font-weight: 800; color: var(--teal-cecso); text-align: right; margin: 15px 0; }
+    .envio-interior {
+        background: #f1f1f1; padding: 12px; border-radius: 12px;
+        display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; margin-bottom: 15px;
     }
-    .btn-carrera:hover { background: var(--amarillo-resaltador); }
 
-    @media (max-width: 800px) {
+    #app-container { display: none; padding: 40px 20px; max-width: 1100px; margin: 0 auto; }
+    .view-step { display: flex; flex-direction: column; align-items: center; text-align: center; min-height: 60vh; }
+    .btn-step {
+        background: white; border: 2px solid var(--teal-cecso); padding: 18px; font-size: 1.1rem;
+        font-weight: 700; border-radius: 50px; cursor: pointer; margin-bottom: 12px; width: 100%; max-width: 400px;
+    }
+    .btn-step:hover { background: var(--teal-cecso); color: white; }
+
+    #buscador-librillos {
+        width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 50px;
+        border: 2px solid var(--borde); font-size: 1rem; margin-bottom: 30px; outline: none;
+    }
+
+    @media (max-width: 850px) {
         .main-layout { flex-direction: column; }
-        .carrito-sidebar { position: static; order: -1; margin-bottom: 40px; transform: rotate(0); }
+        .carrito-sidebar { width: 100%; position: static; order: -1; margin-bottom: 35px; }
+        .hero h1 { font-size: 2.5rem; }
     }
   </style>
 </head>
@@ -130,66 +121,86 @@
 <body>
 
   <nav class="navbar">
-      <div class="brand">cecso</div> <div class="nav-links">
-          <button onclick="navegar('inicio')">INICIO</button>
-          <button onclick="navegar('app')">PEDIR</button>
+      <div class="brand">cecso</div>
+      <div class="nav-links">
+          <button onclick="navegar('inicio')">Inicio</button>
+          <button onclick="navegar('app')">Buscador</button>
       </div>
   </nav>
 
-  <section id="seccion-portada">
-    <div class="logo-cecso-sketch">cecso</div>
-    <h1>Buscador de<br><span>Librillos</span></h1>
-    <p style="font-weight: 700; font-size: 1.1rem;">De estudiantes para estudiantes. <br>Elegí tu carrera y armá tu pedido.</p>
-    <br>
-    <button class="btn-principal" onclick="navegar('app')">ENTRAR AL BUSCADOR</button>
+  <section id="seccion-inicio">
+    <div class="hero">
+        <h1>Servicios del CECSo</h1>
+        <p>De estudiantes para estudiantes. Garantizando bibliografía accesible y becas de trabajo en la Facultad de Ciencias Sociales.</p>
+        <button class="btn-entrar" onclick="navegar('app')">Ir al Buscador →</button>
+    </div>
+
+    <div class="grid-info">
+        <div class="card-info">
+            <h3>¿Qué son los Servis?</h3>
+            <p>Es el proyecto político del Centro de Estudiantes para que nadie se quede atrás por falta de materiales. Sostenemos becas de trabajo estudiantil cada año.</p>
+        </div>
+        <div class="card-info">
+            <h3>Contacto</h3>
+            <p>📍 Piso 1, FCS (Constituyente 1502)<br>
+               📸 @serviciosdelcecso<br>
+               📧 fotocecso@gmail.com<br>
+               💬 WhatsApp: 092 498 150</p>
+        </div>
+    </div>
   </section>
 
   <div id="app-container">
       <div id="step-carrera" class="view-step">
-          <h2>¿QUÉ CURSÁS?</h2>
-          <div style="width: 100%; max-width: 400px; display: flex; flex-direction: column;">
-              <button class="btn-carrera" onclick="seleccionarCarrera('Ciclo Inicial')">Ciclo Inicial</button>
-              <button class="btn-carrera" onclick="seleccionarCarrera('Sociología')">Sociología</button>
-              <button class="btn-carrera" onclick="seleccionarCarrera('Trabajo Social')">Trabajo Social</button>
-              <button class="btn-carrera" onclick="seleccionarCarrera('Ciencia Política')">Ciencia Política</button>
-              <button class="btn-carrera" onclick="seleccionarCarrera('Desarrollo')">Desarrollo</button>
+          <h2 style="font-family:'Permanent Marker'; font-size: 2rem;">¿Qué carrera cursás?</h2>
+          <div style="width:100%; max-width:400px; display:flex; flex-direction:column;">
+              <button class="btn-step" onclick="seleccionarCarrera('Ciclo Inicial')">Ciclo Inicial</button>
+              <button class="btn-step" onclick="seleccionarCarrera('Sociología')">Sociología</button>
+              <button class="btn-step" onclick="seleccionarCarrera('Trabajo Social')">Trabajo Social</button>
+              <button class="btn-step" onclick="seleccionarCarrera('Ciencia Política')">Ciencia Política</button>
+              <button class="btn-step" onclick="seleccionarCarrera('Desarrollo')">Desarrollo</button>
           </div>
       </div>
 
       <div id="step-tipo" class="view-step" style="display:none;">
-          <h2 id="txt-carrera-sel" style="background: var(--amarillo-resaltador);"></h2>
-          <div style="width: 100%; max-width: 400px; display: flex; flex-direction: column;">
-              <button class="btn-carrera" onclick="iniciarCarga('Obligatorias')">OBLIGATORIAS</button>
-              <button class="btn-carrera" onclick="iniciarCarga('Optativas')">OPTATIVAS</button>
+          <h2 id="txt-carrera-sel" style="color:var(--coral-accion);"></h2>
+          <div style="width:100%; max-width:400px; display:flex; flex-direction:column;">
+              <button class="btn-step" onclick="iniciarCarga('Obligatorias')">OBLIGATORIAS</button>
+              <button class="btn-step" onclick="iniciarCarga('Optativas')">OPTATIVAS</button>
               <button onclick="navegarApp('step-carrera')" style="margin-top:20px; font-weight:700; cursor:pointer; background:none; border:none; text-decoration:underline;">← Cambiar carrera</button>
           </div>
       </div>
 
       <div id="step-catalogo" style="display:none;">
           <div style="text-align: center; margin-bottom: 40px;">
-              <h2 id="txt-hoja-sel" style="display:inline-block; border-bottom: 5px solid var(--naranja-pop);"></h2>
+              <h2 id="txt-hoja-sel" style="font-family:'Permanent Marker';"></h2>
               <input type="text" id="buscador-librillos" placeholder="🔍 Escribí el nombre de la materia..."/>
-              <p id="txt-loading" style="font-weight:900;">Buscando en los archivos...</p>
+              <p id="txt-loading" style="font-weight:800; color:var(--teal-cecso);">Cargando catálogo...</p>
           </div>
 
-          <div class="main-layout" style="display: flex; gap: 40px; align-items: flex-start;">
-              <div class="grid-libros" id="lista-libros" style="flex:2;"></div>
+          <div class="main-layout" style="display: flex; gap: 30px; align-items: flex-start;">
+              <div id="lista-libros" style="flex:2; display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px;"></div>
               
               <div class="carrito-sidebar" style="flex:1; position: sticky; top: 100px;">
-                  <h3 style="font-family:'Permanent Marker'; font-size:1.8rem; margin:0;">Tu Pedido</h3>
+                  <h3 style="margin:0; font-family:'Permanent Marker'; color:var(--teal-cecso);">Tu Pedido</h3>
                   <div id="cart-items-container" style="margin: 20px 0;"></div>
+                  
+                  <label class="envio-interior">
+                      <input type="checkbox" id="chk-envio" onchange="renderCarrito()" style="width:18px; height:18px;">
+                      Envío al interior (+$100)
+                  </label>
+
                   <div class="total-box" id="display-total">$0</div>
-                  <button id="btn-checkout" onclick="finalizar()" style="width:100%; padding:15px; background:black; color:var(--amarillo-resaltador); border:none; font-weight:900; font-size:1.1rem; cursor:pointer;">¡LISTO, PEDIR!</button>
+                  <button id="btn-checkout" onclick="finalizar()" style="width:100%; padding:18px; background:var(--coral-accion); color:white; border:none; border-radius:50px; font-weight:800; font-size:1.1rem; cursor:pointer;">FINALIZAR PEDIDO</button>
+                  <button onclick="volverApp()" style="width:100%; margin-top:10px; background:none; border:none; font-size:0.8rem; cursor:pointer; color:#999;">← Cambiar de carrera</button>
               </div>
           </div>
       </div>
   </div>
 
   <script>
-    // === CONFIGURACIÓN ===
     const API_URL = "https://script.google.com/macros/s/AKfycbwcOcQt1d7H2V-wUK8PH29MzwQfmbxspzFdXwzQg8UmsaVMdkrH6j5ixIr-KRSBkuTJ/exec"; 
 
-    // Aquí debes poner el enlace directo (clic derecho > copiar dirección de imagen)
     const ICONOS = {
         "Ciclo Inicial": "https://cdn-icons-png.flaticon.com/512/2232/2232688.png",
         "Sociología": "https://cdn-icons-png.flaticon.com/512/2040/2040652.png",
@@ -199,18 +210,19 @@
         "def": "https://cdn-icons-png.flaticon.com/512/2232/2232688.png"
     };
 
-    // === LÓGICA DEL SISTEMA ===
     let carrito = JSON.parse(localStorage.getItem("cecsocart")) || [];
     let db = [], filtered = [];
     let licActual = "", tipoActual = "";
 
     function navegar(seccion) {
-        const p = document.getElementById('seccion-portada');
+        window.scrollTo(0,0);
+        const p = document.getElementById('seccion-portada'); // Era seccion-inicio
+        const i = document.getElementById('seccion-inicio');
         const a = document.getElementById('app-container');
         if(seccion === 'inicio'){
-            p.style.display = 'block'; a.style.display = 'none';
+            i.style.display = 'block'; a.style.display = 'none';
         } else {
-            p.style.display = 'none'; a.style.display = 'block';
+            i.style.display = 'none'; a.style.display = 'block';
             navegarApp('step-carrera');
         }
     }
@@ -240,24 +252,19 @@
         const loading = document.getElementById('txt-loading');
         loading.style.display = 'block';
         document.getElementById('lista-libros').innerHTML = "";
-
         fetch(`${API_URL}?action=obtenerCatalogo&licenciatura=${encodeURIComponent(hoja)}`)
             .then(res => res.json())
             .then(data => {
                 db = data; filtered = data;
                 loading.style.display = 'none';
                 renderCatalogo();
-            })
-            .catch(e => {
-                loading.innerText = "Error: ¿Pusiste la URL de la API?";
-            });
+            }).catch(e => loading.innerText = "Error cargando datos.");
     }
 
     function renderCatalogo() {
         const grid = document.getElementById('lista-libros');
         grid.innerHTML = "";
         const iconUrl = ICONOS[licActual] || ICONOS.def;
-
         filtered.forEach(item => {
             const isAdded = carrito.some(c => c.id === item.id);
             const card = document.createElement('div');
@@ -268,12 +275,11 @@
                     <p class="libro-titulo">${item.titulo}</p>
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
-                    <p style="font-weight:900; font-size:1.4rem;">$${item.precio}</p>
+                    <p style="font-weight:800; font-size:1.3rem;">$${item.precio}</p>
                     <button class="btn-add ${isAdded ? 'in-cart' : ''}" onclick="toggleCart('${item.id}', '${item.titulo.replace(/'/g,"")}', ${item.precio})">
                         ${isAdded ? '✓' : 'AÑADIR'}
                     </button>
-                </div>
-            `;
+                </div>`;
             grid.appendChild(card);
         });
     }
@@ -289,11 +295,12 @@
     function renderCarrito() {
         const container = document.getElementById('cart-items-container');
         container.innerHTML = "";
-        let total = 0;
+        let subtotal = 0;
         carrito.forEach((c, i) => {
-            total += c.precio;
-            container.innerHTML += `<div style="display:flex; justify-content:space-between; font-weight:700; margin-bottom:8px; border-bottom:1px solid #ddd;"><span>${c.titulo}</span><button onclick="removeCart(${i})" style="border:none; background:none; cursor:pointer;">❌</button></div>`;
+            subtotal += c.precio;
+            container.innerHTML += `<div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;"><span>${c.titulo}</span><button onclick="removeCart(${i})" style="border:none; background:none; cursor:pointer;">✕</button></div>`;
         });
+        const total = subtotal + (document.getElementById('chk-envio').checked ? 100 : 0);
         document.getElementById('display-total').innerText = `$${total}`;
     }
 
@@ -303,6 +310,11 @@
         renderCarrito(); renderCatalogo();
     }
 
+    function volverApp() {
+        db = []; filtered = [];
+        navegarApp('step-carrera');
+    }
+
     document.getElementById('buscador-librillos').oninput = (e) => {
         const q = e.target.value.toLowerCase();
         filtered = db.filter(l => l.titulo.toLowerCase().includes(q));
@@ -310,10 +322,12 @@
     };
 
     function finalizar() {
-        if(carrito.length === 0) return alert("¡El pedido está vacío!");
+        if(carrito.length === 0) return alert("Pedido vacío.");
         const titulos = carrito.map(c => c.titulo).join(", ");
-        const total = document.getElementById('display-total').innerText.replace("$","");
-        const url = "https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url&entry.539670442=" + encodeURIComponent(titulos) + "&entry.482914514=" + encodeURIComponent(total);
+        const subtotal = carrito.reduce((sum, c) => sum + c.precio, 0);
+        const total = subtotal + (document.getElementById('chk-envio').checked ? 100 : 0);
+        const envio = document.getElementById('chk-envio').checked ? "Sí, envío al interior" : "No quiero envío";
+        const url = "https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url&entry.539670442=" + encodeURIComponent(titulos) + "&entry.482914514=" + encodeURIComponent(total) + "&entry.1104329366=" + encodeURIComponent(envio);
         window.open(url, "_blank");
     }
 
@@ -321,4 +335,3 @@
   </script>
 </body>
 </html>
-
