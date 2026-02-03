@@ -40,10 +40,7 @@
         position: sticky; top: 0; z-index: 1000;
     }
     .brand { cursor: pointer; font-size: 1.3rem; color: var(--petroleo); white-space: nowrap; }
-    
     .nav-links { display: flex; gap: 10px; }
-    
-    /* ESTILO BASE (ESCRITORIO) */
     .nav-links button {
         background: var(--rosa-suave); border: 2.5px solid var(--negro); padding: 8px 18px;
         font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0px var(--negro);
@@ -91,18 +88,9 @@
     .step-title { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 3.5rem; color: var(--terracota); text-transform: uppercase; letter-spacing: 2px; }
 
     .btn-choice {
-        background: white; 
-        border: var(--borde); 
-        padding: 22px; 
-        width: 100%; 
-        max-width: 450px; 
-        margin-bottom: 20px; 
-        font-weight: 800; 
-        font-size: 1.1rem; 
-        cursor: pointer; 
-        text-transform: uppercase;
-        box-shadow: 6px 6px 0px var(--petroleo);
-        transition: transform 0.1s, box-shadow 0.1s;
+        background: white; border: var(--borde); padding: 22px; width: 100%; max-width: 450px; 
+        margin-bottom: 20px; font-weight: 800; font-size: 1.1rem; cursor: pointer; text-transform: uppercase;
+        box-shadow: 6px 6px 0px var(--petroleo); transition: transform 0.1s, box-shadow 0.1s;
     }
     .btn-choice:nth-of-type(even) { box-shadow: 6px 6px 0px var(--terracota); }
     .btn-choice:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0px var(--negro); }
@@ -133,9 +121,45 @@
     .btn-add:active { transform: translate(2px,2px); box-shadow: 0 0 0 #000; }
     .btn-add.active { background: var(--petroleo); color: white; border-color: var(--petroleo); box-shadow: 4px 4px 0px var(--terracota); }
 
-    /* ============ CARRITO DESKTOP ============ */
-    .cart-box { background: white; border: var(--borde); padding: 25px; box-shadow: var(--sombra); position: sticky; top: 120px; }
-    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
+    /* ============ CARRITO BLINDADO (NO SE AGRANDA) ============ */
+    .cart-box { 
+        background: white; border: var(--borde); padding: 25px; 
+        box-shadow: var(--sombra); position: sticky; top: 120px; 
+        /* Importante para que no crezca */
+        min-width: 280px; 
+    }
+    
+    .cart-item { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        padding: 12px 0; 
+        border-bottom: 1px solid #eee; 
+        width: 100%; /* Asegura que ocupe todo el ancho pero no más */
+    }
+
+    .cart-item-title {
+        font-weight: 700; 
+        font-size: 0.85rem; 
+        
+        /* LA TRINIDAD DEL RECORTE DE TEXTO */
+        flex: 1;           /* Ocupa el espacio sobrante */
+        min-width: 0;      /* CRÍTICO: Permite que el flex item se encoja */
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        
+        margin-right: 10px; /* Espacio con el precio */
+        text-align: left;
+    }
+
+    .cart-item-actions {
+        display: flex; 
+        align-items: center; 
+        gap: 10px; 
+        flex-shrink: 0; /* Asegura que el precio y botón NO se encojan */
+    }
+
     .total-amount { font-family: 'Archivo Black'; font-size: 2.2rem; color: var(--petroleo); text-align: right; margin-bottom: 20px; }
     .envio-wrapper { background: #eee; padding: 15px; margin-bottom: 20px; border-left: 5px solid var(--terracota); display: flex; align-items: center; gap: 10px; cursor: pointer; }
     .envio-wrapper input { width: 20px; height: 20px; cursor: pointer; accent-color: var(--terracota); }
@@ -151,13 +175,9 @@
         .nav-links { width: 100%; justify-content: center; gap: 15px; }
 
         .nav-links button {
-            background: var(--rosa-suave); 
-            border: 2px solid var(--negro);
-            box-shadow: none; 
-            border-radius: 50px; 
-            padding: 8px 25px;
-            font-size: 0.85rem;
-            width: auto;
+            background: var(--rosa-suave); border: 2px solid var(--negro);
+            box-shadow: none; border-radius: 50px; padding: 8px 25px;
+            font-size: 0.85rem; width: auto;
         }
         .nav-links button:active { background: var(--negro); color: white; transform: none; }
 
@@ -448,8 +468,8 @@
         carrito.forEach((c, i) => {
             subtotal += c.precio;
             container.innerHTML += `<div class="cart-item">
-                <span style="font-weight:700; font-size:0.85rem; max-width:60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${c.titulo}</span>
-                <div style="display:flex; align-items:center; gap:10px;">
+                <span class="cart-item-title">${c.titulo}</span>
+                <div class="cart-item-actions">
                     <span style="font-weight:900; color:var(--terracota);">$${c.precio}</span>
                     <button onclick="removeCart(${i})" style="border:none; background:none; cursor:pointer;">✕</button>
                 </div>
