@@ -402,17 +402,26 @@
         renderCatalogo();
     };
 
-    window.finalizar = function() {
+   window.finalizar = function() {
         if(carrito.length === 0) return alert("El carrito está vacío.");
         
-        // Agregar info de envío al texto
-        let titulos = carrito.map(c => c.titulo).join(", ");
-        if(conEnvio) titulos += " (CON ENVIO AL INTERIOR)";
+        // 1. Creamos una lista con los títulos de los libros
+        let itemsParaEnviar = carrito.map(c => c.titulo);
+
+        // 2. Si el checkbox está marcado, agregamos el envío como un ítem más
+        if(conEnvio) {
+            itemsParaEnviar.push("Envío al interior");
+        }
         
-        // El total ya tiene el envío sumado en la variable visual, lo tomamos del DOM
+        // 3. Unimos todo con comas (así queda: "Libro A, Libro B, Envío al interior")
+        const titulos = itemsParaEnviar.join(", ");
+        
+        // 4. El total ya lo tenemos calculado en pantalla (incluye los $200 si corresponde)
         const total = document.getElementById('display-total').innerText.replace("$","");
         
+        // 5. Enviamos los datos al Forms
         const url = `https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url&entry.539670442=${encodeURIComponent(titulos)}&entry.482914514=${encodeURIComponent(total)}`;
+        
         window.open(url, "_blank");
     };
 
@@ -420,3 +429,4 @@
   </script>
 </body>
 </html>
+
