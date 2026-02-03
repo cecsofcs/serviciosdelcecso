@@ -405,23 +405,21 @@
    window.finalizar = function() {
         if(carrito.length === 0) return alert("El carrito está vacío.");
         
-        // 1. Creamos una lista con los títulos de los libros
-        let itemsParaEnviar = carrito.map(c => c.titulo);
-
-        // 2. Si el checkbox está marcado, agregamos el envío como un ítem más
-        if(conEnvio) {
-            itemsParaEnviar.push("Envío al interior");
-        }
+        // 1. Lista de libros
+        const titulos = carrito.map(c => c.titulo).join(", ");
         
-        // 3. Unimos todo con comas (así queda: "Libro A, Libro B, Envío al interior")
-        const titulos = itemsParaEnviar.join(", ");
-        
-        // 4. El total ya lo tenemos calculado en pantalla (incluye los $200 si corresponde)
+        // 2. Precio Total (ya incluye el envío si se marcó el checkbox)
         const total = document.getElementById('display-total').innerText.replace("$","");
         
-        // 5. Enviamos los datos al Forms
-        const url = `https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url&entry.539670442=${encodeURIComponent(titulos)}&entry.482914514=${encodeURIComponent(total)}`;
-        
+        // 3. Dato de envío (Sí o No) para el campo específico del Forms
+        const envio = conEnvio ? "Sí" : "No";
+
+        // 4. Construcción de la URL con los 3 campos separados
+        const url = "https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url"
+            + "&entry.539670442=" + encodeURIComponent(titulos)
+            + "&entry.482914514=" + encodeURIComponent(total)
+            + "&entry.1104329366=" + encodeURIComponent(envio);
+
         window.open(url, "_blank");
     };
 
@@ -429,4 +427,5 @@
   </script>
 </body>
 </html>
+
 
