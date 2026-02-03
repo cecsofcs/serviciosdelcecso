@@ -2,118 +2,151 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8"/>
-  <title>Servicios del CECSo — De estudiantes para estudiantes</title>
+  <title>Servicios del CECSo — Librería Estudiantil</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Permanent+Marker&family=IBM+Plex+Serif:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 
   <style>
     :root {
-        --teal-cecso: #1b5e63;
-        --coral-accion: #c96f53;
-        --bg-papel: #fdfaf6;
-        --texto-negro: #2d3a3a;
-        --borde: #d8cfc4;
+        --petroleo: #1b5e63;
+        --terracota: #d97d60;
+        --rosado-detalle: #f2a6a6;
+        --bg-papel: #f7f3ee;
+        --blanco-burbuja: #ffffff;
+        --texto: #2d3434;
+        --borde-sutil: rgba(27, 94, 99, 0.15);
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
     body {
-      margin: 0; padding: 0; 
-      background-color: var(--bg-papel);
-      background-image: radial-gradient(#d8cfc4 0.8px, transparent 0.8px);
-      background-size: 24px 24px;
-      font-family: 'Montserrat', sans-serif;
-      color: var(--texto-negro);
+      margin: 0; padding: 0; background-color: var(--bg-papel);
+      font-family: 'Inter', sans-serif; color: var(--texto);
+      /* Textura de papel natural */
+      background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+      line-height: 1.6;
     }
 
-    /* ============ NAVEGACIÓN ============ */
+    h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+
+    /* ============ NAVBAR ============ */
     .navbar {
         display: flex; justify-content: space-between; align-items: center;
-        padding: 15px 25px; background: rgba(253, 250, 246, 0.95);
-        border-bottom: 2px solid var(--teal-cecso);
-        position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(5px);
+        padding: 20px 40px; border-bottom: 1px solid var(--borde-sutil);
+        background: rgba(247, 243, 238, 0.8); backdrop-filter: blur(10px);
+        position: sticky; top: 0; z-index: 1000;
     }
-    .brand { font-family: 'Permanent Marker', cursive; font-size: 1.6rem; color: var(--teal-cecso); }
+    .brand { font-family: 'Playfair Display', serif; font-weight: 700; font-style: italic; font-size: 1.6rem; color: var(--petroleo); }
     .nav-links button {
-        background: none; border: 2px solid var(--teal-cecso); border-radius: 50px;
-        font-weight: 700; padding: 8px 18px; cursor: pointer; color: var(--teal-cecso);
-        transition: 0.2s; font-family: 'Montserrat';
+        background: none; border: none; font-weight: 600; font-size: 0.8rem;
+        text-transform: uppercase; letter-spacing: 1px; color: var(--petroleo);
+        cursor: pointer; margin-left: 20px; transition: 0.3s; padding: 5px 10px;
     }
-    .nav-links button:hover { background: var(--teal-cecso); color: white; }
+    .nav-links button.active { border-bottom: 2px solid var(--terracota); color: var(--texto); }
 
-    /* ============ SECCIÓN INICIO (CONTENIDO RECUPERADO) ============ */
-    #seccion-inicio { max-width: 900px; margin: 0 auto; padding: 50px 20px; }
-    .hero { text-align: center; margin-bottom: 60px; }
-    .hero h1 { font-family: 'IBM Plex Serif', serif; font-size: 3.2rem; color: var(--teal-cecso); margin: 0 0 15px; }
-    .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 30px; line-height: 1.6; }
+    /* ============ SECCIÓN INICIO ============ */
+    #seccion-inicio { max-width: 1000px; margin: 0 auto; padding: 80px 20px; }
+    .hero { text-align: center; margin-bottom: 80px; }
+    .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); color: var(--petroleo); margin: 0; line-height: 1.1; }
+    .hero p { font-size: 1.2rem; font-style: italic; color: var(--terracota); margin-top: 10px; }
 
-    .grid-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px; }
-    .card-info { background: white; padding: 35px; border-radius: 25px; border: 1px solid var(--borde); box-shadow: 0 10px 25px rgba(0,0,0,0.03); }
-    .card-info h3 { font-family: 'Permanent Marker', cursive; color: var(--coral-accion); font-size: 1.8rem; margin-top: 0; }
-
-    .btn-entrar {
-        display: block; width: fit-content; margin: 0 auto;
-        padding: 20px 50px; background: var(--teal-cecso); color: white;
-        border: none; border-radius: 50px; font-size: 1.3rem; font-weight: 800;
-        cursor: pointer; box-shadow: 0 10px 20px rgba(27, 94, 99, 0.2);
+    .grid-articulos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+    .articulo { 
+        background: white; padding: 40px; border-radius: 4px; border: 1px solid var(--borde-sutil); 
+        box-shadow: 0 5px 15px rgba(0,0,0,0.02); position: relative;
     }
+    .articulo h3 { 
+        font-size: 1.8rem; margin-top: 0; color: var(--petroleo); 
+        border-bottom: 1px solid var(--rosado-detalle); padding-bottom: 10px; 
+    }
+    
+    .btn-explorar {
+        display: block; width: fit-content; margin: 60px auto;
+        padding: 18px 45px; background: var(--petroleo); color: white;
+        border: none; border-radius: 4px; font-weight: 700; font-size: 1rem;
+        text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.4s;
+    }
+    .btn-explorar:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(27, 94, 99, 0.2); }
 
-    /* ============ BURBUJAS DE DIÁLOGO ============ */
-    .comic-bubble {
-        background: white; padding: 25px; border-radius: 35px; border: 2px solid var(--teal-cecso);
-        position: relative; box-shadow: 0 8px 15px rgba(0,0,0,0.04);
-        display: flex; flex-direction: column; transition: 0.2s; height: 100%;
+    /* ============ BURBUJAS DE DIÁLOGO (CARDS) ============ */
+    .grid-libros { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+    
+    .burbuja-card {
+        background: var(--blanco-burbuja); padding: 30px;
+        border-radius: 30px 30px 30px 2px; /* Forma de globo */
+        border: 2px solid var(--petroleo);
+        position: relative; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex; flex-direction: column; height: 100%;
+        box-shadow: 8px 8px 0px rgba(27, 94, 99, 0.05);
     }
-    .comic-bubble::after {
-        content: ''; position: absolute; bottom: -18px; left: 40px;
-        width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent;
-        border-top: 20px solid var(--teal-cecso);
+    /* La "colita" del globo */
+    .burbuja-card::after {
+        content: ''; position: absolute; bottom: -12px; left: 30px;
+        width: 20px; height: 20px; background: white;
+        border-right: 2px solid var(--petroleo); border-bottom: 2px solid var(--petroleo);
+        transform: rotate(45deg);
     }
-    .comic-bubble::before {
-        content: ''; position: absolute; bottom: -14px; left: 43px;
-        width: 0; height: 0; z-index: 1; border-left: 9px solid transparent; border-right: 9px solid transparent;
-        border-top: 17px solid white;
-    }
+    .burbuja-card:hover { transform: translateY(-5px) rotate(-1deg); box-shadow: 12px 12px 0px rgba(217, 125, 96, 0.1); }
 
-    .libro-header { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; }
-    .carrera-icon { width: 45px; height: 45px; flex-shrink: 0; }
-    .libro-titulo { font-family: 'IBM Plex Serif', serif; font-weight: 700; font-size: 1.1rem; margin: 0; line-height: 1.2; }
-
-    .btn-add {
-        margin-top: auto; width: 100%; padding: 12px; border-radius: 50px; border: none;
-        background: var(--coral-accion); color: white; font-weight: 800; cursor: pointer;
+    .libro-cabeza { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px; }
+    .badge-carrera { 
+        width: 32px; height: 32px; background: var(--rosado-detalle); 
+        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0; font-size: 14px; border: 1px solid var(--petroleo);
     }
-    .btn-add.in-cart { background: var(--teal-cecso); }
+    .libro-titulo { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.15rem; margin: 0; color: var(--petroleo); line-height: 1.3; }
 
-    /* ============ CARRITO RECUPERADO ============ */
-    .carrito-sidebar {
-        background: white; border: 1px solid var(--borde); border-radius: 25px;
-        padding: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+    .libro-accion { 
+        margin-top: auto; display: flex; justify-content: space-between; align-items: center; 
+        padding-top: 20px; border-top: 1px dashed var(--borde-sutil);
     }
-    .total-box { font-size: 2.2rem; font-weight: 800; color: var(--teal-cecso); text-align: right; margin: 15px 0; }
+    .precio { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 1.2rem; color: var(--terracota); }
+    
+    .btn-agregar {
+        background: white; border: 1px solid var(--petroleo); padding: 8px 18px;
+        border-radius: 50px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase;
+        cursor: pointer; transition: 0.2s; box-shadow: 3px 3px 0px var(--petroleo);
+    }
+    .btn-agregar:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px var(--petroleo); }
+    .btn-agregar.en-carrito { background: var(--terracota); color: white; border-color: var(--terracota); }
+
+    /* ============ CARRITO FLOTANTE ============ */
+    .carrito-container {
+        background: white; border: 1px solid var(--petroleo); padding: 30px;
+        border-radius: 4px; position: sticky; top: 110px;
+        box-shadow: 15px 15px 0px rgba(27, 94, 99, 0.05);
+    }
+    .carrito-items { margin: 20px 0; max-height: 300px; overflow-y: auto; }
+    .item-fila { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 0.85rem; }
+    
     .envio-interior {
-        background: #f1f1f1; padding: 12px; border-radius: 12px;
-        display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; margin-bottom: 15px;
+        margin: 20px 0; padding: 15px; background: #fdfaf6; border: 1px solid var(--rosado-detalle);
+        display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.8rem;
     }
+    .total-display { font-size: 2.2rem; font-weight: 700; color: var(--petroleo); text-align: right; margin-bottom: 20px; }
 
-    #app-container { display: none; padding: 40px 20px; max-width: 1100px; margin: 0 auto; }
-    .view-step { display: flex; flex-direction: column; align-items: center; text-align: center; min-height: 60vh; }
-    .btn-step {
-        background: white; border: 2px solid var(--teal-cecso); padding: 18px; font-size: 1.1rem;
-        font-weight: 700; border-radius: 50px; cursor: pointer; margin-bottom: 12px; width: 100%; max-width: 400px;
+    /* ============ PASOS APP ============ */
+    #app-container { display: none; padding: 60px 20px; max-width: 1200px; margin: 0 auto; }
+    .view-step { display: flex; flex-direction: column; align-items: center; min-height: 60vh; text-align: center; }
+    .btn-seleccion {
+        background: white; border: 1px solid var(--petroleo); padding: 20px;
+        width: 100%; max-width: 400px; margin-bottom: 15px; border-radius: 4px;
+        font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: 0.2s;
+        box-shadow: 5px 5px 0px var(--petroleo);
     }
-    .btn-step:hover { background: var(--teal-cecso); color: white; }
+    .btn-seleccion:hover { background: var(--bg-papel); transform: translate(-2px, -2px); box-shadow: 7px 7px 0px var(--terracota); }
 
     #buscador-librillos {
-        width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 50px;
-        border: 2px solid var(--borde); font-size: 1rem; margin-bottom: 30px; outline: none;
+        width: 100%; max-width: 600px; padding: 18px 25px; border: 1px solid var(--petroleo);
+        border-radius: 4px; font-size: 1rem; margin-bottom: 40px; outline: none;
+        background: white; font-family: 'Inter';
     }
 
-    @media (max-width: 850px) {
-        .main-layout { flex-direction: column; }
-        .carrito-sidebar { width: 100%; position: static; order: -1; margin-bottom: 35px; }
-        .hero h1 { font-size: 2.5rem; }
+    @media (max-width: 900px) {
+        .layout-principal { flex-direction: column; }
+        .carrito-container { position: static; width: 100%; margin-bottom: 40px; }
+        .hero h1 { font-size: 3rem; }
     }
   </style>
 </head>
@@ -121,78 +154,79 @@
 <body>
 
   <nav class="navbar">
-      <div class="brand">cecso</div>
+      <div class="brand">CECSo</div>
       <div class="nav-links">
-          <button onclick="navegar('inicio')">Inicio</button>
-          <button onclick="navegar('app')">Buscador</button>
+          <button id="nav-inicio" class="active" onclick="navegar('inicio')">Inicio</button>
+          <button id="nav-app" onclick="navegar('app')">Buscador</button>
       </div>
   </nav>
 
   <section id="seccion-inicio">
     <div class="hero">
-        <h1>Servicios del CECSo</h1>
-        <p>De estudiantes para estudiantes. Garantizando bibliografía accesible y becas de trabajo en la Facultad de Ciencias Sociales.</p>
-        <button class="btn-entrar" onclick="navegar('app')">Ir al Buscador →</button>
+        <h1>Servicios del <br><i>CECSo.</i></h1>
+        <p>— De estudiantes para estudiantes —</p>
     </div>
 
-    <div class="grid-info">
-        <div class="card-info">
-            <h3>¿Qué son los Servis?</h3>
-            <p>Es el proyecto político del Centro de Estudiantes para que nadie se quede atrás por falta de materiales. Sostenemos becas de trabajo estudiantil cada año.</p>
-        </div>
-        <div class="card-info">
+    <div class="grid-articulos">
+        <article class="articulo">
+            <h3>Nuestra Misión</h3>
+            <p>Garantizamos el acceso a la bibliografía obligatoria y optativa a precios populares, sosteniendo becas de trabajo estudiantil para compañeros de la facultad.</p>
+        </article>
+        <article class="articulo">
             <h3>Contacto</h3>
             <p>📍 Piso 1, FCS (Constituyente 1502)<br>
                📸 @serviciosdelcecso<br>
-               📧 fotocecso@gmail.com<br>
                💬 WhatsApp: 092 498 150</p>
-        </div>
+        </article>
     </div>
+
+    <button class="btn-explorar" onclick="navegar('app')">Entrar al Buscador</button>
   </section>
 
   <div id="app-container">
+      
       <div id="step-carrera" class="view-step">
-          <h2 style="font-family:'Permanent Marker'; font-size: 2rem;">¿Qué carrera cursás?</h2>
-          <div style="width:100%; max-width:400px; display:flex; flex-direction:column;">
-              <button class="btn-step" onclick="seleccionarCarrera('Ciclo Inicial')">Ciclo Inicial</button>
-              <button class="btn-step" onclick="seleccionarCarrera('Sociología')">Sociología</button>
-              <button class="btn-step" onclick="seleccionarCarrera('Trabajo Social')">Trabajo Social</button>
-              <button class="btn-step" onclick="seleccionarCarrera('Ciencia Política')">Ciencia Política</button>
-              <button class="btn-step" onclick="seleccionarCarrera('Desarrollo')">Desarrollo</button>
+          <h2 class="serif" style="font-size: 2.8rem;">Elegí tu Carrera</h2>
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 30px;">
+              <button class="btn-seleccion" onclick="seleccionarCarrera('Ciclo Inicial')">Ciclo Inicial</button>
+              <button class="btn-seleccion" onclick="seleccionarCarrera('Sociología')">Sociología</button>
+              <button class="btn-seleccion" onclick="seleccionarCarrera('Trabajo Social')">Trabajo Social</button>
+              <button class="btn-seleccion" onclick="seleccionarCarrera('Ciencia Política')">Ciencia Política</button>
+              <button class="btn-seleccion" onclick="seleccionarCarrera('Desarrollo')">Desarrollo</button>
           </div>
       </div>
 
       <div id="step-tipo" class="view-step" style="display:none;">
-          <h2 id="txt-carrera-sel" style="color:var(--coral-accion);"></h2>
-          <div style="width:100%; max-width:400px; display:flex; flex-direction:column;">
-              <button class="btn-step" onclick="iniciarCarga('Obligatorias')">OBLIGATORIAS</button>
-              <button class="btn-step" onclick="iniciarCarga('Optativas')">OPTATIVAS</button>
-              <button onclick="navegarApp('step-carrera')" style="margin-top:20px; font-weight:700; cursor:pointer; background:none; border:none; text-decoration:underline;">← Cambiar carrera</button>
+          <h2 id="txt-carrera-sel" class="serif" style="font-size: 2.5rem; color: var(--terracota);"></h2>
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 30px;">
+              <button class="btn-seleccion" onclick="iniciarCarga('Obligatorias')">Materias Obligatorias</button>
+              <button class="btn-seleccion" onclick="iniciarCarga('Optativas')">Materias Optativas</button>
+              <button onclick="navegarApp('step-carrera')" style="margin-top:20px; cursor:pointer; background:none; border:none; text-decoration:underline; font-weight:600;">← Volver</button>
           </div>
       </div>
 
       <div id="step-catalogo" style="display:none;">
-          <div style="text-align: center; margin-bottom: 40px;">
-              <h2 id="txt-hoja-sel" style="font-family:'Permanent Marker';"></h2>
+          <div style="text-align: center; margin-bottom: 50px;">
+              <h2 id="txt-hoja-sel" class="serif" style="font-size: 2.2rem;"></h2>
               <input type="text" id="buscador-librillos" placeholder="🔍 Escribí el nombre de la materia..."/>
-              <p id="txt-loading" style="font-weight:800; color:var(--teal-cecso);">Cargando catálogo...</p>
+              <p id="txt-loading" style="font-weight:700; color: var(--petroleo);">Consultando archivos...</p>
           </div>
 
-          <div class="main-layout" style="display: flex; gap: 30px; align-items: flex-start;">
-              <div id="lista-libros" style="flex:2; display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px;"></div>
+          <div class="layout-principal" style="display: flex; gap: 40px; align-items: flex-start;">
+              <div id="lista-libros" class="grid-libros" style="flex:2;"></div>
               
-              <div class="carrito-sidebar" style="flex:1; position: sticky; top: 100px;">
-                  <h3 style="margin:0; font-family:'Permanent Marker'; color:var(--teal-cecso);">Tu Pedido</h3>
-                  <div id="cart-items-container" style="margin: 20px 0;"></div>
+              <div class="carrito-container" style="flex:1;">
+                  <h3 class="serif" style="margin:0; font-size: 1.6rem; border-bottom: 1px solid var(--rosado-detalle); padding-bottom: 10px;">Tu Pedido</h3>
+                  <div id="cart-items-container" class="carrito-items"></div>
                   
                   <label class="envio-interior">
                       <input type="checkbox" id="chk-envio" onchange="renderCarrito()" style="width:18px; height:18px;">
                       Envío al interior (+$100)
                   </label>
 
-                  <div class="total-box" id="display-total">$0</div>
-                  <button id="btn-checkout" onclick="finalizar()" style="width:100%; padding:18px; background:var(--coral-accion); color:white; border:none; border-radius:50px; font-weight:800; font-size:1.1rem; cursor:pointer;">FINALIZAR PEDIDO</button>
-                  <button onclick="volverApp()" style="width:100%; margin-top:10px; background:none; border:none; font-size:0.8rem; cursor:pointer; color:#999;">← Cambiar de carrera</button>
+                  <div class="total-display" id="display-total">$0</div>
+                  <button class="btn-explorar" style="width:100%; margin:0;" onclick="finalizar()">Confirmar Pedido</button>
+                  <button onclick="volverApp()" style="width:100%; margin-top:15px; border:none; background:none; color:#999; font-size:0.75rem; cursor:pointer;">← Cambiar carrera</button>
               </div>
           </div>
       </div>
@@ -202,12 +236,12 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbwcOcQt1d7H2V-wUK8PH29MzwQfmbxspzFdXwzQg8UmsaVMdkrH6j5ixIr-KRSBkuTJ/exec"; 
 
     const ICONOS = {
-        "Ciclo Inicial": "https://cdn-icons-png.flaticon.com/512/2232/2232688.png",
-        "Sociología": "https://cdn-icons-png.flaticon.com/512/2040/2040652.png",
-        "Trabajo Social": "https://cdn-icons-png.flaticon.com/512/1256/1256650.png",
-        "Ciencia Política": "https://cdn-icons-png.flaticon.com/512/2413/2413004.png",
-        "Desarrollo": "https://cdn-icons-png.flaticon.com/512/4230/4230982.png",
-        "def": "https://cdn-icons-png.flaticon.com/512/2232/2232688.png"
+        "Ciclo Inicial": "🌱",
+        "Sociología": "🔍",
+        "Trabajo Social": "🤝",
+        "Ciencia Política": "⚖️",
+        "Desarrollo": "📈",
+        "def": "📚"
     };
 
     let carrito = JSON.parse(localStorage.getItem("cecsocart")) || [];
@@ -216,21 +250,24 @@
 
     function navegar(seccion) {
         window.scrollTo(0,0);
-        const p = document.getElementById('seccion-portada'); // Era seccion-inicio
-        const i = document.getElementById('seccion-inicio');
-        const a = document.getElementById('app-container');
-        if(seccion === 'inicio'){
-            i.style.display = 'block'; a.style.display = 'none';
+        const inicio = document.getElementById('seccion-inicio');
+        const app = document.getElementById('app-container');
+        const nInicio = document.getElementById('nav-inicio');
+        const nApp = document.getElementById('nav-app');
+
+        if(seccion === 'inicio') {
+            inicio.style.display = 'block'; app.style.display = 'none';
+            nInicio.classList.add('active'); nApp.classList.remove('active');
         } else {
-            i.style.display = 'none'; a.style.display = 'block';
+            inicio.style.display = 'none'; app.style.display = 'block';
+            nInicio.classList.remove('active'); nApp.classList.add('active');
             navegarApp('step-carrera');
         }
     }
 
     function navegarApp(step) {
         ['step-carrera', 'step-tipo', 'step-catalogo'].forEach(s => {
-            document.getElementById(s).style.display = (s === step) ? 'flex' : 'none';
-            if(s === 'step-catalogo' && step === s) document.getElementById(s).style.display = 'block';
+            document.getElementById(s).style.display = (s === step) ? (s === 'step-catalogo' ? 'block' : 'flex') : 'none';
         });
     }
 
@@ -258,26 +295,26 @@
                 db = data; filtered = data;
                 loading.style.display = 'none';
                 renderCatalogo();
-            }).catch(e => loading.innerText = "Error cargando datos.");
+            }).catch(e => loading.innerText = "Error en la conexión.");
     }
 
     function renderCatalogo() {
         const grid = document.getElementById('lista-libros');
         grid.innerHTML = "";
-        const iconUrl = ICONOS[licActual] || ICONOS.def;
+        const icon = ICONOS[licActual] || ICONOS.def;
         filtered.forEach(item => {
             const isAdded = carrito.some(c => c.id === item.id);
             const card = document.createElement('div');
-            card.className = 'comic-bubble';
+            card.className = 'burbuja-card';
             card.innerHTML = `
-                <div class="libro-header">
-                    <img src="${iconUrl}" class="carrera-icon">
+                <div class="libro-cabeza">
+                    <div class="badge-carrera">${icon}</div>
                     <p class="libro-titulo">${item.titulo}</p>
                 </div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
-                    <p style="font-weight:800; font-size:1.3rem;">$${item.precio}</p>
-                    <button class="btn-add ${isAdded ? 'in-cart' : ''}" onclick="toggleCart('${item.id}', '${item.titulo.replace(/'/g,"")}', ${item.precio})">
-                        ${isAdded ? '✓' : 'AÑADIR'}
+                <div class="libro-accion">
+                    <p class="precio">$${item.precio}</p>
+                    <button class="btn-agregar ${isAdded ? 'en-carrito' : ''}" onclick="toggleCart('${item.id}', '${item.titulo.replace(/'/g,"")}', ${item.precio})">
+                        ${isAdded ? '✓' : 'Agregar'}
                     </button>
                 </div>`;
             grid.appendChild(card);
@@ -298,7 +335,11 @@
         let subtotal = 0;
         carrito.forEach((c, i) => {
             subtotal += c.precio;
-            container.innerHTML += `<div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;"><span>${c.titulo}</span><button onclick="removeCart(${i})" style="border:none; background:none; cursor:pointer;">✕</button></div>`;
+            container.innerHTML += `
+                <div class="item-fila">
+                    <span style="font-weight:600; max-width:75%;">${c.titulo}</span>
+                    <button onclick="removeCart(${i})" style="border:none; background:none; cursor:pointer;">✕</button>
+                </div>`;
         });
         const total = subtotal + (document.getElementById('chk-envio').checked ? 100 : 0);
         document.getElementById('display-total').innerText = `$${total}`;
@@ -322,12 +363,12 @@
     };
 
     function finalizar() {
-        if(carrito.length === 0) return alert("Pedido vacío.");
+        if(carrito.length === 0) return alert("Tu carrito está vacío.");
         const titulos = carrito.map(c => c.titulo).join(", ");
         const subtotal = carrito.reduce((sum, c) => sum + c.precio, 0);
         const total = subtotal + (document.getElementById('chk-envio').checked ? 100 : 0);
-        const envio = document.getElementById('chk-envio').checked ? "Sí, envío al interior" : "No quiero envío";
-        const url = "https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url&entry.539670442=" + encodeURIComponent(titulos) + "&entry.482914514=" + encodeURIComponent(total) + "&entry.1104329366=" + encodeURIComponent(envio);
+        const envio = document.getElementById('chk-envio').checked ? "Sí, envío al interior" : "Retiro presencial";
+        const url = `https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url&entry.539670442=${encodeURIComponent(titulos)}&entry.482914514=${encodeURIComponent(total)}&entry.1104329366=${encodeURIComponent(envio)}`;
         window.open(url, "_blank");
     }
 
