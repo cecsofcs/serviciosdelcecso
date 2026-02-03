@@ -37,14 +37,15 @@
         padding: 15px 30px; background: white; border-bottom: var(--borde);
         position: sticky; top: 0; z-index: 1000;
     }
-    .brand { cursor: pointer; font-size: 1.3rem; color: var(--petroleo); white-space: nowrap; }
+    .brand { cursor: pointer; font-size: 1.3rem; color: var(--petroleo); white-space: nowrap; transition: 0.2s; }
     .nav-links button {
         background: var(--rosa-suave); border: 2.5px solid var(--negro); padding: 8px 18px;
         font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0px var(--negro);
-        transition: 0.1s; text-transform: uppercase; font-size: 0.7rem; margin-left: 8px;
+        transition: 0.1s; text-transform: uppercase; font-size: 0.75rem; margin-left: 10px;
     }
+    .nav-links button:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px var(--negro); }
 
-    /* ============ INICIO ============ */
+    /* ============ SECCIÓN INICIO ============ */
     #seccion-inicio { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
     .hero h1 { 
         font-size: clamp(1.8rem, 6.5vw, 4.5rem); color: var(--petroleo); line-height: 1; 
@@ -56,37 +57,32 @@
         font-weight: 900; font-size: 1.4rem; text-transform: uppercase;
         cursor: pointer; box-shadow: var(--sombra); transition: 0.1s;
     }
+    .btn-cta-top:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--negro); }
 
-    /* BURBUJAS DE DIÁLOGO (RESTAURADAS CON FUERZA) */
+    /* BURBUJAS DE DIÁLOGO (Picos restaurados) */
     .neo-bubble {
         background: white; border: var(--borde); padding: 40px;
         box-shadow: var(--sombra); margin-bottom: 60px; border-radius: 20px;
-        position: relative; display: block;
+        position: relative;
     }
-    /* El pico negro de la burbuja */
-    .neo-bubble::after {
-        content: ""; position: absolute; bottom: -24px; left: 50px;
-        width: 0; height: 0;
-        border-left: 20px solid transparent; border-right: 20px solid transparent;
+    .neo-bubble::after { /* Pico negro exterior */
+        content: ""; position: absolute; bottom: -24px; left: 40px;
+        width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent;
         border-top: 24px solid var(--negro);
-        display: block;
     }
-    /* El pico blanco que tapa el borde negro por dentro */
-    .neo-bubble::before {
-        content: ""; position: absolute; bottom: -16px; left: 53px;
-        width: 0; height: 0; z-index: 5;
-        border-left: 17px solid transparent; border-right: 17px solid transparent;
+    .neo-bubble::before { /* Pico blanco interior */
+        content: ""; position: absolute; bottom: -16px; left: 43px;
+        width: 0; height: 0; z-index: 2; border-left: 17px solid transparent; border-right: 17px solid transparent;
         border-top: 21px solid white;
-        display: block;
     }
-
     .neo-bubble h2 { font-size: 1.3rem; font-family: 'Archivo Black'; margin-top: 0; color: var(--petroleo); border-bottom: 6px solid var(--rosa-suave); display: inline-block; }
-    .neo-bubble p { font-weight: 600; line-height: 1.6; font-size: 1rem; }
+    .neo-bubble p { font-weight: 600; line-height: 1.6; }
 
     /* ============ APP / BUSCADOR ============ */
     #app-container { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
     .step-view { display: flex; flex-direction: column; align-items: center; min-height: 70vh; text-align: center; }
     
+    /* Tipografía fina y recta */
     .step-title { 
         font-family: 'Inter', sans-serif; font-weight: 300; 
         font-size: 3.5rem; color: var(--terracota); 
@@ -117,7 +113,7 @@
     .btn-add {
         background: white; border: 3px solid var(--negro); padding: 10px 18px;
         font-weight: 900; cursor: pointer; font-size: 0.75rem; 
-        box-shadow: 4px 4px 0px var(--negro); text-transform: uppercase;
+        box-shadow: 4px 4px 0px var(--negro); text-transform: uppercase; transition: 0.1s;
     }
     .btn-add.active { background: var(--petroleo); color: white; border-color: var(--petroleo); box-shadow: 4px 4px 0px var(--terracota); }
 
@@ -161,8 +157,7 @@
 
     <div class="neo-bubble" style="border-color: var(--terracota);">
         <h2>Materiales y Carpetas</h2>
-        <p>Acá podés ver en cada carpeta las materias correspondientes a su semestre y los materiales disponibles.<br><br>
-        Para encargar tus librillos, hacé click en <strong>"Conseguí tus librillos"</strong>.<br><br>
+        <p>Para encargar tus librillos, hacé click en <strong>"Conseguí tus librillos"</strong>.<br><br>
         Si hay materias que no encontrás, consultanos por ig: <strong>@serviciosdelcecso</strong>.</p>
         
         <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
@@ -201,12 +196,11 @@
           <div style="text-align: center; margin-bottom: 40px;">
               <h2 id="txt-hoja-sel" class="step-title" style="border-bottom: 2px solid var(--rosa-suave); display: inline-block;"></h2>
               <br><br>
-              <input type="text" id="buscador-librillos" placeholder="🔍 Buscar materia (ej: 'socio')..."/>
+              <input type="text" id="buscador-librillos" placeholder="🔍 Buscar materia..."/>
           </div>
 
           <div class="main-layout" style="display: flex; gap: 40px; align-items: flex-start;">
               <div id="lista-libros" class="grid-libros" style="flex:2;"></div>
-              
               <div class="cart-box" style="flex:1;">
                   <h3 class="font-logo" style="margin:0; font-size: 1.1rem; border-bottom: 4px solid var(--negro); padding-bottom: 10px;">Tu Pedido</h3>
                   <div id="cart-items-container" style="margin: 20px 0;"></div>
@@ -218,16 +212,15 @@
   </div>
 
   <script>
-    // ESTA ES LA URL DE TU API ACTUALIZADA
-    const API_URL = "https://script.google.com/macros/s/AKfycbxwgtQLGDZPSDkLd7l4dY56ol2EPUqyoKZzqxUP5v-yi8VSJOa7in6jv0NeFt3tlgky/exec"; 
+    const API_URL = "https://script.google.com/macros/s/AKfycbwIAG3Yi2KxHE49noc6Y7iw5XXKzyC-Mo5LF--1bbcUsu20akntZADCSk8enmWN0o0W/exec"; 
 
-    // BLOQUEO Y LIMPIEZA DE TILDES ROTOS (Saneador Universal)
+    // SANEADOR NUCLEAR
     function sanearTexto(texto) {
         if (!texto) return "";
-        // Mapa de corrección de Mojibake (UTF-8 interpretado como ISO)
         const correcciones = {
-            'Ã¡': 'á', 'Ã©': 'é', 'Ã­': 'í', 'Ã³': 'ó', 'Ãº': 'ú',
-            'Ã±': 'ñ', 'Ã': 'Á', 'Ã‰': 'É', 'ÃÍ': 'Í', 'ÃÓ': 'Ó', 'ÃÚ': 'Ú', 'Ã‘': 'Ñ'
+            'Ã¡': 'á', 'Ã©': 'é', 'Ã­': 'í', 'Ã³': 'ó', 'Ãº': 'ú', 'Ã±': 'ñ',
+            'à': 'á', 'è': 'é', 'ì': 'í', 'ò': 'ó', 'ù': 'ú',
+            'À': 'Á', 'È': 'É', 'Ì': 'Í', 'Ò': 'Ó', 'Ù': 'Ú'
         };
         let saneado = texto;
         Object.keys(correcciones).forEach(error => {
@@ -249,18 +242,14 @@
         window.scrollTo(0,0);
         const inicio = document.getElementById('seccion-inicio');
         const app = document.getElementById('app-container');
-        if(seccion === 'inicio') {
-            inicio.style.display = 'block'; app.style.display = 'none';
-        } else {
-            inicio.style.display = 'none'; app.style.display = 'block';
-            navegarApp('step-carrera');
-        }
+        inicio.style.display = (seccion === 'inicio') ? 'block' : 'none';
+        app.style.display = (seccion === 'app') ? 'block' : 'none';
+        if(seccion === 'app') navegarApp('step-carrera');
     };
 
     window.navegarApp = function(step) {
         ['step-carrera', 'step-tipo', 'step-catalogo'].forEach(s => {
-            const el = document.getElementById(s);
-            el.style.display = (s === step) ? (s === 'step-catalogo' ? 'block' : 'flex') : 'none';
+            document.getElementById(s).style.display = (s === step) ? (s === 'step-catalogo' ? 'block' : 'flex') : 'none';
         });
     };
 
@@ -279,14 +268,22 @@
     };
 
     function fetchAPI(hoja) {
-        document.getElementById('lista-libros').innerHTML = "<p style='font-weight:900;'>Saneando datos...</p>";
+        const lista = document.getElementById('lista-libros');
+        lista.innerHTML = "<p style='font-weight:900;'>Limpiando tildes...</p>";
+        
         fetch(`${API_URL}?action=obtenerCatalogo&licenciatura=${encodeURIComponent(hoja)}`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error("Error en el servidor");
+                return res.json();
+            })
             .then(data => {
-                // SANEAMOS LOS TILDES AL LLEGAR
                 db = data.map(item => ({ ...item, titulo: sanearTexto(item.titulo) }));
                 filtered = db;
                 renderCatalogo();
+            })
+            .catch(err => {
+                lista.innerHTML = "<p style='color:red;'>⚠️ Hubo un problema al cargar. Recargá la página.</p>";
+                console.error(err);
             });
     }
 
@@ -297,8 +294,7 @@
             const isAdded = carrito.some(c => c.id === item.id);
             const card = document.createElement('div');
             card.className = 'lib-bubble';
-            card.innerHTML = `
-                <p class="lib-title">${item.titulo}</p>
+            card.innerHTML = `<p class="lib-title">${item.titulo}</p>
                 <div class="lib-footer">
                     <p class="lib-price">$${item.precio}</p>
                     <button class="btn-add ${isAdded ? 'active' : ''}" onclick="toggleCart('${item.id}', '${item.titulo.replace(/'/g,"")}', ${item.precio})">
@@ -323,14 +319,13 @@
         let subtotal = 0;
         carrito.forEach((c, i) => {
             subtotal += c.precio;
-            container.innerHTML += `
-                <div class="cart-item">
-                    <span style="font-weight:700; font-size:0.85rem; max-width:65%;">${c.titulo}</span>
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <span style="font-weight:900; color:var(--terracota);">$${c.precio}</span>
-                        <button onclick="removeCart(${i})" style="border:none; background:none; cursor:pointer;">✕</button>
-                    </div>
-                </div>`;
+            container.innerHTML += `<div class="cart-item">
+                <span style="font-weight:700; font-size:0.85rem; max-width:65%;">${c.titulo}</span>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-weight:900; color:var(--terracota);">$${c.precio}</span>
+                    <button onclick="removeCart(${i})" style="border:none; background:none; cursor:pointer;">✕</button>
+                </div>
+            </div>`;
         });
         document.getElementById('display-total').innerText = `$${subtotal}`;
     }
@@ -359,4 +354,3 @@
   </script>
 </body>
 </html>
-
