@@ -90,7 +90,6 @@
     .step-view { display: flex; flex-direction: column; align-items: center; min-height: 70vh; text-align: center; }
     .step-title { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 3.5rem; color: var(--terracota); text-transform: uppercase; letter-spacing: 2px; }
 
-    /* --- NUEVOS BOTONES DE SELECCIÓN CON SOMBRAS ALTERNADAS --- */
     .btn-choice {
         background: white; 
         border: var(--borde); 
@@ -102,28 +101,12 @@
         font-size: 1.1rem; 
         cursor: pointer; 
         text-transform: uppercase;
-        
-        /* Sombra base (Petróleo) */
         box-shadow: 6px 6px 0px var(--petroleo);
         transition: transform 0.1s, box-shadow 0.1s;
     }
-
-    /* Alternar sombra a Terracota en los pares */
-    .btn-choice:nth-of-type(even) {
-        box-shadow: 6px 6px 0px var(--terracota);
-    }
-
-    /* Efecto Hover (solo PC): Sube y sombra negra */
-    .btn-choice:hover {
-        transform: translate(-2px, -2px);
-        box-shadow: 8px 8px 0px var(--negro);
-    }
-
-    /* Efecto Click: Se hunde */
-    .btn-choice:active {
-        transform: translate(4px, 4px);
-        box-shadow: 0px 0px 0px transparent;
-    }
+    .btn-choice:nth-of-type(even) { box-shadow: 6px 6px 0px var(--terracota); }
+    .btn-choice:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0px var(--negro); }
+    .btn-choice:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px transparent; }
 
     .btn-back { margin-top:10px; font-weight:800; cursor:pointer; background:none; border:none; text-decoration:underline; font-size: 1rem; color: var(--negro); }
 
@@ -316,7 +299,7 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbwGPzuKCAN2H-h1FDr-26__T3HzhfPOHjDBoXzv9fXBXTHKc3Ch45qn8ZAEGQSBR9aX/exec"; 
     const COSTO_ENVIO = 200; 
 
-    // Variable global de Caché
+    // Variable global de Caché y Estado
     let cacheCatalogo = {};
     let carrito = JSON.parse(localStorage.getItem("cecsocart")) || [];
     let db = [], filtered = [];
@@ -465,7 +448,7 @@
         carrito.forEach((c, i) => {
             subtotal += c.precio;
             container.innerHTML += `<div class="cart-item">
-                <span style="font-weight:700; font-size:0.85rem; max-width:65%;">${c.titulo}</span>
+                <span style="font-weight:700; font-size:0.85rem; max-width:60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${c.titulo}</span>
                 <div style="display:flex; align-items:center; gap:10px;">
                     <span style="font-weight:900; color:var(--terracota);">$${c.precio}</span>
                     <button onclick="removeCart(${i})" style="border:none; background:none; cursor:pointer;">✕</button>
