@@ -2,112 +2,304 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8"/>
-  <title>Buscador de Librillos - CECSo</title>
+  <title>Servicios del CECSo - Librería Estudiantil</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="theme-color" content="#fdf8f5">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Tu CSS se mantiene idéntico */
-    body { margin: 0; padding: 0; background-color: #35b0b3; font-family: 'IBM Plex Serif', serif; }
-    #pantalla-inicio { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; }
-    #pantalla-inicio h1 { font-size: 50px; color: #fffef5; margin-bottom: 30px; font-weight: 700; }
-    .lic-btns { display: flex; flex-direction: column; gap: 15px; }
-    .lic-btn { background-color: #fffef5; color: #1f5692; font-size: 20px; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; min-width: 250px; text-align: center; font-family: 'IBM Plex Serif', serif; }
-    .lic-btn:hover { background-color: #d6dde2; }
-    #pantalla-librillos { display: none; min-height: 100vh; padding: 20px; }
-    #lic-titulo { font-size: 40px; color: #ff4850; margin: 0; font-weight: 700; margin-bottom: 10px; }
-    #buscador-librillos { padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; display: none; }
-    #cargando-texto { margin: 20px auto 0; font-size: 20px; color: #1f5692; font-weight: bold; display: none; }
-    .librillos-contenedor { display: flex; margin-top: 15px; gap: 20px; }
-    .lista-librillos { flex: 2; display: flex; flex-direction: column; gap: 10px; }
-    .libro-item { display: flex; justify-content: space-between; align-items: center; background: #fffef5; padding: 10px; border-radius: 6px; }
-    .libro-item p { margin: 0; font-weight: bold; font-size: 16px; color: #1f5692; }
-    .icono-accion { width: 28px; height: 28px; cursor: pointer; }
-    .carrito-panel { flex: 1; background: #ffeff5; border: 2px solid #ff4850; border-radius: 8px; padding: 15px; height: fit-content; align-self: flex-start; }
-    .carrito-panel h2 { font-size: 20px; color: #ff4850; margin-bottom: 10px; font-weight: 700; }
-    .carrito-lista { display: flex; flex-direction: column; gap: 10px; }
-    .carrito-item { display: flex; justify-content: space-between; background: #ffeceb; padding: 8px; border-radius: 5px; align-items: center; }
-    .carrito-item p { margin: 0; font-size: 16px; font-weight: bold; }
-    #carrito-total { margin-top: 10px; font-size: 18px; font-weight: bold; text-align: right; }
-    .trash-icon { width: 24px; height: 24px; cursor: pointer; transition: 0.3s; }
-    .trash-icon:hover { transform: scale(1.1); }
-    .envio-checkbox { margin-top: 10px; display: flex; align-items: center; gap: 5px; }
-    .paginacion { display: none; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; }
-    .paginacion button { background: none; border: none; font-size: 22px; cursor: pointer; transition: 0.2s; }
-    .paginacion button:hover { transform: scale(1.2); }
-    .btn-volver-lic { margin-top: 20px; background-color: #f3adb0; color: white; border: none; border-radius: 8px; font-size: 16px; padding: 10px 20px; cursor: pointer; transition: 0.3s; font-family: 'IBM Plex Serif', serif; }
-    .btn-volver-lic:hover { background-color: #ff4850; }
-    #btn-finalizar { margin-top: 15px; background-color: #ff4850; color: white; border: none; border-radius: 8px; font-size: 16px; padding: 10px 20px; cursor: pointer; transition: 0.3s; font-family: 'IBM Plex Serif', serif; }
-    #btn-finalizar:hover { background-color: #d63442; }
-    .tipo-btns { display: flex; flex-direction: column; gap: 20px; align-items: center; justify-content: center; margin-top: 60px; }
-    .tipo-btn { background-color: #fffef5; color: #1f5692; font-size: 24px; padding: 20px 40px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; min-width: 280px; text-align: center; font-family: 'IBM Plex Serif', serif; }
-    .tipo-btn:hover { background-color: #d6dde2; }
-    .info-text { background-color: #1f5692; color: #fffef5; font-family: 'IBM Plex Serif', serif; margin-top: 90px; padding: 15px; border-radius: 8px; text-align: center; font-size: 16px; }
-    @media (max-width: 600px) {
-      .librillos-contenedor { flex-direction: column-reverse; }
-      #pantalla-inicio h1 { font-size: 35px; text-align: center; }
+    :root {
+        --bg-cream: #fdf8f5;
+        --bg-paper: #faefe8;
+        --text-dark: #2d2d2d;
+        --accent-blue: #264653; /* Azul petróleo académico */
+        --accent-coral: #e76f51; /* Toque moderno */
+        --border-color: #d4c5b9;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-cream);
+      font-family: 'IBM Plex Serif', serif;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* ============ NAVBAR ============ */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        border-bottom: 2px solid var(--accent-blue);
+        background: var(--bg-cream);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    .brand { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 20px; color: var(--accent-blue); letter-spacing: 1px;}
+    .nav-links button {
+        background: none; border: none; font-family: 'Montserrat', sans-serif; font-weight: 500;
+        margin-left: 15px; cursor: pointer; font-size: 14px; color: var(--text-dark);
+        padding: 5px 10px; border-radius: 20px; transition: 0.3s;
+    }
+    .nav-links button.active { background: var(--accent-blue); color: var(--bg-cream); }
+
+    /* ============ SECCIÓN PORTADA (MAGAZINE STYLE) ============ */
+    #seccion-portada {
+        max-width: 1000px; margin: 0 auto; padding: 40px 20px;
+    }
+    .masthead {
+        text-align: center; margin-bottom: 50px;
+        border-bottom: 1px solid var(--border-color); padding-bottom: 30px;
+    }
+    .issue-date { text-transform: uppercase; letter-spacing: 2px; font-size: 12px; color: #666; margin-bottom: 10px; font-family: 'Montserrat', sans-serif;}
+    h1.main-title {
+        font-size: clamp(35px, 6vw, 60px); font-weight: 700; margin: 0; line-height: 1;
+        color: var(--accent-blue);
+    }
+    .main-title span { color: var(--accent-coral); font-style: italic;}
+
+    .magazine-grid {
+        display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: start;
+    }
+    .article-main { padding-right: 20px; border-right: 1px solid var(--border-color); }
+    .article-title { font-size: 24px; border-bottom: 3px solid var(--accent-coral); display: inline-block; margin-top: 0; color: var(--accent-blue);}
+    .lead-text { font-size: 18px; text-align: justify; }
+
+    .sidebar-box {
+        background: var(--bg-paper); padding: 25px; border-radius: 12px;
+        border: 1px solid var(--border-color); box-shadow: 5px 5px 0px rgba(38, 70, 83, 0.1);
+        margin-bottom: 30px;
+    }
+    .sidebar-title { margin-top: 0; font-family: 'Montserrat', sans-serif; font-size: 16px; text-transform: uppercase; color: var(--accent-blue);}
+    .contact-list { list-style: none; padding: 0; margin: 0; font-size: 15px;}
+    .contact-list li { margin-bottom: 12px; display: flex; align-items: center; gap: 10px;}
+
+    .drive-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .drive-btn {
+        flex: 1; text-align: center; padding: 12px 10px;
+        border: 2px dashed var(--accent-blue); text-decoration: none;
+        color: var(--accent-blue); font-size: 14px; font-weight: 600;
+        border-radius: 8px; transition: 0.3s; min-width: 120px;
+    }
+    .drive-btn:hover { background: var(--accent-blue); color: var(--bg-cream); border-style: solid;}
+
+    .btn-cta-big {
+        width: 100%; padding: 18px; background: var(--accent-blue); color: white;
+        border: none; border-radius: 50px; font-size: 18px; font-weight: 600;
+        cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+        font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 1px;
+        box-shadow: 0 4px 15px rgba(38, 70, 83, 0.2);
+    }
+    .btn-cta-big:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(38, 70, 83, 0.3); background: var(--accent-coral);}
+
+    /* ============ ESTILOS DE LA APP (BUSCADOR) ============ */
+    /* Adaptados a la nueva paleta */
+    #app-container { display: none; /* Oculto al inicio */ }
+
+    #pantalla-inicio { min-height: 80vh; justify-content: center; }
+    #pantalla-inicio h2 { font-size: 35px; color: var(--accent-blue); text-align: center; }
+
+    .lic-btns, .tipo-btns { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+    /* Botones estilo "Pill" retro */
+    .lic-btn, .tipo-btn, #btn-finalizar, .btn-volver-lic {
+      background-color: var(--accent-blue); color: var(--bg-cream);
+      font-size: 18px; padding: 15px 35px; border: none; border-radius: 50px;
+      cursor: pointer; transition: 0.3s; min-width: 250px; text-align: center;
+      font-family: 'Montserrat', sans-serif; font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .lic-btn:hover, .tipo-btn:hover, #btn-finalizar:hover, .btn-volver-lic:hover {
+      background-color: var(--accent-coral); transform: translateY(-2px);
+    }
+    .btn-volver-lic { background-color: #d4c5b9; color: var(--text-dark); } /* Volver más discreto */
+
+    #pantalla-librillos, #pantalla-intermedia { padding: 20px; max-width: 1200px; margin: 0 auto; }
+    #lic-titulo, #tipo-lic-titulo { font-size: 32px; color: var(--accent-coral); font-weight: 700; text-align: center;}
+
+    #buscador-librillos {
+        padding: 12px; border: 2px solid var(--border-color); border-radius: 8px;
+        font-size: 16px; width: 100%; max-width: 500px; display: block; margin: 20px auto;
+        background: var(--bg-paper); font-family: 'IBM Plex Serif', serif;
+    }
+
+    /* Tarjetas de libros estilo ficha */
+    .libro-item {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bg-paper); padding: 15px; border-radius: 12px;
+      border: 1px solid var(--border-color); box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .libro-item p { font-weight: 600; color: var(--accent-blue); }
+
+    /* Carrito flotante */
+    .carrito-panel {
+      background: white; border: 2px solid var(--accent-coral); border-radius: 12px;
+      padding: 20px; box-shadow: 0 8px 20px rgba(231, 111, 81, 0.15);
+    }
+    .carrito-panel h2 { color: var(--accent-coral); }
+    .carrito-item { background: var(--bg-paper); border-bottom: 1px solid var(--border-color); }
+
+    .info-text { background-color: var(--accent-blue); color: var(--bg-cream); padding: 20px; border-radius: 12px; text-align: center; }
+
+    /* Media Queries para móviles */
+    @media (max-width: 768px) {
+        .magazine-grid { grid-template-columns: 1fr; gap: 30px; }
+        .article-main { border-right: none; padding-right: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 30px;}
+        .navbar { padding: 10px 15px; }
+        .brand { font-size: 18px; }
+        .main-title { font-size: 36px; }
+        .librillos-contenedor { flex-direction: column-reverse; }
     }
   </style>
 </head>
 
 <body>
-  <div id="pantalla-inicio">
-    <h1>Buscador de librillos</h1>
-    <div class="lic-btns">
-      <button class="lic-btn" onclick="mostrarPantallaIntermedia('Ciclo Inicial')">Ciclo Inicial</button>
-      <button class="lic-btn" onclick="mostrarPantallaIntermedia('Sociología')">Sociología</button>
-      <button class="lic-btn" onclick="mostrarPantallaIntermedia('Trabajo Social')">Trabajo Social</button>
-      <button class="lic-btn" onclick="mostrarPantallaIntermedia('Ciencia Política')">Ciencia Política</button>
-      <button class="lic-btn" onclick="mostrarPantallaIntermedia('Desarrollo')">Desarrollo</button>
-    </div>
-  </div>
 
-  <div id="pantalla-intermedia" style="display:none; min-height: 100vh; padding: 20px;">
-    <h2 id="tipo-lic-titulo" style="font-size: 40px; color: #1f5692; margin: 0; font-weight: 700; margin-bottom: 20px; text-align: center;"></h2>
-    <div class="tipo-btns">
-      <button class="tipo-btn" id="btnOblig">Obligatorias</button>
-      <button class="tipo-btn" id="btnOptat">Optativas</button>
-    </div>
-    <div class="info-text">Si no encontraste tu materia es probable que esté en formato ficha, solo presencial en fotocopiadora.</div>
-    <button class="btn-volver-lic" id="btnVolverIntermedia" style="margin-top: 40px;">Volver</button>
-  </div>
-
-  <div id="pantalla-librillos">
-    <h2 id="lic-titulo"></h2>
-    <input type="text" id="buscador-librillos" placeholder="Buscar librillo..."/>
-    <p id="cargando-texto">Cargando catálogo...</p>
-
-    <div class="librillos-contenedor">
-      <div class="lista-librillos" id="librillos-lista"></div>
-      <div class="carrito-panel">
-        <h2>Carrito</h2>
-        <div class="carrito-lista" id="carrito-lista"></div>
-        <div id="carrito-total"></div>
-        <div class="envio-checkbox">
-          <input type="checkbox" id="check-envio" onchange="actualizarCarrito()"/>
-          <label for="check-envio">Sí, envío al interior (+$100)</label>
-        </div>
-        <button id="btn-finalizar">FINALIZAR COMPRA</button>
+  <nav class="navbar">
+      <span class="brand">CECSO</span>
+      <div class="nav-links">
+          <button id="nav-inicio" class="active" onclick="navegar('inicio')">Inicio</button>
+          <button id="nav-librillos" onclick="navegar('app')">Librillos</button>
       </div>
-    </div>
+  </nav>
 
-    <div class="paginacion" id="paginacion">
-      <button onclick="cambiarPagina(-1)">◀</button>
-      <span id="contador-pagina">Página 1</span>
-      <button onclick="cambiarPagina(1)">▶</button>
+  <section id="seccion-portada">
+    <header class="masthead">
+      <p class="issue-date">Edición Estudiantil — Facultad de Ciencias Sociales</p>
+      <h1 class="main-title">SERVICIOS DEL <span>CECSO</span></h1>
+    </header>
+
+    <div class="magazine-grid">
+      <article class="article-main">
+        <h2 class="article-title">¿Qué son los servis?</h2>
+        <p class="lead-text">
+          Los "Servis" son el mayor proyecto político del <strong>Centro de Estudiantes de Ciencias Sociales</strong>.
+        </p>
+        <p style="text-align: justify;">
+          Nuestro objetivo fundamental es doble: brindar <strong>becas de trabajo</strong> para que estudiantes de FCS puedan sostener sus trayectorias, y ofrecer toda la <strong>bibliografía</strong> de los cursos y productos de cantina a precios realmente accesibles.
+        </p>
+        <p style="font-style: italic; color: var(--accent-blue);">
+            Reivindicamos su continuidad para construir una facultad para todes.
+        </p>
+
+        <div style="margin-top: 40px;">
+             <button onclick="navegar('app')" class="btn-cta-big">
+                Comprar Librillos Ahora
+            </button>
+            <p style="text-align: center; font-size: 13px; margin-top: 10px; color: #666;">Accedé al catálogo completo de Obligatorias y Optativas</p>
+        </div>
+      </article>
+
+      <aside>
+        <div class="sidebar-box">
+          <h3 class="sidebar-title">Contacto & Ubicación</h3>
+          <ul class="contact-list">
+            <li>📍 Constituyente 1502, Piso 1</li>
+            <li>📸 @serviciosdelcecso</li>
+            <li>📧 fotocecso@gmail.com</li>
+            <li>💬 WhatsApp: 092 498 150</li>
+            <li>📞 Tel: 2418 0938 int.220</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-box" style="background: var(--bg-cream);">
+          <h3 class="sidebar-title">Archivo Digital (Drive)</h3>
+          <p style="font-size: 14px; margin-bottom: 15px;">Accedé a los materiales digitalizados si no precisas el físico.</p>
+          <div class="drive-links">
+            <a href="TU_LINK_DRIVE_SEMESTRE" target="_blank" class="drive-btn">Primer Semestre 2025</a>
+            <a href="TU_LINK_DRIVE_ANTERIORES" target="_blank" class="drive-btn">Años Anteriores</a>
+          </div>
+        </div>
+      </aside>
     </div>
-    <button class="btn-volver-lic" id="btnVolver">Volver</button>
+  </section>
+
+
+  <div id="app-container">
+      <div id="pantalla-inicio" style="display: flex; flex-direction: column; align-items: center; padding-top: 30px;">
+        <h2>Selecciona tu Carrera</h2>
+        <div class="lic-btns">
+          <button class="lic-btn" onclick="mostrarPantallaIntermedia('Ciclo Inicial')">Ciclo Inicial</button>
+          <button class="lic-btn" onclick="mostrarPantallaIntermedia('Sociología')">Sociología</button>
+          <button class="lic-btn" onclick="mostrarPantallaIntermedia('Trabajo Social')">Trabajo Social</button>
+          <button class="lic-btn" onclick="mostrarPantallaIntermedia('Ciencia Política')">Ciencia Política</button>
+          <button class="lic-btn" onclick="mostrarPantallaIntermedia('Desarrollo')">Desarrollo</button>
+        </div>
+      </div>
+
+      <div id="pantalla-intermedia" style="display:none;">
+        <h2 id="tipo-lic-titulo"></h2>
+        <div class="tipo-btns" style="margin-top: 40px;">
+          <button class="tipo-btn" id="btnOblig">Obligatorias</button>
+          <button class="tipo-btn" id="btnOptat">Optativas</button>
+        </div>
+        <div class="info-text" style="margin-top: 50px;">Si no encontraste tu materia es probable que esté en formato ficha, solo presencial en fotocopiadora.</div>
+        <button class="btn-volver-lic" id="btnVolverIntermedia" style="margin-top: 40px;">Volver atrás</button>
+      </div>
+
+      <div id="pantalla-librillos" style="display: none;">
+        <h2 id="lic-titulo"></h2>
+        <input type="text" id="buscador-librillos" placeholder="🔍 Buscar por título..."/>
+        <p id="cargando-texto" style="text-align: center; font-weight: bold; color: var(--accent-blue);">Cargando catálogo...</p>
+
+        <div class="librillos-contenedor" style="display: flex; gap: 30px; margin-top: 30px;">
+          <div class="lista-librillos" id="librillos-lista" style="flex: 2; display: flex; flex-direction: column; gap: 15px;"></div>
+          
+          <div class="carrito-panel" style="flex: 1; height: fit-content;">
+            <h2>Tu Carrito</h2>
+            <div class="carrito-lista" id="carrito-lista" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;"></div>
+            <div id="carrito-total" style="font-size: 20px; font-weight: 700; text-align: right; margin-bottom: 15px; color: var(--accent-blue);"></div>
+            <div class="envio-checkbox" style="display: flex; align-items: center; gap: 10px; font-weight: 600;">
+              <input type="checkbox" id="check-envio" onchange="actualizarCarrito()" style="width: 20px; height: 20px;"/>
+              <label for="check-envio">Sí, envío al interior (+$100)</label>
+            </div>
+            <button id="btn-finalizar" style="width: 100%; margin-top: 20px;">FINALIZAR COMPRA</button>
+          </div>
+        </div>
+
+        <div class="paginacion" id="paginacion" style="display: none; justify-content: center; gap: 20px; margin-top: 30px; align-items: center;">
+          <button onclick="cambiarPagina(-1)" style="background:none; border:none; font-size: 30px; cursor:pointer;">◀</button>
+          <span id="contador-pagina" style="font-weight: bold;">Página 1</span>
+          <button onclick="cambiarPagina(1)" style="background:none; border:none; font-size: 30px; cursor:pointer;">▶</button>
+        </div>
+        <button class="btn-volver-lic" id="btnVolver" style="margin-top: 30px;">Volver a Carreras</button>
+      </div>
   </div>
 
   <script>
     // ================= CONFIGURACIÓN =================
-    // COPIA AQUÍ TU URL DE GOOGLE APPS SCRIPT (LA QUE TERMINA EN /exec)
+    // ¡¡¡ REEMPLAZA ESTO CON TU URL REAL DE APPS SCRIPT !!!
     const API_URL = "https://script.google.com/macros/s/AKfycbwcOcQt1d7H2V-wUK8PH29MzwQfmbxspzFdXwzQg8UmsaVMdkrH6j5ixIr-KRSBkuTJ/exec";
 
-    // ================= VARIABLES GLOBALES =================
+    // ================= LOGICA DE NAVEGACION (NUEVO) =================
+    const seccionPortada = document.getElementById('seccion-portada');
+    const appContainer = document.getElementById('app-container');
+    const navInicio = document.getElementById('nav-inicio');
+    const navLibrillos = document.getElementById('nav-librillos');
+
+    function navegar(destino) {
+        window.scrollTo(0,0);
+        if (destino === 'inicio') {
+            seccionPortada.style.display = 'block';
+            appContainer.style.display = 'none';
+            navInicio.classList.add('active');
+            navLibrillos.classList.remove('active');
+            volverInicioApp(); // Resetea la app por si acaso
+        } else {
+            seccionPortada.style.display = 'none';
+            appContainer.style.display = 'block';
+            navInicio.classList.remove('active');
+            navLibrillos.classList.add('active');
+            actualizarCarrito(); // Asegura que el carrito se vea bien al entrar
+        }
+    }
+
+    // ================= VARIABLES GLOBALES APP =================
     let carrito           = JSON.parse(localStorage.getItem("carrito")) || [];
     let libros            = [];
     let filtrados         = [];
@@ -116,8 +308,8 @@
     let licenciaturaActual= "";
     let tipoSeleccionado = "";
 
-    // ================= REFERENCIAS DOM =================
-    const pantallaInicio    = document.getElementById("pantalla-inicio");
+    // ================= REFERENCIAS DOM APP =================
+    const pantallaInicioApp = document.getElementById("pantalla-inicio");
     const pantallaIntermedia= document.getElementById("pantalla-intermedia");
     const pantallaLibrillos = document.getElementById("pantalla-librillos");
     const licTitulo         = document.getElementById("lic-titulo");
@@ -129,25 +321,33 @@
     const carritoLista      = document.getElementById("carrito-lista");
     const carritoTotal      = document.getElementById("carrito-total");
 
-    window.onload = actualizarCarrito;
+    window.onload = function() {
+        actualizarCarrito();
+        // Iniciar en la portada
+        navegar('inicio');
+    };
 
-    // ================= NAVEGACIÓN =================
+    // ================= NAVEGACIÓN INTERNA APP =================
     function mostrarPantallaIntermedia(lic) {
       licenciaturaActual = lic;
-      pantallaInicio.style.display = "none";
+      pantallaInicioApp.style.display = "none";
       pantallaIntermedia.style.display = "block";
       document.getElementById("tipo-lic-titulo").textContent = lic;
     }
 
     document.getElementById("btnVolverIntermedia").onclick = () => {
       pantallaIntermedia.style.display = "none";
-      pantallaInicio.style.display = "flex";
+      pantallaInicioApp.style.display = "flex";
     };
 
-    document.getElementById("btnVolver").onclick = () => {
-      pantallaLibrillos.style.display = "none";
-      pantallaInicio.style.display = "flex";
-    };
+    document.getElementById("btnVolver").onclick = volverInicioApp;
+
+    function volverInicioApp() {
+        pantallaLibrillos.style.display = "none";
+        pantallaIntermedia.style.display = "none";
+        pantallaInicioApp.style.display = "flex";
+        libros = []; filtrados = [];
+    }
 
     document.getElementById("btnOblig").onclick = () => iniciarCarga("Obligatorias");
     document.getElementById("btnOptat").onclick = () => iniciarCarga("Optativas");
@@ -168,6 +368,7 @@
       buscadorLibrillos.style.display = "none";
       paginacionDiv.style.display = "none";
 
+      // Uso de encodeURIComponent para manejar espacios y tildes en nombres de hojas
       const url = `${API_URL}?action=obtenerCatalogo&licenciatura=${encodeURIComponent(nombreHoja)}`;
 
       fetch(url)
@@ -177,13 +378,13 @@
           filtrados = data.slice();
           paginaActual = 1;
           cargandoTexto.style.display = "none";
-          buscadorLibrillos.style.display = "inline-block";
+          buscadorLibrillos.style.display = "block";
           mostrarCatalogo();
         })
         .catch(err => {
           console.error("Error API:", err);
-          alert("Error al cargar los datos. Verifica la conexión.");
-          cargandoTexto.textContent = "Error al cargar catálogo.";
+          librillosLista.innerHTML = '<p style="color:red; text-align:center;">Error al cargar los datos. Por favor, intenta nuevamente o verifica tu conexión.</p>';
+          cargandoTexto.style.display = "none";
         });
     }
 
@@ -202,17 +403,29 @@
       let inicio = (paginaActual - 1) * LIBROS_X_PAG;
       let subset = filtrados.slice(inicio, inicio + LIBROS_X_PAG);
 
+      if(subset.length === 0) {
+          librillosLista.innerHTML = '<p style="text-align:center; font-style:italic;">No se encontraron librillos con ese criterio.</p>';
+          return;
+      }
+
       subset.forEach(lib => {
         const enCarrito = carrito.some(x => x.id === lib.id);
-        let icon = enCarrito
-          ? "https://cdn-icons-png.flaticon.com/512/1828/1828843.png"
-          : "https://cdn-icons-png.flaticon.com/512/1828/1828817.png";
+        // Usamos íconos de check/más visualmente más claros
+        let iconStr = enCarrito ? "✅ Agregado" : "➕ Agregar";
+        let btnClass = enCarrito ? "btn-agregado" : "btn-agregar";
 
         const div = document.createElement("div");
         div.className = "libro-item";
+        // Usamos un botón HTML en vez de imagen para mejor control de estilo
         div.innerHTML = `
-            <p>${lib.titulo} - $${lib.precio}</p>
-            <img src="${icon}" class="icono-accion" onclick="toggleCarrito('${lib.id}', '${lib.titulo}', ${lib.precio})">
+            <div style="flex:1; padding-right: 10px;">
+                <p style="margin:0; font-size:16px;">${lib.titulo}</p>
+                <p style="margin:5px 0 0 0; color: var(--accent-coral); font-weight:bold;">$${lib.precio}</p>
+            </div>
+            <button onclick="toggleCarrito('${lib.id}', '${lib.titulo.replace(/'/g, "\\'")}', ${lib.precio})" 
+                    style="background: ${enCarrito ? 'var(--accent-blue)' : 'white'}; color: ${enCarrito ? 'white' : 'var(--accent-blue)'}; border: 2px solid var(--accent-blue); padding: 8px 12px; border-radius: 20px; cursor:pointer; font-weight:600; font-size:13px; transition:0.2s;">
+                ${iconStr}
+            </button>
         `;
         librillosLista.appendChild(div);
       });
@@ -223,6 +436,7 @@
       if (paginaActual + delta >= 1 && paginaActual + delta <= totalPag) {
         paginaActual += delta;
         mostrarCatalogo();
+        librillosLista.scrollIntoView({behavior: "smooth"});
       }
     }
 
@@ -242,6 +456,7 @@
         carrito.splice(idx, 1);
       }
       localStorage.setItem("carrito", JSON.stringify(carrito));
+      // Actualizamos solo el ítem específico si es posible, o todo el catálogo
       mostrarCatalogo();
       actualizarCarrito();
     };
@@ -250,21 +465,25 @@
       carritoLista.innerHTML = "";
       let subtotal = 0;
       if (carrito.length === 0) {
-        carritoLista.innerHTML = '<p style="font-weight:bold;">Carrito vacío</p>';
+        carritoLista.innerHTML = '<p style="font-style:italic; text-align:center;">Tu carrito está vacío.</p>';
       } else {
         carrito.forEach((item, i) => {
           subtotal += item.precio;
           const div = document.createElement("div");
           div.className = "carrito-item";
+          // Usamos un emoji de basura rojo para eliminar
           div.innerHTML = `
-            <p>${item.titulo} - $${item.precio}</p>
-            <img src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png" class="trash-icon" onclick="eliminarCarritoItem(${i})">
+            <p style="margin:0; font-size:14px;">${item.titulo}</p>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-weight:bold;">$${item.precio}</span>
+                <span onclick="eliminarCarritoItem(${i})" style="cursor:pointer; font-size:18px;">🗑️</span>
+            </div>
           `;
           carritoLista.appendChild(div);
         });
       }
       let total = subtotal + (document.getElementById("check-envio").checked ? 100 : 0);
-      carritoTotal.textContent = `Total = $${total}`;
+      carritoTotal.textContent = `Total: $${total}`;
     }
 
     window.eliminarCarritoItem = function(i) {
@@ -276,17 +495,18 @@
 
     // ================= FINALIZAR COMPRA (GOOGLE FORM PREFILL) =================
     document.getElementById("btn-finalizar").onclick = function() {
-      if(carrito.length === 0) return alert("El carrito está vacío");
+      if(carrito.length === 0) return alert("Tu carrito está vacío. Agrega algún librillo antes de finalizar.");
 
-      const titulos = carrito.map(item => item.titulo).join(", ");
+      const titulos = carrito.map(item => item.titulo).join(" || "); // Usamos un separador claro
       const total = carrito.reduce((sum, item) => sum + item.precio, 0) + (document.getElementById("check-envio").checked ? 100 : 0);
-      const envio = document.getElementById("check-envio").checked ? "Sí, quiero envío al interior" : "No quiero envío al interior";
+      const envio = document.getElementById("check-envio").checked ? "Sí, envío al interior" : "Retiro en facultad";
 
+      // IMPORTANTE: VERIFICA QUE ESTOS IDs (entry.XXXX) SEAN LOS CORRECTOS DE TU FORMULARIO ACTUAL
       const formularioURL = 
         "https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url"
-        + "&entry.539670442=" + encodeURIComponent(titulos)
-        + "&entry.482914514=" + encodeURIComponent(total)
-        + "&entry.1104329366=" + encodeURIComponent(envio);
+        + "&entry.539670442=" + encodeURIComponent(titulos) // Campo: ¿Qué librillos vas a llevar?
+        + "&entry.482914514=" + encodeURIComponent(total)   // Campo: Total a pagar
+        + "&entry.1104329366=" + encodeURIComponent(envio); // Campo: Método de entrega
 
       window.open(formularioURL, "_blank");
     };
