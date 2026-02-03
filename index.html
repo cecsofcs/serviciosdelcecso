@@ -2,325 +2,83 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8"/>
-  <title>Buscador de Librillos</title>
+  <title>Buscador de Librillos - CECSo</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 
-  <!-- Google Fonts: IBM Plex Serif -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #35b0b3;
-      font-family: 'IBM Plex Serif', serif;
+    /* Tu CSS se mantiene idéntico */
+    body { margin: 0; padding: 0; background-color: #35b0b3; font-family: 'IBM Plex Serif', serif; }
+    #pantalla-inicio { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; }
+    #pantalla-inicio h1 { font-size: 50px; color: #fffef5; margin-bottom: 30px; font-weight: 700; }
+    .lic-btns { display: flex; flex-direction: column; gap: 15px; }
+    .lic-btn { background-color: #fffef5; color: #1f5692; font-size: 20px; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; min-width: 250px; text-align: center; font-family: 'IBM Plex Serif', serif; }
+    .lic-btn:hover { background-color: #d6dde2; }
+    #pantalla-librillos { display: none; min-height: 100vh; padding: 20px; }
+    #lic-titulo { font-size: 40px; color: #ff4850; margin: 0; font-weight: 700; margin-bottom: 10px; }
+    #buscador-librillos { padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; display: none; }
+    #cargando-texto { margin: 20px auto 0; font-size: 20px; color: #1f5692; font-weight: bold; display: none; }
+    .librillos-contenedor { display: flex; margin-top: 15px; gap: 20px; }
+    .lista-librillos { flex: 2; display: flex; flex-direction: column; gap: 10px; }
+    .libro-item { display: flex; justify-content: space-between; align-items: center; background: #fffef5; padding: 10px; border-radius: 6px; }
+    .libro-item p { margin: 0; font-weight: bold; font-size: 16px; color: #1f5692; }
+    .icono-accion { width: 28px; height: 28px; cursor: pointer; }
+    .carrito-panel { flex: 1; background: #ffeff5; border: 2px solid #ff4850; border-radius: 8px; padding: 15px; height: fit-content; align-self: flex-start; }
+    .carrito-panel h2 { font-size: 20px; color: #ff4850; margin-bottom: 10px; font-weight: 700; }
+    .carrito-lista { display: flex; flex-direction: column; gap: 10px; }
+    .carrito-item { display: flex; justify-content: space-between; background: #ffeceb; padding: 8px; border-radius: 5px; align-items: center; }
+    .carrito-item p { margin: 0; font-size: 16px; font-weight: bold; }
+    #carrito-total { margin-top: 10px; font-size: 18px; font-weight: bold; text-align: right; }
+    .trash-icon { width: 24px; height: 24px; cursor: pointer; transition: 0.3s; }
+    .trash-icon:hover { transform: scale(1.1); }
+    .envio-checkbox { margin-top: 10px; display: flex; align-items: center; gap: 5px; }
+    .paginacion { display: none; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; }
+    .paginacion button { background: none; border: none; font-size: 22px; cursor: pointer; transition: 0.2s; }
+    .paginacion button:hover { transform: scale(1.2); }
+    .btn-volver-lic { margin-top: 20px; background-color: #f3adb0; color: white; border: none; border-radius: 8px; font-size: 16px; padding: 10px 20px; cursor: pointer; transition: 0.3s; font-family: 'IBM Plex Serif', serif; }
+    .btn-volver-lic:hover { background-color: #ff4850; }
+    #btn-finalizar { margin-top: 15px; background-color: #ff4850; color: white; border: none; border-radius: 8px; font-size: 16px; padding: 10px 20px; cursor: pointer; transition: 0.3s; font-family: 'IBM Plex Serif', serif; }
+    #btn-finalizar:hover { background-color: #d63442; }
+    .tipo-btns { display: flex; flex-direction: column; gap: 20px; align-items: center; justify-content: center; margin-top: 60px; }
+    .tipo-btn { background-color: #fffef5; color: #1f5692; font-size: 24px; padding: 20px 40px; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; min-width: 280px; text-align: center; font-family: 'IBM Plex Serif', serif; }
+    .tipo-btn:hover { background-color: #d6dde2; }
+    .info-text { background-color: #1f5692; color: #fffef5; font-family: 'IBM Plex Serif', serif; margin-top: 90px; padding: 15px; border-radius: 8px; text-align: center; font-size: 16px; }
+    @media (max-width: 600px) {
+      .librillos-contenedor { flex-direction: column-reverse; }
+      #pantalla-inicio h1 { font-size: 35px; text-align: center; }
     }
-    @media (min-width: 900px) {
-  body {
-    transform: scale(1.25);
-    transform-origin: top center;
-  }
-}
-    /* Pantalla de inicio centrada */
-    #pantalla-inicio {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-    }
-    #pantalla-inicio h1 {
-      font-size: 50px;
-      color: #fffef5;
-      margin-bottom: 30px;
-      font-weight: 700;
-      font-family: 'IBM Plex Serif', serif;
-    }
-    .lic-btns {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    .lic-btn {
-      background-color: #fffef5;
-      color: #1f5692;
-      font-size: 20px;
-      padding: 15px 30px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-      min-width: 250px;
-      text-align: center;
-      font-family: 'IBM Plex Serif', serif;
-    }
-    .lic-btn:hover {
-      background-color: #d6dde2;
-    }
-
-    /* Pantalla librillos */
-    #pantalla-librillos {
-      display: none;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    #lic-titulo {
-      font-size: 40px;
-      color: #ff4850; 
-      margin: 0;
-      font-weight: 700;
-      margin-bottom: 10px;
-      font-family: 'IBM Plex Serif', serif;
-    }
-
-    #buscador-librillos {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      display: none;
-    }
-
-    #cargando-texto {
-      margin: 20px auto 0;
-      font-size: 20px;
-      color: #1f5692;
-      font-weight: bold;
-      display: none;
-    }
-
-    .librillos-contenedor {
-      display: flex;
-      margin-top: 15px;
-      gap: 20px;
-    }
-    .lista-librillos {
-      flex: 2;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .libro-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #fffef5;
-      padding: 10px;
-      border-radius: 6px;
-    }
-    .libro-item p {
-      margin: 0;
-      font-weight: bold;
-      font-size: 16px;
-      color: #1f5692;
-    }
-    .icono-accion {
-      width: 28px;
-      height: 28px;
-      cursor: pointer;
-    }
-
-    /* Carrito */
-    .carrito-panel {
-      flex: 1;
-      background: #ffeff5;
-      border: 2px solid #ff4850;
-      border-radius: 8px;
-      padding: 15px;
-      height: fit-content;
-      align-self: flex-start;
-    }
-    .carrito-panel h2 {
-      font-size: 20px;
-      color: #ff4850;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
-    .carrito-lista {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .carrito-item {
-      display: flex;
-      justify-content: space-between;
-      background: #ffeceb;
-      padding: 8px;
-      border-radius: 5px;
-      align-items: center;
-    }
-    .carrito-item p {
-      margin: 0;
-      font-size: 16px;
-      font-weight: bold;
-    }
-    #carrito-total {
-      margin-top: 10px;
-      font-size: 18px;
-      font-weight: bold;
-      text-align: right;
-    }
-
-    .trash-icon {
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .trash-icon:hover {
-      transform: scale(1.1);
-    }
-
-    /* Check Envío */
-    .envio-checkbox {
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    /* Paginación */
-    .paginacion {
-      display: none;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin-top: 15px;
-    }
-    .paginacion button {
-      background: none;
-      border: none;
-      font-size: 22px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .paginacion button:hover {
-      transform: scale(1.2);
-    }
-
-    /* Botón Volver */
-    .btn-volver-lic {
-      margin-top: 20px;
-      background-color: #f3adb0;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      padding: 10px 20px;
-      cursor: pointer;
-      transition: 0.3s;
-      font-family: 'IBM Plex Serif', serif;
-    }
-    .btn-volver-lic:hover {
-      background-color: #ff4850;
-    }
-
-    /* Botón Finalizar Compra */
-    #btn-finalizar {
-      margin-top: 15px;
-      background-color: #ff4850;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      padding: 10px 20px;
-      cursor: pointer;
-      transition: 0.3s;
-      font-family: 'IBM Plex Serif', serif;
-    }
-    #btn-finalizar:hover {
-      background-color: #d63442;
-    }
-
-    /* ================== PANTALLA INTERMEDIA ================== */
-.tipo-btns {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  justify-content: center;
-  margin-top: 60px;
-}
-
-.tipo-btn {
-  background-color: #fffef5;
-  color: #1f5692;
-  font-size: 24px; 
-  padding: 20px 40px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-  min-width: 280px;
-  text-align: center;
-  font-family: 'IBM Plex Serif', serif;
-}
-.tipo-btn:hover {
-  background-color: #d6dde2;
-}
-
-.info-text {
-  background-color: #1f5692;
-  color: #fffef5;
-  font-family: 'IBM Plex Serif', serif;
-  margin-top: 90px;
-  padding: 15px;
-  border-radius: 8px;
-  text-align: center;
-  font-size: 16px; 
-}
-
   </style>
 </head>
 
 <body>
-  <!-- Pantalla de inicio -->
   <div id="pantalla-inicio">
     <h1>Buscador de librillos</h1>
     <div class="lic-btns">
-      <button class="lic-btn" id="btnCI">Ciclo Inicial</button>
-      <button class="lic-btn" id="btnSOC">Sociología</button>
-      <button class="lic-btn" id="btnTS">Trabajo Social</button>
-      <button class="lic-btn" id="btnCP">Ciencia Política</button>
-      <button class="lic-btn" id="btnLED">Desarrollo</button>
+      <button class="lic-btn" onclick="mostrarPantallaIntermedia('Ciclo Inicial')">Ciclo Inicial</button>
+      <button class="lic-btn" onclick="mostrarPantallaIntermedia('Sociología')">Sociología</button>
+      <button class="lic-btn" onclick="mostrarPantallaIntermedia('Trabajo Social')">Trabajo Social</button>
+      <button class="lic-btn" onclick="mostrarPantallaIntermedia('Ciencia Política')">Ciencia Política</button>
+      <button class="lic-btn" onclick="mostrarPantallaIntermedia('Desarrollo')">Desarrollo</button>
     </div>
   </div>
 
-  <!-- PANTALLA INTERMEDIA -->
-<div id="pantalla-intermedia" style="display:none; min-height: 100vh; padding: 20px;">
-  <h2 id="tipo-lic-titulo" style="
-    font-size: 40px;
-    color: #1f5692;
-    margin: 0;
-    font-weight: 700;
-    margin-bottom: 20px;
-    text-align: center;
-    font-family: 'IBM Plex Serif', serif;
-  "></h2>
-
-  <div class="tipo-btns">
-    <button class="tipo-btn" id="btnOblig">Obligatorias</button>
-    <button class="tipo-btn" id="btnOptat">Optativas</button>
+  <div id="pantalla-intermedia" style="display:none; min-height: 100vh; padding: 20px;">
+    <h2 id="tipo-lic-titulo" style="font-size: 40px; color: #1f5692; margin: 0; font-weight: 700; margin-bottom: 20px; text-align: center;"></h2>
+    <div class="tipo-btns">
+      <button class="tipo-btn" id="btnOblig">Obligatorias</button>
+      <button class="tipo-btn" id="btnOptat">Optativas</button>
+    </div>
+    <div class="info-text">Si no encontraste tu materia es probable que esté en formato ficha, solo presencial en fotocopiadora.</div>
+    <button class="btn-volver-lic" id="btnVolverIntermedia" style="margin-top: 40px;">Volver</button>
   </div>
 
-  <div class="info-text">
-  Si no encontraste tu materia es probable que esté en formato ficha, 
-  solo presencial en fotocó
-</div>
-
-
-  <button class="btn-volver-lic" id="btnVolverIntermedia" style="margin-top: 40px;">Volver</button>
-</div>
-
-
-  <!-- Pantalla librillos -->
   <div id="pantalla-librillos">
     <h2 id="lic-titulo"></h2>
     <input type="text" id="buscador-librillos" placeholder="Buscar librillo..."/>
-    <p id="cargando-texto">Cargando librillos disponibles...</p>
+    <p id="cargando-texto">Cargando catálogo...</p>
 
     <div class="librillos-contenedor">
       <div class="lista-librillos" id="librillos-lista"></div>
@@ -328,110 +86,112 @@
         <h2>Carrito</h2>
         <div class="carrito-lista" id="carrito-lista"></div>
         <div id="carrito-total"></div>
-        <!-- Check para Envío -->
         <div class="envio-checkbox">
           <input type="checkbox" id="check-envio" onchange="actualizarCarrito()"/>
-          <label for="check-envio">Sí, quiero envío al interior ($100)</label>
+          <label for="check-envio">Sí, envío al interior (+$100)</label>
         </div>
-        <!-- Botón Finalizar Compra -->
         <button id="btn-finalizar">FINALIZAR COMPRA</button>
       </div>
     </div>
 
     <div class="paginacion" id="paginacion">
-      <button id="btnPagMenos">◀</button>
+      <button onclick="cambiarPagina(-1)">◀</button>
       <span id="contador-pagina">Página 1</span>
-      <button id="btnPagMas">▶</button>
+      <button onclick="cambiarPagina(1)">▶</button>
     </div>
-
-    
-
     <button class="btn-volver-lic" id="btnVolver">Volver</button>
   </div>
 
   <script>
-    // =================== Variables globales ===================
+    // ================= CONFIGURACIÓN =================
+    // COPIA AQUÍ TU URL DE GOOGLE APPS SCRIPT (LA QUE TERMINA EN /exec)
+    const API_URL = "https://script.google.com/macros/s/AKfycbwcOcQt1d7H2V-wUK8PH29MzwQfmbxspzFdXwzQg8UmsaVMdkrH6j5ixIr-KRSBkuTJ/exec";
+
+    // ================= VARIABLES GLOBALES =================
     let carrito           = JSON.parse(localStorage.getItem("carrito")) || [];
     let libros            = [];
     let filtrados         = [];
     let paginaActual      = 1;
     const LIBROS_X_PAG    = 8; 
     let licenciaturaActual= "";
+    let tipoSeleccionado = "";
 
-    // =================== Referencias DOM ===================
+    // ================= REFERENCIAS DOM =================
     const pantallaInicio    = document.getElementById("pantalla-inicio");
+    const pantallaIntermedia= document.getElementById("pantalla-intermedia");
     const pantallaLibrillos = document.getElementById("pantalla-librillos");
-    const btnCI             = document.getElementById("btnCI");
-    const btnSOC            = document.getElementById("btnSOC");
-    const btnTS             = document.getElementById("btnTS");
-    const btnCP             = document.getElementById("btnCP");
-    const btnLED            = document.getElementById("btnLED");
     const licTitulo         = document.getElementById("lic-titulo");
     const buscadorLibrillos = document.getElementById("buscador-librillos");
     const cargandoTexto     = document.getElementById("cargando-texto");
     const librillosLista    = document.getElementById("librillos-lista");
     const paginacionDiv     = document.getElementById("paginacion");
     const contadorPagina    = document.getElementById("contador-pagina");
-    const btnPagMenos       = document.getElementById("btnPagMenos");
-    const btnPagMas         = document.getElementById("btnPagMas");
-    const btnVolver         = document.getElementById("btnVolver");
     const carritoLista      = document.getElementById("carrito-lista");
     const carritoTotal      = document.getElementById("carrito-total");
-    const btnFinalizar      = document.getElementById("btn-finalizar");
-    const API = "https://script.google.com/macros/s/AKfycbxyKcryiKsJ6PkQuY0VartAiNZ6otHuyNBiPUFLrH2tFZ8J9cUTCBbYKMneY1jQj601/exec";
-    // =================== EVENTOS ===================
-    window.onload = function() {
-      pantallaInicio.style.display = "flex";
-      pantallaLibrillos.style.display = "none";
-      actualizarCarrito();
-    };
 
-   btnCI.addEventListener("click",   ()=> mostrarPantallaIntermedia("Ciclo Inicial"));
-  btnSOC.addEventListener("click",  ()=> mostrarPantallaIntermedia("Sociología"));
-  btnTS.addEventListener("click",   ()=> mostrarPantallaIntermedia("Trabajo Social"));
-btnCP.addEventListener("click",   ()=> mostrarPantallaIntermedia("Ciencia Política"));
-btnLED.addEventListener("click",  ()=> mostrarPantallaIntermedia("Desarrollo"));
-  
-    btnVolver.addEventListener("click",       volverInicio);
-    btnPagMenos.addEventListener("click",     ()=> cambiarPagina(-1));
-    btnPagMas.addEventListener("click",       ()=> cambiarPagina(1));
-    buscadorLibrillos.addEventListener("input", buscarLibrillos);
-    btnFinalizar.addEventListener("click",    finalizarCompra);
+    window.onload = actualizarCarrito;
 
-    // =================== FUNCIONES ===================
-    function seleccionarLicenciatura(lic) {
+    // ================= NAVEGACIÓN =================
+    function mostrarPantallaIntermedia(lic) {
       licenciaturaActual = lic;
       pantallaInicio.style.display = "none";
+      pantallaIntermedia.style.display = "block";
+      document.getElementById("tipo-lic-titulo").textContent = lic;
+    }
+
+    document.getElementById("btnVolverIntermedia").onclick = () => {
+      pantallaIntermedia.style.display = "none";
+      pantallaInicio.style.display = "flex";
+    };
+
+    document.getElementById("btnVolver").onclick = () => {
+      pantallaLibrillos.style.display = "none";
+      pantallaInicio.style.display = "flex";
+    };
+
+    document.getElementById("btnOblig").onclick = () => iniciarCarga("Obligatorias");
+    document.getElementById("btnOptat").onclick = () => iniciarCarga("Optativas");
+
+    function iniciarCarga(tipo) {
+      tipoSeleccionado = tipo;
+      pantallaIntermedia.style.display = "none";
       pantallaLibrillos.style.display = "block";
-      licTitulo.textContent = lic;
+      let hoja = `${licenciaturaActual} ${tipoSeleccionado}`;
+      licTitulo.textContent = hoja;
+      cargarDatosDesdeAPI(hoja);
+    }
+
+    // ================= COMUNICACIÓN CON API (FETCH) =================
+    function cargarDatosDesdeAPI(nombreHoja) {
       cargandoTexto.style.display = "block";
       librillosLista.innerHTML = "";
-      paginacionDiv.style.display = "none";
       buscadorLibrillos.style.display = "none";
+      paginacionDiv.style.display = "none";
 
-     cargarLibrillosDesdeAPI(lic);
+      const url = `${API_URL}?action=obtenerCatalogo&licenciatura=${encodeURIComponent(nombreHoja)}`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          libros = data;
+          filtrados = data.slice();
+          paginaActual = 1;
+          cargandoTexto.style.display = "none";
+          buscadorLibrillos.style.display = "inline-block";
+          mostrarCatalogo();
+        })
+        .catch(err => {
+          console.error("Error API:", err);
+          alert("Error al cargar los datos. Verifica la conexión.");
+          cargandoTexto.textContent = "Error al cargar catálogo.";
+        });
     }
 
-    function recibirLibrillos(data) {
-      console.log("recibirLibrillos => data:", data);
-      cargandoTexto.style.display = "none";
-      buscadorLibrillos.style.display = "inline-block";
-
-      libros = data;
-      filtrados = data.slice();
-      paginaActual = 1;
-      mostrarCatalogo();
-    }
-
-    function errorAlCargar(err) {
-      console.error("errorAlCargar =>", err);
-      alert("Error al cargar la licenciatura: " + licenciaturaActual);
-      volverInicio();
-    }
-
+    // ================= LÓGICA DE CATÁLOGO =================
     function mostrarCatalogo() {
       librillosLista.innerHTML = "";
       let totalPag = Math.ceil(filtrados.length / LIBROS_X_PAG);
+      
       if (totalPag > 1) {
         paginacionDiv.style.display = "flex";
         contadorPagina.textContent = `Página ${paginaActual} de ${totalPag}`;
@@ -440,8 +200,7 @@ btnLED.addEventListener("click",  ()=> mostrarPantallaIntermedia("Desarrollo"));
       }
 
       let inicio = (paginaActual - 1) * LIBROS_X_PAG;
-      let fin    = inicio + LIBROS_X_PAG;
-      let subset = filtrados.slice(inicio, fin);
+      let subset = filtrados.slice(inicio, inicio + LIBROS_X_PAG);
 
       subset.forEach(lib => {
         const enCarrito = carrito.some(x => x.id === lib.id);
@@ -449,34 +208,15 @@ btnLED.addEventListener("click",  ()=> mostrarPantallaIntermedia("Desarrollo"));
           ? "https://cdn-icons-png.flaticon.com/512/1828/1828843.png"
           : "https://cdn-icons-png.flaticon.com/512/1828/1828817.png";
 
-        // Escapar cadenas con JSON.stringify() si te preocupa acentos o comillas
-        // onclick="toggleCarrito('${lib.id}', ${JSON.stringify(lib.titulo)}, ${lib.precio})"
-        librillosLista.innerHTML += `
-          <div class="libro-item">
+        const div = document.createElement("div");
+        div.className = "libro-item";
+        div.innerHTML = `
             <p>${lib.titulo} - $${lib.precio}</p>
-            <img src="${icon}"
-                 class="icono-accion"
-                 onclick="toggleCarrito('${lib.id}', '${lib.titulo}', ${lib.precio})"
-            />
-          </div>`;
+            <img src="${icon}" class="icono-accion" onclick="toggleCarrito('${lib.id}', '${lib.titulo}', ${lib.precio})">
+        `;
+        librillosLista.appendChild(div);
       });
     }
-    
-    async function cargarLibrillosDesdeAPI(hojaBuscada) {
-  try {
-    const url = API 
-      + "?action=obtenerCatalogo"
-      + "&licenciatura=" + encodeURIComponent(hojaBuscada);
-
-    const resp = await fetch(url);
-    if (!resp.ok) throw new Error("HTTP " + resp.status);
-    const data = await resp.json();
-
-    recibirLibrillos(data);
-  } catch (err) {
-    errorAlCargar(err);
-  }
-}
 
     function cambiarPagina(delta) {
       let totalPag = Math.ceil(filtrados.length / LIBROS_X_PAG);
@@ -486,14 +226,14 @@ btnLED.addEventListener("click",  ()=> mostrarPantallaIntermedia("Desarrollo"));
       }
     }
 
-    function buscarLibrillos() {
+    buscadorLibrillos.oninput = () => {
       let q = buscadorLibrillos.value.toLowerCase();
       filtrados = libros.filter(lib => lib.titulo.toLowerCase().includes(q));
       paginaActual = 1;
       mostrarCatalogo();
-    }
+    };
 
-    // Toggle Carrito
+    // ================= CARRITO =================
     window.toggleCarrito = function(id, titulo, precio) {
       let idx = carrito.findIndex(x => x.id === id);
       if (idx === -1) {
@@ -508,25 +248,22 @@ btnLED.addEventListener("click",  ()=> mostrarPantallaIntermedia("Desarrollo"));
 
     function actualizarCarrito() {
       carritoLista.innerHTML = "";
-      let total = 0;
+      let subtotal = 0;
       if (carrito.length === 0) {
-        carritoLista.innerHTML = `<p style="font-weight:bold;">No hay ningún librillo seleccionado</p>`;
+        carritoLista.innerHTML = '<p style="font-weight:bold;">Carrito vacío</p>';
       } else {
         carrito.forEach((item, i) => {
-          total += item.precio;
-          carritoLista.innerHTML += `
-            <div class="carrito-item">
-              <p>${item.titulo} - $${item.precio}</p>
-              <img src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png"
-                   class="trash-icon"
-                   onclick="eliminarCarritoItem(${i})"
-              />
-            </div>`;
+          subtotal += item.precio;
+          const div = document.createElement("div");
+          div.className = "carrito-item";
+          div.innerHTML = `
+            <p>${item.titulo} - $${item.precio}</p>
+            <img src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png" class="trash-icon" onclick="eliminarCarritoItem(${i})">
+          `;
+          carritoLista.appendChild(div);
         });
-     if (document.getElementById("check-envio").checked) {
-        total += 100;
       }
-      }
+      let total = subtotal + (document.getElementById("check-envio").checked ? 100 : 0);
       carritoTotal.textContent = `Total = $${total}`;
     }
 
@@ -537,99 +274,22 @@ btnLED.addEventListener("click",  ()=> mostrarPantallaIntermedia("Desarrollo"));
       mostrarCatalogo();
     };
 
-    // Volver
-    function volverInicio() {
-      pantallaLibrillos.style.display = "none";
-      pantallaInicio.style.display = "flex";
-    }
+    // ================= FINALIZAR COMPRA (GOOGLE FORM PREFILL) =================
+    document.getElementById("btn-finalizar").onclick = function() {
+      if(carrito.length === 0) return alert("El carrito está vacío");
 
-    function finalizarCompra() {
-  const titulos = carrito.map(item => item.titulo).join(", ");
-  const total = carrito.reduce((sum, item) => sum + item.precio, 0) + (document.getElementById("check-envio").checked ? 100 : 0);
-  const envio = document.getElementById("check-envio").checked ? "Sí, quiero envío al interior" : "No quiero envío al interior";
+      const titulos = carrito.map(item => item.titulo).join(", ");
+      const total = carrito.reduce((sum, item) => sum + item.precio, 0) + (document.getElementById("check-envio").checked ? 100 : 0);
+      const envio = document.getElementById("check-envio").checked ? "Sí, quiero envío al interior" : "No quiero envío al interior";
 
-  const formularioURL = 
-    "https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url"
-    + "&entry.539670442=" + encodeURIComponent(titulos)
-    + "&entry.482914514=" + encodeURIComponent(total)
-    + "&entry.1104329366=" + encodeURIComponent(envio);
+      const formularioURL = 
+        "https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url"
+        + "&entry.539670442=" + encodeURIComponent(titulos)
+        + "&entry.482914514=" + encodeURIComponent(total)
+        + "&entry.1104329366=" + encodeURIComponent(envio);
 
-  window.open(formularioURL, "_blank");
-}
-//-----------------------------------------------------
-// NUEVAS REFERENCIAS PANTALLA INTERMEDIA
-//-----------------------------------------------------
-const pantallaIntermedia   = document.getElementById("pantalla-intermedia");
-const tipoLicTitulo        = document.getElementById("tipo-lic-titulo");
-const btnOblig             = document.getElementById("btnOblig");
-const btnOptat             = document.getElementById("btnOptat");
-const btnVolverIntermedia  = document.getElementById("btnVolverIntermedia");
-
-let tipoSeleccionado = "";
-
-
-function mostrarPantallaIntermedia(lic) {
-  // Guardar la licenciatura seleccionada en tu variable actual
-  licenciaturaActual = lic;
-  // Ocultar la pantalla de inicio
-  pantallaInicio.style.display = "none";
-  // Mostrar la pantalla intermedia
-  pantallaIntermedia.style.display = "block";
-  // Ajustar el título
-  tipoLicTitulo.textContent = lic;
-}
-
-//-----------------------------------------------------
-// EVENT LISTENERS PARA BOTONES EN PANTALLA INTERMEDIA
-//-----------------------------------------------------
-btnOblig.addEventListener("click", function() {
-  tipoSeleccionado = "Obligatorias";
-  // Ocultar la pantalla intermedia
-  pantallaIntermedia.style.display = "none";
-  // Mostrar la pantalla de librillos
-  pantallaLibrillos.style.display = "block";
-
-  // Combinar la licenciatura con el tipo, ejemplo: "Ciencia Política Obligatorias"
-  let hojaBuscada = licenciaturaActual + " " + tipoSeleccionado;
-  licTitulo.textContent = hojaBuscada;
-
-  // Aquí llamas a tu Google Apps Script con la hojaBuscada
-  cargandoTexto.style.display = "block";
-  librillosLista.innerHTML = "";
-  paginacionDiv.style.display = "none";
-  buscadorLibrillos.style.display = "none";
-
- cargarLibrillosDesdeAPI(hojaBuscada);
-});
-
-btnOptat.addEventListener("click", function() {
-  tipoSeleccionado = "Optativas";
-  // Ocultar la pantalla intermedia
-  pantallaIntermedia.style.display = "none";
-  // Mostrar la pantalla de librillos
-  pantallaLibrillos.style.display = "block";
-
-  let hojaBuscada = licenciaturaActual + " " + tipoSeleccionado;
-  licTitulo.textContent = hojaBuscada;
-
-  cargandoTexto.style.display = "block";
-  librillosLista.innerHTML = "";
-  paginacionDiv.style.display = "none";
-  buscadorLibrillos.style.display = "none";
-
- cargarLibrillosDesdeAPI(hojaBuscada);
-});
-
-//-----------------------------------------------------
-// BOTÓN VOLVER DE LA PANTALLA INTERMEDIA
-//-----------------------------------------------------
-btnVolverIntermedia.addEventListener("click", function() {
-  pantallaIntermedia.style.display = "none";
-  pantallaInicio.style.display = "flex";
-});
-
-
+      window.open(formularioURL, "_blank");
+    };
   </script>
 </body>
 </html>
-
