@@ -105,6 +105,14 @@
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
     .total-amount { font-family: 'Archivo Black'; font-size: 2.2rem; color: var(--petroleo); text-align: right; margin-bottom: 20px; }
 
+    /* CHECKBOX ENVIO */
+    .envio-wrapper {
+        background: #eee; padding: 15px; margin-bottom: 20px; border-left: 5px solid var(--terracota);
+        display: flex; align-items: center; gap: 10px; cursor: pointer;
+    }
+    .envio-wrapper input { width: 20px; height: 20px; cursor: pointer; accent-color: var(--terracota); }
+    .envio-label { font-weight: 700; font-size: 0.9rem; cursor: pointer; }
+
     /* MOBILE TOGGLE BUTTON */
     #cart-toggle-btn { display: none; position: fixed; bottom: 25px; right: 20px; background: var(--terracota); border: 3px solid #000; padding: 15px 25px; color: white; font-weight: 900; box-shadow: 5px 5px 0px #000; z-index: 3000; cursor: pointer; border-radius: 50px; text-transform: uppercase; font-size: 0.9rem; }
 
@@ -121,7 +129,7 @@
         .cart-box {
             position: fixed; bottom: 0; left: 0; width: 100%;
             z-index: 2500; border-top: var(--borde); 
-            transform: translateY(110%); /* 110% para que se oculte del todo */
+            transform: translateY(110%);
             transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
             box-shadow: 0px -10px 30px rgba(0,0,0,0.2);
             background: white; padding: 30px 20px; max-height: 85vh; overflow-y: auto;
@@ -153,13 +161,15 @@
     <div class="neo-bubble">
         <h2>¿Qué son los Servis?</h2>
         <p>Los Servis son el <strong>mayor proyecto político del Centro de Estudiantes de Ciencias Sociales.</strong><br><br>
-        Su objetivo es brindar becas de trabajo para que estudiantes de FCS puedan continuar con sus trayectorias estudiantiles como también ofrecer la bibliografía de los cursos y productos de cantina a precios accesibles.</p>
+        Su objetivo es brindar becas de trabajo para que estudiantes de FCS puedan continuar con sus trayectorias estudiantiles como también ofrecer la bibliografía de los cursos y productos de cantina a precios accesibles.<br><br>
+        <strong>La sostenibilidad de este proyecto es uno de los cometidos fundamentales del CECSO.</strong></p>
     </div>
 
     <div class="neo-bubble" style="border-color: var(--terracota);">
         <h2>Materiales y Carpetas</h2>
-        <p>Para encargar tus librillos, hacé click en <strong>"Conseguí tus librillos"</strong>.<br><br>
-        Consultanos por ig: <strong>@serviciosdelcecso</strong>.</p>
+        <p>Acá podés ver en cada carpeta las materias correspondientes a su semestre y los materiales disponibles.<br><br>
+        Para encargar tus librillos, hacé click en <strong>"Conseguí tus librillos"</strong>. ¡Los librillos del segundo semestre aun no están terminados!<br><br>
+        Si hay materias que no encontrás, puede que por la extensión o el idioma de sus textos no tengan librillos. Cualquier cosa, podés consultarnos por ig: <strong>@serviciosdelcecso</strong>, escribir a <strong>fotocecso@gmail.com</strong> o pasarte por fotocopiadora. ¡Te esperamos!</p>
         
         <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
             <button class="btn-choice" style="max-width: 330px; font-size: 0.85rem; background: var(--rosa-suave); flex: 1; min-width: 250px;" onclick="window.open('https://drive.google.com/drive/folders/1FHf3V4HAhwpLYOpaevKk3GsVMGEFqgXs', '_blank')">
@@ -206,21 +216,34 @@
               <div class="cart-box" id="carrito-panel">
                   <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--negro); padding-bottom: 10px; margin-bottom: 20px;">
                       <h3 class="font-logo" style="margin:0; font-size: 1.1rem;">Tu Pedido</h3>
-                      <button onclick="toggleCartView()" style="background: var(--rosa-suave); border: 2px solid #000; font-weight: 900; padding: 5px 10px; cursor: pointer;">CERRAR ✕</button>
+                      <button onclick="toggleCartView()" style="background: var(--rosa-suave); border: 2px solid #000; font-weight: 900; padding: 5px 10px; cursor: pointer;" class="mobile-only-btn">CERRAR ✕</button>
                   </div>
+                  
                   <div id="cart-items-container"></div>
+                  
                   <div class="total-amount" id="display-total">$0</div>
-                  <div style="background: #eee; padding: 15px; font-size: 0.8rem; font-weight: 700; margin-bottom: 20px; border-left: 5px solid var(--terracota);">
-                      📍 Si sos del interior, hacé tu pedido y coordinamos el envío por mail o Instagram.
+                  
+                  <div class="envio-wrapper" onclick="toggleEnvio()">
+                      <input type="checkbox" id="check-envio">
+                      <label for="check-envio" class="envio-label">Envío al interior (+$200)</label>
                   </div>
+
                   <button class="btn-cta-top" style="width:100%; margin:0; padding:20px;" onclick="finalizar()">FINALIZAR COMPRA</button>
               </div>
           </div>
       </div>
   </div>
 
+  <style>
+      .mobile-only-btn { display: none; }
+      @media (max-width: 900px) {
+          .mobile-only-btn { display: block; }
+      }
+  </style>
+
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbwGPzuKCAN2H-h1FDr-26__T3HzhfPOHjDBoXzv9fXBXTHKc3Ch45qn8ZAEGQSBR9aX/exec"; 
+    const COSTO_ENVIO = 200; // PRECIO DEL ENVÍO (EDITAR AQUÍ SI CAMBIA)
 
     function sanearTexto(texto) {
         if (!texto) return "";
@@ -239,10 +262,26 @@
     let carrito = JSON.parse(localStorage.getItem("cecsocart")) || [];
     let db = [], filtered = [];
     let licActual = "", tipoActual = "";
+    let conEnvio = false;
 
     window.toggleCartView = function() {
         const cart = document.getElementById('carrito-panel');
         cart.classList.toggle('open');
+    };
+
+    window.toggleEnvio = function() {
+        const check = document.getElementById('check-envio');
+        // Si el click no fue directo al input (fue al div), invertimos
+        if(event.target.tagName !== 'INPUT') {
+            check.checked = !check.checked;
+        }
+        conEnvio = check.checked;
+        renderCarrito();
+    };
+
+    const normalizar = (str) => {
+        if (!str) return "";
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
     };
 
     window.navegar = function(seccion) {
@@ -250,7 +289,6 @@
         document.getElementById('seccion-inicio').style.display = (seccion === 'inicio') ? 'block' : 'none';
         document.getElementById('app-container').style.display = (seccion === 'app') ? 'block' : 'none';
         
-        // El botón de carrito solo vive en el catálogo
         document.getElementById('cart-toggle-btn').style.display = 'none';
         
         if(seccion === 'app') navegarApp('step-carrera');
@@ -262,7 +300,6 @@
             document.getElementById(s).style.display = (s === step) ? (s === 'step-catalogo' ? 'block' : 'flex') : 'none';
         });
 
-        // Lógica de visibilidad del botón flotante
         const btn = document.getElementById('cart-toggle-btn');
         if (step === 'step-catalogo' && window.innerWidth < 900) {
             btn.style.display = 'block';
@@ -270,11 +307,6 @@
             btn.style.display = 'none';
             document.getElementById('carrito-panel').classList.remove('open');
         }
-    };
-
-    const normalizar = (str) => {
-        if (!str) return "";
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
     };
 
     window.seleccionarCarrera = function(c) {
@@ -337,6 +369,7 @@
         const container = document.getElementById('cart-items-container');
         container.innerHTML = "";
         let subtotal = 0;
+        
         carrito.forEach((c, i) => {
             subtotal += c.precio;
             container.innerHTML += `<div class="cart-item">
@@ -347,7 +380,13 @@
                 </div>
             </div>`;
         });
+
+        // Sumar envío si está marcado
+        if(conEnvio) subtotal += COSTO_ENVIO;
+
         document.getElementById('display-total').innerText = `$${subtotal}`;
+        
+        // Actualizar botón flotante
         document.getElementById('cart-toggle-btn').innerText = `🛒 Mi Pedido: $${subtotal}`;
     }
 
@@ -365,8 +404,14 @@
 
     window.finalizar = function() {
         if(carrito.length === 0) return alert("El carrito está vacío.");
-        const titulos = carrito.map(c => c.titulo).join(", ");
+        
+        // Agregar info de envío al texto
+        let titulos = carrito.map(c => c.titulo).join(", ");
+        if(conEnvio) titulos += " (CON ENVIO AL INTERIOR)";
+        
+        // El total ya tiene el envío sumado en la variable visual, lo tomamos del DOM
         const total = document.getElementById('display-total').innerText.replace("$","");
+        
         const url = `https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url&entry.539670442=${encodeURIComponent(titulos)}&entry.482914514=${encodeURIComponent(total)}`;
         window.open(url, "_blank");
     };
