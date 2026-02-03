@@ -38,55 +38,63 @@
         padding: 15px 30px; background: white; border-bottom: var(--borde);
         position: sticky; top: 0; z-index: 1000;
     }
-    .brand { cursor: pointer; font-size: 1.3rem; color: var(--petroleo); white-space: nowrap; transition: 0.2s; }
-    .brand:hover { transform: scale(1.02); }
-    
+    .brand { cursor: pointer; font-size: 1.3rem; color: var(--petroleo); white-space: nowrap; }
     .nav-links button {
-        background: var(--rosa-suave); border: 2px solid var(--negro); padding: 8px 18px;
-        font-weight: 800; cursor: pointer; box-shadow: 4px 4px 0px var(--negro);
+        background: var(--rosa-suave); border: 2.5px solid var(--negro); padding: 8px 18px;
+        font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0px var(--negro);
         transition: 0.1s; text-transform: uppercase; font-size: 0.7rem; margin-left: 8px;
     }
     .nav-links button:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px var(--negro); }
 
     /* ============ SECCIÓN INICIO ============ */
     #seccion-inicio { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
-    
-    .hero { text-align: left; margin-bottom: 20px; }
     .hero h1 { 
         font-size: clamp(1.8rem, 6.5vw, 4.5rem); color: var(--petroleo); line-height: 1; 
         margin: 0; -webkit-text-stroke: 1px var(--negro); white-space: nowrap; 
     }
-
     .btn-cta-top {
-        display: inline-block; margin: 30px 0 50px 0; padding: 22px 45px;
+        display: inline-block; margin: 40px 0; padding: 22px 45px;
         background: var(--terracota); color: white; border: var(--borde);
         font-weight: 900; font-size: 1.4rem; text-transform: uppercase;
         cursor: pointer; box-shadow: var(--sombra); transition: 0.1s;
     }
     .btn-cta-top:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--negro); }
 
-    .content-box {
+    /* BURBUJA DE DIÁLOGO RESTAURADA */
+    .neo-bubble {
         background: white; border: var(--borde); padding: 40px;
-        box-shadow: var(--sombra); margin-bottom: 40px; border-radius: 4px;
+        box-shadow: var(--sombra); margin-bottom: 55px; border-radius: 20px;
+        position: relative;
     }
-    .content-box h2 { font-size: 1.3rem; font-family: 'Archivo Black'; margin-top: 0; color: var(--petroleo); border-bottom: 6px solid var(--rosa-suave); display: inline-block; }
-    .content-box p { font-weight: 600; line-height: 1.6; font-size: 1rem; }
+    .neo-bubble::after { /* Pico negro exterior */
+        content: ''; position: absolute; bottom: -24px; left: 50px;
+        width: 0; height: 0;
+        border-left: 18px solid transparent; border-right: 18px solid transparent;
+        border-top: 24px solid var(--negro);
+    }
+    .neo-bubble::before { /* Pico blanco interior */
+        content: ''; position: absolute; bottom: -16px; left: 53px;
+        width: 0; height: 0; z-index: 1;
+        border-left: 15px solid transparent; border-right: 15px solid transparent;
+        border-top: 21px solid white;
+    }
+    .neo-bubble h2 { font-size: 1.3rem; font-family: 'Archivo Black'; margin-top: 0; color: var(--petroleo); border-bottom: 6px solid var(--rosa-suave); display: inline-block; }
+    .neo-bubble p { font-weight: 600; line-height: 1.6; font-size: 1rem; }
 
     /* ============ APP / BUSCADOR ============ */
     #app-container { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
     .step-view { display: flex; flex-direction: column; align-items: center; min-height: 70vh; text-align: center; }
     
-    /* Tipografía fina y recta */
     .step-title { 
         font-family: 'Inter', sans-serif; font-weight: 300; 
         font-size: 3.5rem; color: var(--terracota); 
-        margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px;
+        margin-bottom: 30px; text-transform: uppercase; letter-spacing: 3px;
     }
 
     .btn-choice {
         background: white; border: var(--borde); padding: 20px;
         width: 100%; max-width: 450px; margin-bottom: 12px; font-weight: 800;
-        font-size: 1.1rem; cursor: pointer; box-shadow: 6px 6px 0px var(--petroleo); transition: 0.1s;
+        font-size: 1rem; cursor: pointer; box-shadow: 6px 6px 0px var(--petroleo); transition: 0.1s;
         text-transform: uppercase;
     }
     .btn-choice:active { transform: translate(3px, 3px); box-shadow: 0px 0px 0px var(--negro); }
@@ -97,7 +105,6 @@
         margin-bottom: 40px; background: white;
     }
 
-    /* TARJETAS */
     .grid-libros { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
     .lib-bubble {
         background: white; border: var(--borde); padding: 25px;
@@ -108,6 +115,7 @@
     .lib-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px dashed #ddd; }
     .lib-price { font-weight: 900; font-size: 1.3rem; color: var(--terracota); }
     
+    /* BOTÓN AÑADIR (Sticker Style) */
     .btn-add {
         background: white; border: 3px solid var(--negro); padding: 10px 18px;
         font-weight: 900; cursor: pointer; font-size: 0.75rem; 
@@ -122,16 +130,14 @@
         box-shadow: var(--sombra); position: sticky; top: 120px;
     }
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
-    .cart-item-info { font-weight: 700; font-size: 0.85rem; max-width: 60%; }
-    .cart-item-price { font-weight: 900; color: var(--terracota); font-size: 0.9rem; }
-    
+    .cart-item-info { font-weight: 700; font-size: 0.85rem; max-width: 65%; }
     .total-amount { font-family: 'Archivo Black'; font-size: 2.2rem; color: var(--petroleo); text-align: right; margin-bottom: 20px; }
 
     @media (max-width: 900px) {
         .main-layout { flex-direction: column; }
         .cart-box { position: static; margin-bottom: 40px; }
         .hero h1 { font-size: 1.4rem; white-space: normal; } 
-        .step-title { font-size: 2.5rem; }
+        .step-title { font-size: 2.2rem; }
     }
   </style>
 </head>
@@ -152,7 +158,7 @@
         <button class="btn-cta-top" onclick="navegar('app')">Conseguí tus librillos</button>
     </div>
 
-    <div class="content-box">
+    <div class="neo-bubble">
         <h2>¿Qué son los Servis?</h2>
         <p>Los Servis son el <strong>mayor proyecto político del Centro de Estudiantes de Ciencias Sociales.</strong><br><br>
         Su objetivo es brindar becas de trabajo para que estudiantes de FCS puedan continuar con sus trayectorias estudiantiles como también ofrecer la bibliografía de los cursos y productos de cantina a precios accesibles.<br><br>
@@ -160,11 +166,11 @@
         Estamos convencidas de su importancia en la construcción de una facultad para todes y reivindicamos su continuidad. El llamado a becaries se abre cada año a mediados de febrero, enterate por la página de FCS o las redes del CECSO.</p>
     </div>
 
-    <div class="content-box" style="border-color: var(--terracota);">
+    <div class="neo-bubble" style="border-color: var(--terracota);">
         <h2>Materiales y Carpetas</h2>
         <p>Acá podés ver en cada carpeta las materias correspondientes a su semestre y los materiales disponibles.<br><br>
         Para encargar tus librillos, hacé click en <strong>"Conseguí tus librillos"</strong>. ¡Los librillos del segundo semestre aun no están terminados!<br><br>
-        Si hay materias que no encontrás, puede que por la extensión o el idioma de sus textos no tengan librillos. Cualquier cosa, podés consultarnos por ig: <strong>@serviciosdelcecso</strong>, escribir a <strong>fotocecso@gmail.com</strong> o pasarte por fotocopiadora. ¡Te esperamos!</p>
+        Si hay materias que no encontrás, puede que por la extensión o el idioma de sus textos no tengan librillos. Cualquier cosa, podés consultarnos por ig: <strong>@serviciosdelcecso</strong>.</p>
         
         <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
             <button class="btn-choice" style="max-width: 330px; font-size: 0.85rem; background: var(--rosa-suave); flex: 1; min-width: 250px;" onclick="window.open('https://drive.google.com/drive/folders/1FHf3V4HAhwpLYOpaevKk3GsVMGEFqgXs', '_blank')">
@@ -266,6 +272,7 @@
 
     function fetchAPI(hoja) {
         document.getElementById('lista-libros').innerHTML = "<p style='font-weight:900;'>Cargando materiales...</p>";
+        // Forzamos la decodificación de la respuesta para evitar Mojibake
         fetch(`${API_URL}?action=obtenerCatalogo&licenciatura=${encodeURIComponent(hoja)}`)
             .then(res => res.json())
             .then(data => {
@@ -312,7 +319,7 @@
                 <div class="cart-item">
                     <span class="cart-item-info">${c.titulo}</span>
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <span class="cart-item-price">$${c.precio}</span>
+                        <span style="font-weight:900; color:var(--terracota);">$${c.precio}</span>
                         <button onclick="removeCart(${i})" style="border:none; background:none; cursor:pointer;">✕</button>
                     </div>
                 </div>`;
