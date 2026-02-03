@@ -16,7 +16,6 @@
         --negro: #000000;
         --borde: 4px solid #000000;
         --sombra: 8px 8px 0px #000000;
-        /* NUEVAS SOMBRAS DE COLOR PARA LAS TARJETAS */
         --sombra-pet: 6px 6px 0px var(--petroleo);
         --sombra-terra: 6px 6px 0px var(--terracota);
     }
@@ -41,12 +40,16 @@
         position: sticky; top: 0; z-index: 1000;
     }
     .brand { cursor: pointer; font-size: 1.3rem; color: var(--petroleo); white-space: nowrap; }
+    
     .nav-links { display: flex; gap: 10px; }
+    
+    /* ESTILO BASE DE BOTONES (Escritorio) */
     .nav-links button {
         background: var(--rosa-suave); border: 2.5px solid var(--negro); padding: 8px 18px;
         font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0px var(--negro);
         transition: 0.1s; text-transform: uppercase; font-size: 0.75rem;
     }
+    .nav-links button:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px var(--negro); }
 
     /* ============ INICIO ============ */
     #seccion-inicio { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
@@ -62,7 +65,6 @@
         cursor: pointer; box-shadow: var(--sombra); transition: 0.1s;
     }
 
-    /* BURBUJAS GRANDES DE INICIO */
     .neo-bubble {
         background: white; border: var(--borde); padding: 40px;
         box-shadow: var(--sombra); margin-bottom: 60px; border-radius: 20px;
@@ -100,26 +102,15 @@
 
     .grid-libros { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
     
-    /* NUEVO ESTILO PARA LAS TARJETAS DE LIBROS (STICKER CON SOMBRA DE COLOR) */
     .lib-bubble { 
-        background: white; 
-        border: var(--borde); /* Borde grueso */
-        padding: 25px; 
-        border-radius: 20px; 
-        /* Sombra dura por defecto (Petróleo) */
-        box-shadow: var(--sombra-pet);
-        display: flex; flex-direction: column; height: 100%;
+        background: white; border: var(--borde); padding: 25px; border-radius: 20px; 
+        box-shadow: var(--sombra-pet); display: flex; flex-direction: column; height: 100%;
         transition: transform 0.1s, box-shadow 0.1s;
     }
-    /* Alternar colores de sombra (Pares e Impares) */
-    .grid-libros .lib-bubble:nth-child(even) {
-        box-shadow: var(--sombra-terra);
-    }
-    /* Efecto al pasar el mouse */
+    .grid-libros .lib-bubble:nth-child(even) { box-shadow: var(--sombra-terra); }
     .lib-bubble:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0px var(--petroleo); }
     .grid-libros .lib-bubble:nth-child(even):hover { box-shadow: 8px 8px 0px var(--terracota); }
 
-    
     .lib-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 20px; color: var(--petroleo); line-height: 1.2; }
     .btn-add { background: white; border: 3px solid var(--negro); padding: 10px 18px; font-weight: 900; cursor: pointer; font-size: 0.75rem; box-shadow: 4px 4px 0px var(--negro); text-transform: uppercase; transition:0.1s;}
     .btn-add:active { transform: translate(2px,2px); box-shadow: 0 0 0 #000; }
@@ -136,23 +127,34 @@
     /* MOBILE TOGGLE BUTTON */
     #cart-toggle-btn { display: none; position: fixed; bottom: 25px; right: 20px; background: var(--terracota); border: 3px solid #000; padding: 15px 25px; color: white; font-weight: 900; box-shadow: 5px 5px 0px #000; z-index: 3000; cursor: pointer; border-radius: 50px; text-transform: uppercase; font-size: 0.9rem; }
 
-    /* ============ MEDIA QUERIES (CAMBIOS VISUALES MÓVIL) ============ */
+    /* ============ MEDIA QUERIES ============ */
     @media (max-width: 900px) {
         .navbar .brand { display: none; }
-        .navbar { justify-content: center; padding: 10px; }
-        .nav-links { width: 100%; justify-content: space-evenly; }
+        .navbar { justify-content: center; padding: 12px; }
+        .nav-links { width: 100%; justify-content: center; gap: 15px; }
+
+        /* BOTONES MOBILE (CÁPSULA ROSA) */
+        .nav-links button {
+            background: var(--rosa-suave); /* Vuelven a ser rosas */
+            border: 2px solid var(--negro);
+            box-shadow: none; /* Sin sombra dura */
+            border-radius: 50px; /* Redondos */
+            padding: 8px 25px;
+            font-size: 0.85rem;
+            width: auto;
+        }
+        .nav-links button:active {
+            background: var(--negro);
+            color: white;
+            transform: none;
+        }
+
         .main-layout { flex-direction: column; }
         
         .hero { text-align: center; margin-bottom: 30px; }
-        /* TÍTULO MÓVIL CON MÁS IMPACTO Y SUBRAYADO */
         .hero h1 { 
-            font-size: 2.3rem; /* Mucho más grande */
-            white-space: normal; 
-            -webkit-text-stroke: 0.8px var(--negro); /* Borde un poco más definido */
-            letter-spacing: 1px;
-            display: inline-block; /* Necesario para el subrayado */
-            border-bottom: 6px solid var(--terracota); /* Subrayado grueso */
-            padding-bottom: 5px;
+            font-size: 2.3rem; white-space: normal; -webkit-text-stroke: 0.8px var(--negro); 
+            letter-spacing: 1px; display: inline-block; border-bottom: 6px solid var(--terracota); padding-bottom: 5px;
         } 
         .step-title { font-size: 2.2rem; }
 
@@ -273,6 +275,9 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbwGPzuKCAN2H-h1FDr-26__T3HzhfPOHjDBoXzv9fXBXTHKc3Ch45qn8ZAEGQSBR9aX/exec"; 
     const COSTO_ENVIO = 200; 
 
+    // Variable global de Caché
+    let cacheCatalogo = {};
+
     function sanearTexto(texto) {
         if (!texto) return "";
         const correcciones = {
@@ -348,11 +353,21 @@
 
     function fetchAPI(hoja) {
         const lista = document.getElementById('lista-libros');
+        
+        if (cacheCatalogo[hoja]) {
+            db = cacheCatalogo[hoja];
+            filtered = db;
+            renderCatalogo();
+            return; 
+        }
+
         lista.innerHTML = "<p style='font-weight:900;'>Cargando catálogo...</p>";
         fetch(`${API_URL}?action=obtenerCatalogo&licenciatura=${encodeURIComponent(hoja)}`)
             .then(res => res.json())
             .then(data => {
-                db = data.map(item => ({ ...item, titulo: sanearTexto(item.titulo) }));
+                const procesados = data.map(item => ({ ...item, titulo: sanearTexto(item.titulo) }));
+                cacheCatalogo[hoja] = procesados;
+                db = procesados;
                 filtered = db;
                 renderCatalogo();
             })
