@@ -64,6 +64,7 @@
         font-weight: 900; font-size: 1.4rem; text-transform: uppercase;
         cursor: pointer; box-shadow: var(--sombra); transition: 0.1s;
     }
+    .btn-cta-top:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px #000; }
 
     .neo-bubble {
         background: white; border: var(--borde); padding: 40px;
@@ -84,17 +85,49 @@
     .neo-bubble p { font-weight: 600; line-height: 1.6; }
     .neo-bubble strong { color: var(--terracota); }
 
-    /* ============ APP / BUSCADOR ============ */
+    /* ============ APP / SELECCIÓN ============ */
     #app-container { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
     .step-view { display: flex; flex-direction: column; align-items: center; min-height: 70vh; text-align: center; }
     .step-title { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 3.5rem; color: var(--terracota); text-transform: uppercase; letter-spacing: 2px; }
 
+    /* --- NUEVOS BOTONES DE SELECCIÓN CON SOMBRAS ALTERNADAS --- */
     .btn-choice {
-        background: white; border: var(--borde); padding: 20px; width: 100%; max-width: 450px; 
-        margin-bottom: 12px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 6px 6px 0px var(--petroleo);
+        background: white; 
+        border: var(--borde); 
+        padding: 22px; 
+        width: 100%; 
+        max-width: 450px; 
+        margin-bottom: 20px; 
+        font-weight: 800; 
+        font-size: 1.1rem; 
+        cursor: pointer; 
+        text-transform: uppercase;
+        
+        /* Sombra base (Petróleo) */
+        box-shadow: 6px 6px 0px var(--petroleo);
+        transition: transform 0.1s, box-shadow 0.1s;
     }
-    .btn-back { margin-top:20px; font-weight:800; cursor:pointer; background:none; border:none; text-decoration:underline; }
 
+    /* Alternar sombra a Terracota en los pares */
+    .btn-choice:nth-of-type(even) {
+        box-shadow: 6px 6px 0px var(--terracota);
+    }
+
+    /* Efecto Hover (solo PC): Sube y sombra negra */
+    .btn-choice:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 8px 8px 0px var(--negro);
+    }
+
+    /* Efecto Click: Se hunde */
+    .btn-choice:active {
+        transform: translate(4px, 4px);
+        box-shadow: 0px 0px 0px transparent;
+    }
+
+    .btn-back { margin-top:10px; font-weight:800; cursor:pointer; background:none; border:none; text-decoration:underline; font-size: 1rem; color: var(--negro); }
+
+    /* ============ BUSCADOR & GRILLA ============ */
     #buscador-librillos {
         width: 100%; max-width: 600px; padding: 18px 25px; border: var(--borde);
         font-size: 1.1rem; font-weight: 700; outline: none; box-shadow: 6px 6px 0px var(--petroleo);
@@ -283,7 +316,7 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbwGPzuKCAN2H-h1FDr-26__T3HzhfPOHjDBoXzv9fXBXTHKc3Ch45qn8ZAEGQSBR9aX/exec"; 
     const COSTO_ENVIO = 200; 
 
-    // Variable global de Caché y Estado
+    // Variable global de Caché
     let cacheCatalogo = {};
     let carrito = JSON.parse(localStorage.getItem("cecsocart")) || [];
     let db = [], filtered = [];
@@ -342,17 +375,13 @@
 
     window.seleccionarSemestre = function(s) {
         semActual = s;
-        // Muestra ejemplo: "Sociología - Semestre Par"
         document.getElementById('txt-semestre-header').innerText = `${licActual} - ${s}`;
         navegarApp('step-tipo');
     };
 
     window.iniciarCarga = function(t) {
         tipoActual = t;
-        // CONSTRUCCIÓN DEL NOMBRE DE LA HOJA: "Carrera Semestre Tipo"
-        // Ejemplo: "Sociología Par Obligatorias"
         const hoja = `${licActual} ${semActual} ${t}`;
-        
         document.getElementById('txt-hoja-sel').innerText = hoja;
         navegarApp('step-catalogo');
         fetchAPI(hoja);
