@@ -43,7 +43,7 @@
     
     .nav-links { display: flex; gap: 10px; }
     
-    /* ESTILO BASE DE BOTONES (Escritorio) */
+    /* ESTILO BASE (ESCRITORIO) */
     .nav-links button {
         background: var(--rosa-suave); border: 2.5px solid var(--negro); padding: 8px 18px;
         font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0px var(--negro);
@@ -93,6 +93,7 @@
         background: white; border: var(--borde); padding: 20px; width: 100%; max-width: 450px; 
         margin-bottom: 12px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 6px 6px 0px var(--petroleo);
     }
+    .btn-back { margin-top:20px; font-weight:800; cursor:pointer; background:none; border:none; text-decoration:underline; }
 
     #buscador-librillos {
         width: 100%; max-width: 600px; padding: 18px 25px; border: var(--borde);
@@ -133,21 +134,16 @@
         .navbar { justify-content: center; padding: 12px; }
         .nav-links { width: 100%; justify-content: center; gap: 15px; }
 
-        /* BOTONES MOBILE (CÁPSULA ROSA) */
         .nav-links button {
-            background: var(--rosa-suave); /* Vuelven a ser rosas */
+            background: var(--rosa-suave); 
             border: 2px solid var(--negro);
-            box-shadow: none; /* Sin sombra dura */
-            border-radius: 50px; /* Redondos */
+            box-shadow: none; 
+            border-radius: 50px; 
             padding: 8px 25px;
             font-size: 0.85rem;
             width: auto;
         }
-        .nav-links button:active {
-            background: var(--negro);
-            color: white;
-            transform: none;
-        }
+        .nav-links button:active { background: var(--negro); color: white; transform: none; }
 
         .main-layout { flex-direction: column; }
         
@@ -215,6 +211,7 @@
   </section>
 
   <div id="app-container">
+      
       <div id="step-carrera" class="step-view">
           <h2 class="step-title">Elegí tu Carrera</h2>
           <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
@@ -226,19 +223,30 @@
           </div>
       </div>
 
+      <div id="step-semestre" class="step-view" style="display:none;">
+          <h2 id="txt-carrera-header" class="step-title"></h2>
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+              <button class="btn-choice" onclick="seleccionarSemestre('Par')">Semestre Par</button>
+              <button class="btn-choice" onclick="seleccionarSemestre('Impar')">Semestre Impar</button>
+              <button class="btn-back" onclick="navegarApp('step-carrera')">← Volver</button>
+          </div>
+      </div>
+
       <div id="step-tipo" class="step-view" style="display:none;">
-          <h2 id="txt-carrera-sel" class="step-title"></h2>
+          <h2 id="txt-semestre-header" class="step-title"></h2>
           <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
               <button class="btn-choice" onclick="iniciarCarga('Obligatorias')">Materias Obligatorias</button>
               <button class="btn-choice" onclick="iniciarCarga('Optativas')">Materias Optativas</button>
-              <button onclick="navegarApp('step-carrera')" style="margin-top:20px; font-weight:800; cursor:pointer; background:none; border:none; text-decoration:underline;">← Volver</button>
+              <button class="btn-back" onclick="navegarApp('step-semestre')">← Volver</button>
           </div>
       </div>
 
       <div id="step-catalogo" style="display:none;">
           <div style="text-align: center; margin-bottom: 40px;">
-              <h2 id="txt-hoja-sel" class="step-title" style="border-bottom: 2px solid var(--rosa-suave); display: inline-block;"></h2>
+              <h2 id="txt-hoja-sel" class="step-title" style="border-bottom: 2px solid var(--rosa-suave); display: inline-block; font-size: 1.8rem;"></h2>
               <br><br>
+              <button class="btn-back" onclick="navegarApp('step-tipo')" style="margin-top:0; margin-bottom:20px;">← Elegir otro tipo</button>
+              <br>
               <input type="text" id="buscador-librillos" placeholder="🔍 Buscar materia..."/>
           </div>
 
@@ -275,9 +283,18 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbwGPzuKCAN2H-h1FDr-26__T3HzhfPOHjDBoXzv9fXBXTHKc3Ch45qn8ZAEGQSBR9aX/exec"; 
     const COSTO_ENVIO = 200; 
 
-    // Variable global de Caché
+    // Variable global de Caché y Estado
     let cacheCatalogo = {};
+    let carrito = JSON.parse(localStorage.getItem("cecsocart")) || [];
+    let db = [], filtered = [];
+    
+    // Variables de Navegación
+    let licActual = "";
+    let semActual = "";
+    let tipoActual = "";
+    let conEnvio = false;
 
+    // SANEADOR
     function sanearTexto(texto) {
         if (!texto) return "";
         const correcciones = {
@@ -292,28 +309,7 @@
         return saneado;
     }
 
-    let carrito = JSON.parse(localStorage.getItem("cecsocart")) || [];
-    let db = [], filtered = [];
-    let licActual = "", tipoActual = "";
-    let conEnvio = false;
-
-    window.toggleCartView = function() {
-        const cart = document.getElementById('carrito-panel');
-        cart.classList.toggle('open');
-    };
-
-    window.toggleEnvio = function() {
-        const check = document.getElementById('check-envio');
-        if(event.target.tagName !== 'INPUT') check.checked = !check.checked;
-        conEnvio = check.checked;
-        renderCarrito();
-    };
-
-    const normalizar = (str) => {
-        if (!str) return "";
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
-    };
-
+    // NAVEGACIÓN
     window.navegar = function(seccion) {
         window.scrollTo(0,0);
         document.getElementById('seccion-inicio').style.display = (seccion === 'inicio') ? 'block' : 'none';
@@ -323,7 +319,7 @@
     };
 
     window.navegarApp = function(step) {
-        const steps = ['step-carrera', 'step-tipo', 'step-catalogo'];
+        const steps = ['step-carrera', 'step-semestre', 'step-tipo', 'step-catalogo'];
         steps.forEach(s => {
             document.getElementById(s).style.display = (s === step) ? (s === 'step-catalogo' ? 'block' : 'flex') : 'none';
         });
@@ -337,20 +333,32 @@
         }
     };
 
+    // FLUJO DE SELECCIÓN
     window.seleccionarCarrera = function(c) {
         licActual = c;
-        document.getElementById('txt-carrera-sel').innerText = c;
+        document.getElementById('txt-carrera-header').innerText = c;
+        navegarApp('step-semestre');
+    };
+
+    window.seleccionarSemestre = function(s) {
+        semActual = s;
+        // Muestra ejemplo: "Sociología - Semestre Par"
+        document.getElementById('txt-semestre-header').innerText = `${licActual} - ${s}`;
         navegarApp('step-tipo');
     };
 
     window.iniciarCarga = function(t) {
         tipoActual = t;
-        const hoja = `${licActual} ${t}`;
+        // CONSTRUCCIÓN DEL NOMBRE DE LA HOJA: "Carrera Semestre Tipo"
+        // Ejemplo: "Sociología Par Obligatorias"
+        const hoja = `${licActual} ${semActual} ${t}`;
+        
         document.getElementById('txt-hoja-sel').innerText = hoja;
         navegarApp('step-catalogo');
         fetchAPI(hoja);
     };
 
+    // API & RENDER
     function fetchAPI(hoja) {
         const lista = document.getElementById('lista-libros');
         
@@ -372,7 +380,7 @@
                 renderCatalogo();
             })
             .catch(err => {
-                lista.innerHTML = "<p style='color:red;'>⚠️ Error al cargar. Recargá.</p>";
+                lista.innerHTML = "<p style='color:red;'>⚠️ Error: No se encontró la hoja <strong>'" + hoja + "'</strong>. Revisá el Excel.</p>";
                 console.error(err);
             });
     }
@@ -380,6 +388,12 @@
     function renderCatalogo() {
         const grid = document.getElementById('lista-libros');
         grid.innerHTML = "";
+        
+        if(filtered.length === 0) {
+            grid.innerHTML = "<p>No hay libros disponibles en esta sección.</p>";
+            return;
+        }
+
         filtered.forEach(item => {
             const isAdded = carrito.some(c => c.id === item.id);
             const card = document.createElement('div');
@@ -394,6 +408,18 @@
             grid.appendChild(card);
         });
     }
+
+    // CARRITO LOGIC
+    window.toggleCartView = function() {
+        document.getElementById('carrito-panel').classList.toggle('open');
+    };
+
+    window.toggleEnvio = function() {
+        const check = document.getElementById('check-envio');
+        if(event.target.tagName !== 'INPUT') check.checked = !check.checked;
+        conEnvio = check.checked;
+        renderCarrito();
+    };
 
     window.toggleCart = function(id, titulo, precio) {
         const idx = carrito.findIndex(c => c.id === id);
@@ -427,6 +453,11 @@
         localStorage.setItem("cecsocart", JSON.stringify(carrito));
         renderCarrito(); renderCatalogo();
     }
+
+    const normalizar = (str) => {
+        if (!str) return "";
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    };
 
     document.getElementById('buscador-librillos').oninput = (e) => {
         const query = normalizar(e.target.value);
