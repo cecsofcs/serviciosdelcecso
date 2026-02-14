@@ -333,6 +333,18 @@
           </div>
       </div>
 
+      <div id="este-semestre-container" style="display: none; max-width: 900px; margin: 0 auto 40px auto;">
+          <h3 style="font-family:'Archivo Black'; margin-top:0; color:var(--petroleo); font-size: 1.8rem;">🎯 Este Semestre</h3>
+          <p style="font-weight: 600; margin: 0;">Marcaste que vas a cursar las siguientes materias:</p>
+          
+          <ul id="lista-este-semestre">
+              </ul>
+          
+          <button class="btn-cta-top" style="margin: 10px 0 0 0; padding: 15px 25px; font-size: 1.1rem; width:100%;" onclick="irALibrillos()">
+              📚 QUIERO MIS LIBRILLOS
+          </button>
+      </div>
+
       <div id="trayectoria-content" style="display: none;">
           <div class="progreso-global">
               <h3 id="titulo-carrera-activa" style="margin: 0 0 10px 0; font-family: 'Archivo Black';">Ciclo Inicial</h3>
@@ -346,18 +358,6 @@
               </p>
               <button id="btn-estado-inscripcion" class="btn-estado" style="margin-top: 15px; background: var(--rosa-suave); width: 100%; display: none; padding: 12px; font-size: 0.85rem;" onclick="abrirModalInscripcion()">
                   ¿Qué me falta para poder inscribirme a Ciclo Avanzado?
-              </button>
-          </div>
-
-          <div id="este-semestre-container" style="display: none;">
-              <h3 style="font-family:'Archivo Black'; margin-top:0; color:var(--petroleo); font-size: 1.8rem;">🎯 Este Semestre</h3>
-              <p style="font-weight: 600; margin: 0;">Marcaste que vas a cursar las siguientes materias:</p>
-              
-              <ul id="lista-este-semestre">
-                  </ul>
-              
-              <button class="btn-cta-top" style="margin: 10px 0 0 0; padding: 15px 25px; font-size: 1.1rem; width:100%;" onclick="irALibrillos()">
-                  📚 QUIERO MIS LIBRILLOS
               </button>
           </div>
 
@@ -452,18 +452,15 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbwGPzuKCAN2H-h1FDr-26__T3HzhfPOHjDBoXzv9fXBXTHKc3Ch45qn8ZAEGQSBR9aX/exec"; 
     const COSTO_ENVIO = 200; 
 
-    // Variable global de Caché y Estado
     let cacheCatalogo = {};
     let carrito = JSON.parse(localStorage.getItem("cecsocart")) || [];
     let db = [], filtered = [];
     
-    // Variables de Navegación
     let licActual = "";
     let semActual = "";
     let tipoActual = "";
     let conEnvio = false;
 
-    // SANEADOR
     function sanearTexto(texto) {
         if (!texto) return "";
         const correcciones = {
@@ -478,7 +475,6 @@
         return saneado;
     }
 
-    // NAVEGACIÓN
     window.navegar = function(seccion) {
         window.scrollTo(0,0);
         document.getElementById('seccion-inicio').style.display = (seccion === 'inicio') ? 'block' : 'none';
@@ -504,7 +500,6 @@
         }
     };
 
-    // FLUJO DE SELECCIÓN
     window.seleccionarCarrera = function(c) {
         licActual = c;
         document.getElementById('txt-carrera-header').innerText = c;
@@ -525,7 +520,6 @@
         fetchAPI(hoja);
     };
 
-    // API & RENDER
     function fetchAPI(hoja) {
         const lista = document.getElementById('lista-libros');
         
@@ -576,7 +570,6 @@
         });
     }
 
-    // CARRITO LOGIC
     window.toggleCartView = function() {
         document.getElementById('carrito-panel').classList.toggle('open');
     };
@@ -661,7 +654,9 @@
                         { "id": "ci_cuestion", "nombre": "La cuestión social en la historia", "semestre": 1, "creditos": 8 },
                         { "id": "ci_poder", "nombre": "Poder, estado y sistema político", "semestre": 2, "creditos": 8 },
                         { "id": "ci_historia", "nombre": "Historia contemporánea de América Latina", "semestre": 3, "creditos": 8 },
-                        { "id": "ci_economia", "nombre": "Principios de economía", "semestre": 1, "creditos": 8 }
+                        { "id": "ci_economia", "nombre": "Principios de economía", "semestre": 1, "creditos": 8 },
+                        { "id": "ci_opcion", "nombre": "Opción Política (Electiva)", "semestre": 2, "creditos": 8 },
+                        { "id": "ci_opcion2", "nombre": "Opción Económica y Social (Electiva)", "semestre": 2, "creditos": 8 }
                     ]
                 },
                 {
@@ -677,30 +672,18 @@
                     "id": "tematicas_cs",
                     "nombre": "Temáticas en Ciencias Sociales",
                     "materias": [
-                        { "id": "ci_sem_amb", "nombre": "Seminario: Debates en torno a desafíos ambientales, poblacionales y violencias", "semestre": 4, "creditos": 8 },
-                        { "id": "ci_sem_renta", "nombre": "Seminario: Debates en torno a renta básica, políticas afirmativas y cambio climático", "semestre": 4, "creditos": 8 },
-                        { "id": "ci_sem_hist", "nombre": "Seminario: Experiencias históricas y desigualdades en debate", "semestre": 4, "creditos": 8 },
-                        { "id": "ci_sem_accion", "nombre": "Seminario: Acción colectiva en clave interdisciplinaria (situación de calle, trabajo, ambiente, etc.)", "semestre": 4, "creditos": 8 }
+                        { "id": "ci_sem_amb", "nombre": "Seminario: Debates ambientales y poblacionales", "semestre": 4, "creditos": 8 },
+                        { "id": "ci_sem_renta", "nombre": "Seminario: Renta básica y políticas afirmativas", "semestre": 4, "creditos": 8 },
+                        { "id": "ci_sem_hist", "nombre": "Seminario: Experiencias históricas y desigualdades", "semestre": 4, "creditos": 8 },
+                        { "id": "ci_sem_accion", "nombre": "Seminario: Acción colectiva interdisciplinaria", "semestre": 4, "creditos": 8 }
                     ]
                 },
                 {
                      "id": "optativas",
                      "nombre": "Actividades Curriculares Optativas",
                      "materias": [
-                        { 
-                            "id": "opt_especifica", 
-                            "nombre": "Optativa Específica de tu carrera", 
-                            "semestre": 4, 
-                            "creditos": 10, 
-                            "nota": "C. Política: Políticas públicas | Sociología: Teoría sociológica | Trabajo Social: Introducción al T.S. | Desarrollo: Bases teóricas del concepto de desarrollo" 
-                        },
-                        { 
-                            "id": "opt_bolsa", 
-                            "nombre": "Créditos Optativos a completar", 
-                            "creditos": 28, 
-                            "es_bolsa_creditos": true, 
-                            "nota": "Ingresá cuántos créditos optativos (libres) ya tenés aprobados." 
-                        }
+                        { "id": "opt_especifica", "nombre": "Optativa Específica de tu carrera", "semestre": 4, "creditos": 10, "nota": "C. Política: Pol. públicas | Sociología: Teoría soc. | T.S.: Intro al T.S. | Desarrollo: Bases teóricas del des." },
+                        { "id": "opt_bolsa", "nombre": "Créditos Optativos libres a completar", "creditos": 28, "es_bolsa_creditos": true }
                      ]
                 }
             ]
@@ -753,7 +736,8 @@
                     "materias": [
                         { "id": "cp_met1", "nombre": "Medición y Diseño de Investigación", "semestre": 3, "creditos": 8 },
                         { "id": "cp_met2", "nombre": "Técnicas Cualitativas para la Inv. en C.P.", "semestre": 4, "creditos": 8 },
-                        { "id": "cp_met3", "nombre": "Técnicas Cuantitativas (Electiva)", "semestre": 5, "creditos": 8 },
+                        { "id": "cp_met3_a", "nombre": "Análisis de datos cuantitativos (Electiva)", "semestre": 5, "creditos": 8 },
+                        { "id": "cp_met3_b", "nombre": "Estadística y sus Aplicaciones (Electiva)", "semestre": 5, "creditos": 8 },
                         { "id": "cp_met4", "nombre": "Método Comparado y Estudio de Caso", "semestre": 5, "creditos": 7 },
                         { "id": "cp_met5", "nombre": "Métodos de Inferencia Causal Aplicada", "semestre": 7, "creditos": 8 }
                     ]
@@ -765,7 +749,8 @@
                         { "id": "cp_dc_hist_uy", "nombre": "Historia del Uruguay Contemporáneo", "semestre": 3, "creditos": 11 },
                         { "id": "cp_dc_hist_uni", "nombre": "Historia Universal Contemporánea", "semestre": 4, "creditos": 10 },
                         { "id": "cp_dc_der", "nombre": "Teoría del Derecho", "semestre": 7, "creditos": 8 },
-                        { "id": "cp_dc_eco_core", "nombre": "Análisis Macroeconómico o Microeconómico", "semestre": 4, "creditos": 4 },
+                        { "id": "cp_dc_eco_core1", "nombre": "Análisis Macroeconómico", "semestre": 4, "creditos": 4 },
+                        { "id": "cp_dc_eco_core2", "nombre": "Análisis Microeconómico", "semestre": 4, "creditos": 4 },
                         { "id": "cp_dc_eco_elec", "nombre": "Electiva de Análisis Económico", "creditos": 6, "es_bolsa_creditos": true }
                     ]
                 },
@@ -773,14 +758,14 @@
                     "id": "cp_optativas",
                     "nombre": "Profundización Temática (Optativas libres)",
                     "materias": [
-                        { "id": "cp_opt_bolsa", "nombre": "Créditos de Profundización Temática", "creditos": 36, "es_bolsa_creditos": true, "nota": "Corresponde a los bloques de 7mo y 8vo semestre." }
+                        { "id": "cp_opt_bolsa", "nombre": "Créditos de Profundización Temática", "creditos": 36, "es_bolsa_creditos": true }
                     ]
                 },
                 {
                     "id": "cp_egreso",
                     "nombre": "Egreso",
                     "materias": [
-                        { "id": "cp_trabajo_final", "nombre": "Trabajo Final (Monografía o Pasantía)", "semestre": 8, "creditos": 30, "nota": "🎓 Requiere aprobación con nota mínima de 'Bueno'." }
+                        { "id": "cp_trabajo_final", "nombre": "Trabajo Final (Monografía o Pasantía)", "semestre": 8, "creditos": 30 }
                     ]
                 }
             ]
@@ -795,7 +780,7 @@
                     "nombre": "Problemas del Desarrollo",
                     "materias": [
                         { "id": "led_pd_pensamiento", "nombre": "El pensamiento sobre el desarrollo", "semestre": 3, "creditos": 8 },
-                        { "id": "led_pd_objeto", "nombre": "Objeto y método de los estudios para el desarrollo", "semestre": 3, "creditos": 8 },
+                        { "id": "led_pd_objeto", "nombre": "Objeto y método de los estudios...", "semestre": 3, "creditos": 8 },
                         { "id": "led_pd_teoria_soc", "nombre": "Teoría sociológica del desarrollo", "semestre": 4, "creditos": 8 },
                         { "id": "led_pd_ciencia", "nombre": "Ciencia, tecnología, innovación", "semestre": 5, "creditos": 6 },
                         { "id": "led_pd_sistema", "nombre": "Sistema Internacional y Gobernanza", "semestre": 5, "creditos": 6 },
@@ -812,7 +797,7 @@
                         { "id": "led_pt_macro", "nombre": "Análisis Macroeconómico", "semestre": 5, "creditos": 7 },
                         { "id": "led_pt_micro", "nombre": "Análisis Microeconómico", "semestre": 4, "creditos": 6 },
                         { "id": "led_pt_insti", "nombre": "Teoría de las instituciones", "semestre": 7, "creditos": 8 },
-                        { "id": "led_pt_opt", "nombre": "Optativas de Profundización Teórica", "creditos": 9, "es_bolsa_creditos": true, "nota": "Buscá las materias etiquetadas para este módulo en la grilla de horarios del semestre." }
+                        { "id": "led_pt_opt", "nombre": "Optativas de Profundización Teórica", "creditos": 9, "es_bolsa_creditos": true }
                     ]
                 },
                 {
@@ -823,31 +808,31 @@
                         { "id": "led_met_ind", "nombre": "Indicadores de Desarrollo", "semestre": 6, "creditos": 6 },
                         { "id": "led_met_est", "nombre": "Estadística en ciencias sociales", "semestre": 4, "creditos": 8 },
                         { "id": "led_met_herr", "nombre": "Herramientas de Trabajo Interdisciplinario", "semestre": 7, "creditos": 6 },
-                        { "id": "led_met_opt", "nombre": "Optativa Metodológica", "creditos": 2, "es_bolsa_creditos": true, "nota": "Ej: Evaluación de Impacto, Desigualdad y Pobreza, etc." }
+                        { "id": "led_met_opt", "nombre": "Optativa Metodológica", "creditos": 2, "es_bolsa_creditos": true }
                     ]
                 },
                 {
                     "id": "led_moi",
                     "nombre": "Módulo Optativo Integral (MOI)",
                     "materias": [
-                        { "id": "led_moi_bloque", "nombre": "Créditos Asignaturas del MOI", "creditos": 35, "es_bolsa_creditos": true, "nota": "💡 <strong>Recordatorio:</strong> Elegí un perfil: (A) Gestión y P.P., (B) Des. Territorial, o (C) Des. Económico.<br><br>⚠️ <strong>Cambios de módulo:</strong> Solo se tramitan teniendo +260 créditos, una vez al año (excepto en febrero y julio)." }
+                        { "id": "led_moi_bloque", "nombre": "Créditos Asignaturas del MOI", "creditos": 35, "es_bolsa_creditos": true, "nota": "⚠️ Cambios de módulo: Solo a partir de 260 cr., una vez al año." }
                     ]
                 },
                 {
                     "id": "led_taller",
                     "nombre": "Taller de Desarrollo",
                     "materias": [
-                        { "id": "led_tall_1", "nombre": "Taller de Desarrollo I", "semestre": 5, "creditos": 10, "nota": "Instancia inicial para delinear el proyecto de egreso." },
-                        { "id": "led_tall_2", "nombre": "Taller de Desarrollo II", "semestre": 6, "creditos": 20, "nota": "⚠️ Previa obligatoria: Taller de Desarrollo I." }
+                        { "id": "led_tall_1", "nombre": "Taller de Desarrollo I", "semestre": 5, "creditos": 10 },
+                        { "id": "led_tall_2", "nombre": "Taller de Desarrollo II", "semestre": 6, "creditos": 20 }
                     ]
                 },
                 {
                     "id": "led_practica",
                     "nombre": "Práctica Académico-Profesional y Trabajo Final",
                     "materias": [
-                        { "id": "led_prac_metodos", "nombre": "Métodos Cuantitativos o Cualitativos aplicados", "semestre": 8, "creditos": 10 },
-                        { "id": "led_prac_opt", "nombre": "Optativas Libres", "creditos": 15, "es_bolsa_creditos": true, "nota": "Créditos de libre elección en cualquier área." },
-                        { "id": "led_prac_tf", "nombre": "Trabajo Final", "semestre": 8, "creditos": 30, "nota": "🎓 El título se expide tras aprobar todos los créditos y defender el Trabajo Final." }
+                        { "id": "led_prac_metodos", "nombre": "Métodos Cuantitativos o Cualitativos", "semestre": 8, "creditos": 10 },
+                        { "id": "led_prac_opt", "nombre": "Optativas Libres", "creditos": 15, "es_bolsa_creditos": true },
+                        { "id": "led_prac_tf", "nombre": "Trabajo Final", "semestre": 8, "creditos": 30 }
                     ]
                 }
             ]
@@ -862,9 +847,9 @@
                     "nombre": "Teorías Sociológicas",
                     "materias": [
                         { "id": "soc_teo1", "nombre": "Teoría Sociológica I", "semestre": 3, "creditos": 10 },
-                        { "id": "soc_teo2", "nombre": "Teoría Sociológica II", "semestre": 4, "creditos": 10, "nota": "⚠️ Previa obligatoria: Teoría Sociológica I" },
-                        { "id": "soc_teo3", "nombre": "Teoría Sociológica III", "semestre": 5, "creditos": 10, "nota": "⚠️ Previa obligatoria: Teoría Sociológica II" },
-                        { "id": "soc_teo4", "nombre": "Teoría Sociológica IV", "semestre": 6, "creditos": 10, "nota": "⚠️ Previa obligatoria: Teoría Sociológica III" }
+                        { "id": "soc_teo2", "nombre": "Teoría Sociológica II", "semestre": 4, "creditos": 10 },
+                        { "id": "soc_teo3", "nombre": "Teoría Sociológica III", "semestre": 5, "creditos": 10 },
+                        { "id": "soc_teo4", "nombre": "Teoría Sociológica IV", "semestre": 6, "creditos": 10 }
                     ]
                 },
                 {
@@ -873,19 +858,20 @@
                     "materias": [
                         { "id": "soc_met_cuan1", "nombre": "Metodología Cuantitativa I", "semestre": 3, "creditos": 8 },
                         { "id": "soc_met_cual1", "nombre": "Metodología Cualitativa I", "semestre": 3, "creditos": 8 },
-                        { "id": "soc_met_cuan2", "nombre": "Metodología Cuantitativa II", "semestre": 4, "creditos": 8, "nota": "⚠️ Previa: Metodología Cuantitativa I" },
-                        { "id": "soc_met_cual2", "nombre": "Metodología Cualitativa II", "semestre": 4, "creditos": 8, "nota": "⚠️ Previa: Metodología Cualitativa I" },
-                        { "id": "soc_met_cuan3", "nombre": "Metodología Cuantitativa III", "semestre": 5, "creditos": 8, "nota": "⚠️ Previa: Metodología Cuantitativa II" }
+                        { "id": "soc_met_cuan2", "nombre": "Metodología Cuantitativa II", "semestre": 4, "creditos": 8 },
+                        { "id": "soc_met_cual2", "nombre": "Metodología Cualitativa II", "semestre": 4, "creditos": 8 },
+                        { "id": "soc_met_cuan3", "nombre": "Metodología Cuantitativa III", "semestre": 5, "creditos": 8 }
                     ]
                 },
                 {
                     "id": "soc_especiales_tematicas",
                     "nombre": "Sociologías Especiales y Temáticas",
                     "materias": [
-                        { "id": "soc_esp_ansoc1", "nombre": "Análisis Sociológico I", "semestre": 4, "creditos": 8 },
-                        { "id": "soc_esp_latam", "nombre": "Soc. y pensamiento sociológico Latinoamericano", "semestre": 5, "creditos": 8 },
-                        { "id": "soc_esp_uy", "nombre": "Soc. y pensamiento sociológico del Uruguay", "semestre": 7, "creditos": 8 },
-                        { "id": "soc_esp_elec", "nombre": "Créditos Electivos (Análisis II / Soc. Especial)", "creditos": 16, "es_bolsa_creditos": true }
+                        { "id": "soc_esp_ansoc1", "nombre": "Análisis Sociológico I (Electivo)", "semestre": 4, "creditos": 8 },
+                        { "id": "soc_esp_ansoc2", "nombre": "Análisis Sociológico II (Electivo)", "semestre": 6, "creditos": 8 },
+                        { "id": "soc_esp_latam", "nombre": "Sociedad y pens. Latinoamericano", "semestre": 5, "creditos": 8 },
+                        { "id": "soc_esp_uy", "nombre": "Sociedad y pens. del Uruguay", "semestre": 7, "creditos": 8 },
+                        { "id": "soc_esp_elec", "nombre": "Sociología Especial (Electiva)", "creditos": 8, "semestre": 7 }
                     ]
                 },
                 {
@@ -893,25 +879,25 @@
                     "nombre": "Otras Ciencias Sociales",
                     "materias": [
                         { "id": "soc_epis", "nombre": "Epistemología", "semestre": 8, "creditos": 6 },
-                        { "id": "soc_otras_opt", "nombre": "Créditos Seminario Temático I y Otras Cs. Sociales", "creditos": 24, "es_bolsa_creditos": true }
+                        { "id": "soc_otras_opt", "nombre": "Créditos Seminarios y Otras CCSS", "creditos": 24, "es_bolsa_creditos": true }
                     ]
                 },
                 {
                     "id": "soc_talleres",
                     "nombre": "Seminarios y Talleres",
                     "materias": [
-                        { "id": "soc_sem_1", "nombre": "Seminario en Sociologías Especiales Temáticas 1", "semestre": 4, "creditos": 8 },
-                        { "id": "soc_sem_2", "nombre": "Seminario en Sociologías Especiales Temáticas 2", "semestre": 5, "creditos": 8 },
-                        { "id": "soc_tall_1", "nombre": "Taller Central de Investigación (Semestre 1)", "semestre": 6, "creditos": 15, "nota": "⛔ Bloqueado sin: T. Sociológica I; Met. Cuan I/II; Met. Cual I/II." },
-                        { "id": "soc_tall_2", "nombre": "Taller Central de Investigación (Semestre 2)", "semestre": 7, "creditos": 15, "nota": "⛔ Bloqueado sin: T. Sociológica II y Met. Cuantitativa III." },
-                        { "id": "soc_tall_3", "nombre": "Taller Central de Investigación (Semestre 3)", "semestre": 8, "creditos": 14 }
+                        { "id": "soc_sem_1", "nombre": "Seminario Especial Temático 1", "semestre": 4, "creditos": 8 },
+                        { "id": "soc_sem_2", "nombre": "Seminario Especial Temático 2", "semestre": 5, "creditos": 8 },
+                        { "id": "soc_tall_1", "nombre": "Taller Central de Investigación (1)", "semestre": 6, "creditos": 15 },
+                        { "id": "soc_tall_2", "nombre": "Taller Central de Investigación (2)", "semestre": 7, "creditos": 15 },
+                        { "id": "soc_tall_3", "nombre": "Taller Central de Investigación (3)", "semestre": 8, "creditos": 14 }
                     ]
                 },
                 {
                     "id": "soc_egreso",
                     "nombre": "Egreso",
                     "materias": [
-                        { "id": "soc_monografia", "nombre": "Monografía Final", "semestre": 8, "creditos": 30, "nota": "Requiere tener la totalidad de los créditos aprobados para defenderla." }
+                        { "id": "soc_monografia", "nombre": "Monografía Final", "semestre": 8, "creditos": 30 }
                     ]
                 }
             ]
@@ -931,13 +917,13 @@
                         { "id": "ts_ts4", "nombre": "Trabajo Social IV", "semestre": 6, "creditos": 6 },
                         { "id": "ts_intro_pi", "nombre": "Introducción a Proyectos Integrales", "semestre": 3, "creditos": 3 },
                         { "id": "ts_lab", "nombre": "Laboratorio", "semestre": 4, "creditos": 6 },
-                        { "id": "ts_pi1", "nombre": "Proyectos Integrales I", "semestre": 5, "creditos": 24, "nota": "⛔ PREVIAS EXCLUYENTES: Laboratorio, Intro a PI, Planificación I, Met. Cualitativa I y Met. Cuantitativa I." },
-                        { "id": "ts_pi2", "nombre": "Proyectos Integrales II", "semestre": 6, "creditos": 24, "nota": "⛔ PREVIAS EXCLUYENTES: Proyectos Integrales I, Pol. Sociales, Planificación II, Teorías Sociales I, TS I y TS II." }
+                        { "id": "ts_pi1", "nombre": "Proyectos Integrales I", "semestre": 5, "creditos": 24 },
+                        { "id": "ts_pi2", "nombre": "Proyectos Integrales II", "semestre": 6, "creditos": 24 }
                     ]
                 },
                 {
                     "id": "ts_politicas",
-                    "nombre": "Políticas Públicas, Planificación y Gestión",
+                    "nombre": "Políticas Públicas y Planificación",
                     "materias": [
                         { "id": "ts_planif1", "nombre": "Planificación y Gestión I", "semestre": 3, "creditos": 6 },
                         { "id": "ts_planif2", "nombre": "Planificación y Gestión II", "semestre": 4, "creditos": 6 },
@@ -947,7 +933,7 @@
                 },
                 {
                     "id": "ts_psico",
-                    "nombre": "Componentes Psicosociales y Pedagógicos",
+                    "nombre": "Componentes Psicosociales",
                     "materias": [
                         { "id": "ts_psico1", "nombre": "Psicología", "semestre": 3, "creditos": 4 },
                         { "id": "ts_psico_soc", "nombre": "Psicología Social", "semestre": 4, "creditos": 6 },
@@ -959,8 +945,8 @@
                     "nombre": "Teorías Sociales",
                     "materias": [
                         { "id": "ts_teo1", "nombre": "Teorías Sociales I", "semestre": 3, "creditos": 8 },
-                        { "id": "ts_teo2", "nombre": "Teorías Sociales II", "semestre": 4, "creditos": 6, "nota": "⚠️ Previa obligatoria: Teorías Sociales I." },
-                        { "id": "ts_antrop", "nombre": "Antropología de las Sociedades Contemporáneas", "semestre": 5, "creditos": 6 },
+                        { "id": "ts_teo2", "nombre": "Teorías Sociales II", "semestre": 4, "creditos": 6 },
+                        { "id": "ts_antrop", "nombre": "Antropología de las Sociedades Contemp.", "semestre": 5, "creditos": 6 },
                         { "id": "ts_teo_opt", "nombre": "Créditos Optativos del Módulo", "creditos": 14, "es_bolsa_creditos": true }
                     ]
                 },
@@ -976,10 +962,17 @@
                 },
                 {
                     "id": "ts_historicos",
-                    "nombre": "Análisis de los Procesos Históricos",
+                    "nombre": "Análisis de Procesos Históricos",
                     "materias": [
                         { "id": "ts_hist_uni", "nombre": "Historia Universal Contemporánea", "semestre": 3, "creditos": 5 },
                         { "id": "ts_hist_uy", "nombre": "Historia del Uruguay Contemporáneo", "semestre": 4, "creditos": 7 }
+                    ]
+                },
+                {
+                    "id": "ts_optativas_libres",
+                    "nombre": "Optativas Libres",
+                    "materias": [
+                        { "id": "ts_opt_libres_bolsa", "nombre": "Créditos Optativos Libres", "creditos": 10, "es_bolsa_creditos": true }
                     ]
                 },
                 {
@@ -1017,13 +1010,15 @@
         container.innerHTML = '';
 
         let creditosTotalesAprobados = 0;
-        let materiasCursando = [];
 
         plan.modulos.forEach(modulo => {
             let creditosModulo = 0;
+            let creditosTotalesModulo = 0; 
             let htmlMaterias = '';
 
             modulo.materias.forEach(mat => {
+                creditosTotalesModulo += mat.creditos; 
+
                 if (mat.es_bolsa_creditos) {
                     const valorOptativo = estadoTrayectoria[idCarrera].creditos_optativos[mat.id] || 0;
                     creditosModulo += parseInt(valorOptativo);
@@ -1051,9 +1046,6 @@
                         creditosModulo += mat.creditos;
                         creditosTotalesAprobados += mat.creditos;
                     }
-                    if (isCursar) {
-                        materiasCursando.push(mat.nombre);
-                    }
 
                     htmlMaterias += `
                         <div class="materia-item">
@@ -1080,7 +1072,7 @@
                 <div class="modulo-box">
                     <div class="modulo-header">
                         <h3>${modulo.nombre}</h3>
-                        <span class="modulo-progreso">${creditosModulo} cr. completados</span>
+                        <span class="modulo-progreso">${creditosModulo} / ${creditosTotalesModulo} cr. completados</span>
                     </div>
                     ${htmlMaterias}
                 </div>
@@ -1088,7 +1080,7 @@
         });
 
         actualizarProgresoGlobal(creditosTotalesAprobados, plan.creditos_totales_requeridos, plan.reglas_avance.minimo_total);
-        actualizarEsteSemestre(materiasCursando);
+        actualizarEsteSemestreGlobal();
         actualizarVisibilidadBotonInscripcion(idCarrera);
     }
 
@@ -1146,13 +1138,28 @@
         }
     }
 
-    function actualizarEsteSemestre(materiasCursando) {
+    // Novedad: Ahora revisa todo el perfil del alumno, no importa en qué solapa esté.
+    function actualizarEsteSemestreGlobal() {
         const contenedor = document.getElementById('este-semestre-container');
         const lista = document.getElementById('lista-este-semestre');
+        let todasLasMateriasCursando = [];
+
+        Object.keys(planesEstudio).forEach(carrera => {
+            const plan = planesEstudio[carrera];
+            const estado = estadoTrayectoria[carrera] || { cursar: [] };
+            
+            plan.modulos.forEach(modulo => {
+                modulo.materias.forEach(mat => {
+                    if (estado.cursar.includes(mat.id)) {
+                        todasLasMateriasCursando.push(`<strong>[${plan.nombre.replace('Licenciatura en ', '')}]</strong> ${mat.nombre}`);
+                    }
+                });
+            });
+        });
         
-        if (materiasCursando.length > 0) {
+        if (todasLasMateriasCursando.length > 0) {
             contenedor.style.display = 'block';
-            lista.innerHTML = materiasCursando.map(mat => `<li>${mat}</li>`).join('');
+            lista.innerHTML = todasLasMateriasCursando.map(mat => `<li>${mat}</li>`).join('');
         } else {
             contenedor.style.display = 'none';
         }
@@ -1162,7 +1169,7 @@
         const estado = estadoTrayectoria['ciclo_inicial'] || { aprobadas: [], creditos_optativos: {} };
         const plan = planesEstudio['ciclo_inicial'];
         
-        let credIntro = 0; let credMet = 0; let credOpciones = 0; let credTotales = 0;
+        let credIntro = 0; let credMet = 0; let credTotales = 0;
 
         plan.modulos.forEach(mod => {
             mod.materias.forEach(mat => {
@@ -1176,34 +1183,44 @@
                 credTotales += sum;
                 if (mod.id === 'intro_cs_sociales') credIntro += sum;
                 else if (mod.id === 'metodologico') credMet += sum;
-                else if (mod.id === 'tematicas_cs' || mod.id === 'optativas') credOpciones += sum;
             });
         });
 
+        // Calculamos los topes de las reglas
         const provIntro = Math.min(credIntro, 24);
         const provMet = Math.min(credMet, 16);
-        const provOpc = Math.min(credOpciones, 8);
         
-        const cumpleProvisoria = (provIntro >= 24 && provMet >= 16 && provOpc >= 8);
+        // Los créditos extra que hizo en Intro o Método le sirven para la bolsa general de 8
+        const excedente = credTotales - provIntro - provMet;
+        const provOpc = Math.min(excedente, 8);
+        
+        const cumpleIngreso = (provIntro >= 24 && provMet >= 16 && provOpc >= 8);
         const cumpleDefinitiva = credTotales >= 120;
 
         let html = `
-            <p style="font-size: 0.95rem;">Para ingresar a las licenciaturas existen dos modalidades:</p>
+            <p style="font-size: 0.95rem;">Para avanzar en tu carrera existen diferentes etapas:</p>
             
-            <div class="caja-estado" style="background: ${cumpleProvisoria ? '#d4edda' : '#fff3cd'};">
-                <h4 style="margin:0 0 10px 0; font-family:'Archivo Black';">1. Inscripción Provisoria</h4>
-                <p style="margin:0 0 10px 0; font-size:0.85rem;">Requiere 48 créditos distribuidos específicamente. Te permite empezar a cursar materias de la carrera.</p>
+            <div class="caja-estado" style="background: ${cumpleIngreso ? '#d4edda' : '#fff3cd'};">
+                <h4 style="margin:0 0 10px 0; font-family:'Archivo Black';">1. Ingreso al Ciclo Avanzado</h4>
+                <p style="margin:0 0 10px 0; font-size:0.85rem;">Para empezar a cursar tu Licenciatura necesitás 48 créditos distribuidos así:</p>
                 <ul style="margin:0; padding-left: 20px; font-size:0.9rem;">
                     <li>${provIntro >= 24 ? '✅' : '❌'} <strong>Intro. a las CCSS:</strong> ${provIntro} / 24 cr.</li>
                     <li>${provMet >= 16 ? '✅' : '❌'} <strong>Métodos aplicados:</strong> ${provMet} / 16 cr.</li>
-                    <li>${provOpc >= 8 ? '✅' : '❌'} <strong>Temáticas u Optativas:</strong> ${provOpc} / 8 cr.</li>
+                    <li>${provOpc >= 8 ? '✅' : '❌'} <strong>Otros módulos (Cualquiera):</strong> ${provOpc} / 8 cr.</li>
                 </ul>
-                ${cumpleProvisoria ? '<p style="color:#155724; font-weight:800; margin-top:10px;">¡Ya estás habilitado para la provisoria! 🎉</p>' : ''}
+                ${cumpleIngreso ? '<p style="color:#155724; font-weight:800; margin-top:10px;">¡Ya estás habilitado para cursar materias de la Licenciatura! 🎉</p>' : ''}
             </div>
 
+            ${!cumpleIngreso ? `
+            <div class="caja-estado" style="background: #e2e3e5; border-color: #6c757d;">
+                <h4 style="margin:0 0 10px 0; font-family:'Archivo Black'; color: #383d41;">⏳ Inscripción Provisoria (Excepción)</h4>
+                <p style="margin:0; font-size:0.85rem;">Durante los meses de <strong>febrero y julio</strong> es posible inscribirse al Ciclo Avanzado <em>aunque aún no tengas los créditos indicados arriba</em>. Tendrás la posibilidad de aprobar los créditos que te falten en el siguiente período acotado de exámenes (mayo o setiembre).</p>
+            </div>
+            ` : ''}
+
             <div class="caja-estado" style="background: ${cumpleDefinitiva ? '#d4edda' : '#f8d7da'};">
-                <h4 style="margin:0 0 10px 0; font-family:'Archivo Black';">2. Inscripción Definitiva</h4>
-                <p style="margin:0 0 10px 0; font-size:0.85rem;">Requiere tener los 120 créditos del Ciclo Inicial aprobados.</p>
+                <h4 style="margin:0 0 10px 0; font-family:'Archivo Black';">2. Egreso del Ciclo Inicial</h4>
+                <p style="margin:0 0 10px 0; font-size:0.85rem;">Para obtener el certificado final de este ciclo necesitás completarlo en su totalidad.</p>
                 <ul style="margin:0; padding-left: 20px; font-size:0.9rem;">
                     <li>${cumpleDefinitiva ? '✅' : '❌'} <strong>Créditos Totales CI:</strong> ${credTotales} / 120 cr.</li>
                 </ul>
