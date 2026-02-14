@@ -125,7 +125,6 @@
     .cart-box { 
         background: white; border: var(--borde); padding: 25px; 
         box-shadow: var(--sombra); position: sticky; top: 120px; 
-        /* Importante para que no crezca */
         min-width: 280px; 
     }
     
@@ -135,29 +134,23 @@
         align-items: center; 
         padding: 12px 0; 
         border-bottom: 1px solid #eee; 
-        width: 100%; /* Asegura que ocupe todo el ancho pero no más */
+        width: 100%;
     }
 
     .cart-item-title {
         font-weight: 700; 
         font-size: 0.85rem; 
-        
-        /* LA TRINIDAD DEL RECORTE DE TEXTO */
-        flex: 1;           /* Ocupa el espacio sobrante */
-        min-width: 0;      /* CRÍTICO: Permite que el flex item se encoja */
+        flex: 1;           
+        min-width: 0;      
         white-space: nowrap; 
         overflow: hidden; 
         text-overflow: ellipsis; 
-        
-        margin-right: 10px; /* Espacio con el precio */
+        margin-right: 10px;
         text-align: left;
     }
 
     .cart-item-actions {
-        display: flex; 
-        align-items: center; 
-        gap: 10px; 
-        flex-shrink: 0; /* Asegura que el precio y botón NO se encojan */
+        display: flex; align-items: center; gap: 10px; flex-shrink: 0;
     }
 
     .total-amount { font-family: 'Archivo Black'; font-size: 2.2rem; color: var(--petroleo); text-align: right; margin-bottom: 20px; }
@@ -168,16 +161,72 @@
     /* MOBILE TOGGLE BUTTON */
     #cart-toggle-btn { display: none; position: fixed; bottom: 25px; right: 20px; background: var(--terracota); border: 3px solid #000; padding: 15px 25px; color: white; font-weight: 900; box-shadow: 5px 5px 0px #000; z-index: 3000; cursor: pointer; border-radius: 50px; text-transform: uppercase; font-size: 0.9rem; }
 
+    /* ============ MI TRAYECTORIA ============ */
+    #seccion-trayectoria {
+        display: none; padding: 40px 20px; max-width: 900px; margin: 0 auto;
+    }
+    .trayectoria-header { text-align: center; margin-bottom: 30px; }
+    .trayectoria-header h2 { font-size: 2.5rem; font-family: 'Archivo Black'; color: var(--terracota); margin: 0; text-transform: uppercase; }
+    .trayectoria-header p { font-size: 1.1rem; font-weight: 600; color: var(--petroleo); }
+
+    .progreso-global {
+        background: white; border: var(--borde); padding: 20px; border-radius: 15px;
+        box-shadow: var(--sombra); margin-bottom: 40px; text-align: center;
+        position: sticky; top: 75px; z-index: 100;
+    }
+    .barra-fondo { background: #eee; height: 25px; border-radius: 15px; border: 2px solid var(--negro); overflow: hidden; position: relative; margin-top: 10px; }
+    .barra-relleno { background: var(--petroleo); height: 100%; width: 0%; transition: width 0.5s ease-out; }
+    .barra-texto { position: absolute; top: 0; left: 0; width: 100%; text-align: center; font-weight: 900; color: var(--negro); line-height: 25px; font-size: 0.85rem; mix-blend-mode: difference; color: white; }
+
+    .modulo-box {
+        background: white; border: var(--borde); padding: 25px; border-radius: 15px;
+        box-shadow: var(--sombra-terra); margin-bottom: 30px;
+    }
+    .modulo-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--rosa-suave); padding-bottom: 10px; margin-bottom: 20px; }
+    .modulo-header h3 { margin: 0; font-family: 'Archivo Black'; font-size: 1.4rem; color: var(--petroleo); }
+    .modulo-progreso { font-weight: 800; color: var(--terracota); }
+
+    .materia-item {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 15px 0; border-bottom: 1px dashed #ccc; gap: 15px;
+    }
+    .materia-item:last-child { border-bottom: none; }
+    .materia-info { flex: 1; }
+    .materia-nombre { font-weight: 700; font-size: 1rem; margin: 0; line-height: 1.2; }
+    .materia-meta { font-size: 0.8rem; font-weight: 600; color: #666; margin-top: 5px; }
+
+    .materia-acciones { display: flex; gap: 10px; flex-shrink: 0; }
+    .btn-estado {
+        background: white; border: 2px solid var(--negro); padding: 8px 15px;
+        font-weight: 800; cursor: pointer; font-size: 0.75rem; text-transform: uppercase;
+        box-shadow: 3px 3px 0px var(--negro); transition: 0.1s; border-radius: 5px;
+    }
+    .btn-estado:active { transform: translate(2px,2px); box-shadow: 0 0 0 #000; }
+    
+    .btn-aprobada.activa { background: #d4edda; border-color: #28a745; box-shadow: 3px 3px 0px #28a745; color: #155724; }
+    .btn-cursar.activa { background: var(--terracota); border-color: var(--terracota); box-shadow: 3px 3px 0px var(--negro); color: white; }
+
+    .asesoramiento-box {
+        background: var(--crema-papel); border: 3px dashed var(--petroleo); padding: 30px;
+        text-align: center; border-radius: 15px; margin-top: 50px;
+    }
+    .asesoramiento-box h3 { font-family: 'Archivo Black'; color: var(--petroleo); margin-top: 0; }
+    .asesoramiento-box input, .asesoramiento-box textarea {
+        width: 100%; max-width: 400px; padding: 12px; border: 2px solid var(--negro);
+        font-family: 'Inter'; font-weight: 600; margin-bottom: 15px; border-radius: 5px; outline: none;
+    }
+    .asesoramiento-box textarea { resize: vertical; min-height: 80px; }
+
     /* ============ MEDIA QUERIES ============ */
     @media (max-width: 900px) {
         .navbar .brand { display: none; }
         .navbar { justify-content: center; padding: 12px; }
-        .nav-links { width: 100%; justify-content: center; gap: 15px; }
+        .nav-links { width: 100%; justify-content: center; gap: 10px; flex-wrap: wrap; }
 
         .nav-links button {
             background: var(--rosa-suave); border: 2px solid var(--negro);
-            box-shadow: none; border-radius: 50px; padding: 8px 25px;
-            font-size: 0.85rem; width: auto;
+            box-shadow: none; border-radius: 50px; padding: 8px 15px;
+            font-size: 0.8rem; width: auto;
         }
         .nav-links button:active { background: var(--negro); color: white; transform: none; }
 
@@ -199,7 +248,14 @@
         }
         .cart-box.open { transform: translateY(0); }
         #app-container { padding-bottom: 120px; }
+
+        /* Ajustes mobile para Mi Trayectoria */
+        .materia-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+        .materia-acciones { width: 100%; display: grid; grid-template-columns: 1fr 1fr; }
+        .btn-estado { width: 100%; padding: 12px 5px; }
     }
+    .mobile-only-btn { display: none; }
+    @media (max-width: 900px) { .mobile-only-btn { display: block; } }
   </style>
 </head>
 
@@ -210,6 +266,7 @@
       <div class="nav-links">
           <button onclick="navegar('inicio')">Inicio</button>
           <button onclick="navegar('app')">Buscador</button>
+          <button onclick="navegar('trayectoria')">Mi Trayectoria</button>
       </div>
   </nav>
 
@@ -246,8 +303,49 @@
     </div>
   </section>
 
+  <section id="seccion-trayectoria">
+      <div class="trayectoria-header">
+          <h2>Mi Trayectoria</h2>
+          <p>Marcá lo que ya hiciste y armá tu plan de cursada.<br><em>Tus datos se guardan solo en este dispositivo.</em></p>
+          
+          <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+               <button class="btn-choice" style="padding: 10px 20px; font-size: 0.9rem;" onclick="cargarPlan('ciclo_inicial')">Ciclo Inicial</button>
+               <button class="btn-choice" style="padding: 10px 20px; font-size: 0.9rem;" onclick="cargarPlan('ciencia_politica')">Ciencia Política</button>
+               <button class="btn-choice" style="padding: 10px 20px; font-size: 0.9rem;" onclick="cargarPlan('desarrollo')">Desarrollo</button>
+               <button class="btn-choice" style="padding: 10px 20px; font-size: 0.9rem;" onclick="cargarPlan('sociologia')">Sociología</button>
+               <button class="btn-choice" style="padding: 10px 20px; font-size: 0.9rem;" onclick="cargarPlan('trabajo_social')">Trabajo Social</button>
+          </div>
+      </div>
+
+      <div id="trayectoria-content" style="display: none;">
+          <div class="progreso-global">
+              <h3 id="titulo-carrera-activa" style="margin: 0 0 10px 0; font-family: 'Archivo Black';">Ciclo Inicial</h3>
+              <p style="margin: 0; font-weight: 800;" id="texto-progreso-global">Créditos: 0 / 120</p>
+              <div class="barra-fondo">
+                  <div class="barra-relleno" id="barra-global" style="width: 0%;"></div>
+                  <div class="barra-texto" id="porcentaje-global">0%</div>
+              </div>
+              <p id="mensaje-avance" style="font-weight: 700; color: var(--terracota); margin-top: 10px; font-size: 0.9rem; display: none;">
+                  🎉 ¡Tenés los créditos necesarios para este ciclo!
+              </p>
+          </div>
+
+          <div id="modulos-container">
+              </div>
+
+          <div class="asesoramiento-box">
+              <h3>¿Dudas con tu trayectoria?</h3>
+              <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 20px;">
+                  Pedinos asesoramiento. Al enviar este formulario, los compañeros del CECSo van a poder ver las materias que marcaste arriba para ayudarte mejor.
+              </p>
+              <input type="text" id="asesor_nombre" placeholder="Tu nombre (opcional)">
+              <input type="email" id="asesor_email" placeholder="Tu email (para que te respondamos)" required>
+              <textarea id="asesor_consulta" placeholder="Escribí tu consulta acá..." required></textarea>
+              <button class="btn-cta-top" style="padding: 15px 30px; font-size: 1.1rem; margin: 10px 0 0 0;" onclick="enviarAsesoramiento()">Pedir Ayuda</button>
+          </div>
+      </div>
+  </section>
   <div id="app-container">
-      
       <div id="step-carrera" class="step-view">
           <h2 class="step-title">Elegí tu Carrera</h2>
           <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
@@ -310,11 +408,6 @@
       </div>
   </div>
 
-  <style>
-      .mobile-only-btn { display: none; }
-      @media (max-width: 900px) { .mobile-only-btn { display: block; } }
-  </style>
-
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbwGPzuKCAN2H-h1FDr-26__T3HzhfPOHjDBoXzv9fXBXTHKc3Ch45qn8ZAEGQSBR9aX/exec"; 
     const COSTO_ENVIO = 200; 
@@ -350,6 +443,8 @@
         window.scrollTo(0,0);
         document.getElementById('seccion-inicio').style.display = (seccion === 'inicio') ? 'block' : 'none';
         document.getElementById('app-container').style.display = (seccion === 'app') ? 'block' : 'none';
+        document.getElementById('seccion-trayectoria').style.display = (seccion === 'trayectoria') ? 'block' : 'none';
+        
         document.getElementById('cart-toggle-btn').style.display = 'none';
         if(seccion === 'app') navegarApp('step-carrera');
     };
@@ -510,6 +605,460 @@
             + "&entry.1104329366=" + encodeURIComponent(envio);
 
         window.open(url, "_blank");
+    };
+
+    // ================= LÓGICA DE MI TRAYECTORIA =================
+    const planesEstudio = {
+        "ciclo_inicial": {
+            "nombre": "Ciclo Inicial",
+            "creditos_totales_requeridos": 120,
+            "reglas_avance": { "minimo_total": 48 },
+            "modulos": [
+                {
+                    "id": "intro_cs_sociales",
+                    "nombre": "Introducción a las Ciencias Sociales",
+                    "materias": [
+                        { "id": "ci_cuestion", "nombre": "La cuestión social en la historia", "semestre": 1, "creditos": 8 },
+                        { "id": "ci_poder", "nombre": "Poder, estado y sistema político", "semestre": 2, "creditos": 8 },
+                        { "id": "ci_historia", "nombre": "Historia contemporánea de América Latina", "semestre": 3, "creditos": 8 },
+                        { "id": "ci_economia", "nombre": "Principios de economía", "semestre": 1, "creditos": 8 }
+                    ]
+                },
+                {
+                    "id": "metodologico",
+                    "nombre": "Métodos aplicados",
+                    "materias": [
+                        { "id": "ci_mate1", "nombre": "Matemática I / Curso Extendido", "semestre": 1, "creditos": 8 },
+                        { "id": "ci_estadistica", "nombre": "Estadística social", "semestre": 2, "creditos": 8 },
+                        { "id": "ci_metodologia", "nombre": "Metodología de la investigación", "semestre": 3, "creditos": 10 }
+                    ]
+                },
+                {
+                     "id": "optativas",
+                     "nombre": "Optativas",
+                     "materias": [
+                        { "id": "opt_udelar", "nombre": "Introducción a la Udelar y FCS", "semestre": 1, "creditos": 2 },
+                        { "id": "opt_sociologia_uy", "nombre": "Sociología del Uruguay", "semestre": 2, "creditos": 8 }
+                     ]
+                }
+            ]
+        },
+        "ciencia_politica": {
+            "nombre": "Licenciatura en Ciencia Política",
+            "creditos_totales_requeridos": 240,
+            "reglas_avance": { "minimo_total": 240 },
+            "modulos": [
+                {
+                    "id": "cp_sistema_politico",
+                    "nombre": "Sistema Político Nacional",
+                    "materias": [
+                        { "id": "cp_spn1", "nombre": "Sistema Político Nacional I", "semestre": 3, "creditos": 8 },
+                        { "id": "cp_spn2", "nombre": "Sistema Político Nacional II", "semestre": 4, "creditos": 8 },
+                        { "id": "cp_spn3", "nombre": "Sistema Político Nacional III", "semestre": 7, "creditos": 8 }
+                    ]
+                },
+                {
+                    "id": "cp_instituciones",
+                    "nombre": "Instituciones Políticas y Actores",
+                    "materias": [
+                        { "id": "cp_ipa1", "nombre": "Instituciones Políticas y Actores I", "semestre": 5, "creditos": 8 },
+                        { "id": "cp_ipa2", "nombre": "Instituciones Políticas y Actores II", "semestre": 6, "creditos": 8 },
+                        { "id": "cp_ipa3", "nombre": "Instituciones Políticas y Actores III (Electiva)", "semestre": 7, "creditos": 8 }
+                    ]
+                },
+                {
+                    "id": "cp_estado_politicas",
+                    "nombre": "Estado y Políticas Públicas",
+                    "materias": [
+                        { "id": "cp_epp1", "nombre": "Estado y Políticas Públicas I", "semestre": 3, "creditos": 8, "nota": "⚠️ Previa: Políticas Públicas del Ciclo Inicial" },
+                        { "id": "cp_epp2", "nombre": "Estado y Políticas Públicas II", "semestre": 4, "creditos": 6 },
+                        { "id": "cp_epp3", "nombre": "Estado y Políticas Públicas III", "semestre": 6, "creditos": 6 },
+                        { "id": "cp_epp4", "nombre": "Estado y Políticas Públicas IV (Electiva)", "semestre": 7, "creditos": 4 }
+                    ]
+                },
+                {
+                    "id": "cp_teoria_politica",
+                    "nombre": "Teoría Política",
+                    "materias": [
+                        { "id": "cp_tp1", "nombre": "Teoría Política I", "semestre": 3, "creditos": 8 },
+                        { "id": "cp_tp2", "nombre": "Teoría Política II", "semestre": 4, "creditos": 8 },
+                        { "id": "cp_tp3", "nombre": "Teoría Política III (Electiva)", "semestre": 8, "creditos": 8 }
+                    ]
+                },
+                {
+                    "id": "cp_metodologia",
+                    "nombre": "Metodología de la Investigación",
+                    "materias": [
+                        { "id": "cp_met1", "nombre": "Medición y Diseño de Investigación", "semestre": 3, "creditos": 8 },
+                        { "id": "cp_met2", "nombre": "Técnicas Cualitativas para la Inv. en C.P.", "semestre": 4, "creditos": 8 },
+                        { "id": "cp_met3", "nombre": "Técnicas Cuantitativas (Electiva)", "semestre": 5, "creditos": 8 },
+                        { "id": "cp_met4", "nombre": "Método Comparado y Estudio de Caso", "semestre": 5, "creditos": 7 },
+                        { "id": "cp_met5", "nombre": "Métodos de Inferencia Causal Aplicada", "semestre": 7, "creditos": 8 }
+                    ]
+                },
+                {
+                    "id": "cp_disciplinas_comp",
+                    "nombre": "Disciplinas Complementarias",
+                    "materias": [
+                        { "id": "cp_dc_hist_uy", "nombre": "Historia del Uruguay Contemporáneo", "semestre": 3, "creditos": 11 },
+                        { "id": "cp_dc_hist_uni", "nombre": "Historia Universal Contemporánea", "semestre": 4, "creditos": 10 },
+                        { "id": "cp_dc_der", "nombre": "Teoría del Derecho", "semestre": 7, "creditos": 8 },
+                        { "id": "cp_dc_eco_core", "nombre": "Análisis Macroeconómico o Microeconómico", "semestre": 4, "creditos": 4 },
+                        { "id": "cp_dc_eco_elec", "nombre": "Electiva de Análisis Económico", "semestre": 4, "creditos": 6 }
+                    ]
+                },
+                {
+                    "id": "cp_optativas",
+                    "nombre": "Profundización Temática (Optativas libres)",
+                    "materias": [
+                        { "id": "cp_opt_7", "nombre": "Bloque de Optativas (7mo Semestre)", "semestre": 7, "creditos": 18 },
+                        { "id": "cp_opt_8", "nombre": "Bloque de Optativas (8vo Semestre)", "semestre": 8, "creditos": 18 }
+                    ]
+                },
+                {
+                    "id": "cp_egreso",
+                    "nombre": "Egreso",
+                    "materias": [
+                        { 
+                            "id": "cp_trabajo_final", 
+                            "nombre": "Trabajo Final (Monografía o Pasantía)", 
+                            "semestre": 8, 
+                            "creditos": 30,
+                            "nota": "🎓 Requiere aprobación con nota mínima de 'Bueno'. La monografía exige defensa oral obligatoria." 
+                        }
+                    ]
+                }
+            ]
+        },
+        "desarrollo": {
+            "nombre": "Licenciatura en Desarrollo",
+            "creditos_totales_requeridos": 240,
+            "reglas_avance": { "minimo_total": 240 },
+            "modulos": [
+                {
+                    "id": "led_problemas",
+                    "nombre": "Problemas del Desarrollo",
+                    "materias": [
+                        { "id": "led_pd_pensamiento", "nombre": "El pensamiento sobre el desarrollo", "semestre": 3, "creditos": 8 },
+                        { "id": "led_pd_objeto", "nombre": "Objeto y método de los estudios para el desarrollo", "semestre": 3, "creditos": 8 },
+                        { "id": "led_pd_teoria_soc", "nombre": "Teoría sociológica del desarrollo", "semestre": 4, "creditos": 8 },
+                        { "id": "led_pd_ciencia", "nombre": "Ciencia, tecnología, innovación", "semestre": 5, "creditos": 6 },
+                        { "id": "led_pd_sistema", "nombre": "Sistema Internacional y Gobernanza", "semestre": 5, "creditos": 6 },
+                        { "id": "led_pd_planificacion", "nombre": "Planificación del Desarrollo", "semestre": 6, "creditos": 6 },
+                        { "id": "led_pd_estado", "nombre": "Estado, desarrollo y políticas públicas", "semestre": 6, "creditos": 8 },
+                        { "id": "led_pd_poblacion", "nombre": "Población y desarrollo", "semestre": 6, "creditos": 4 },
+                        { "id": "led_pd_teoria_eco", "nombre": "Teoría del Desarrollo Económico", "semestre": 6, "creditos": 6 }
+                    ]
+                },
+                {
+                    "id": "led_teorica",
+                    "nombre": "Profundización Teórica",
+                    "materias": [
+                        { "id": "led_pt_macro", "nombre": "Análisis Macroeconómico", "semestre": 5, "creditos": 7 },
+                        { "id": "led_pt_micro", "nombre": "Análisis Microeconómico", "semestre": 4, "creditos": 6 },
+                        { "id": "led_pt_insti", "nombre": "Teoría de las instituciones", "semestre": 7, "creditos": 8 },
+                        { "id": "led_pt_opt", "nombre": "Optativas de Profundización Teórica", "semestre": "Varios", "creditos": 9 }
+                    ]
+                },
+                {
+                    "id": "led_metodologia",
+                    "nombre": "Metodología de la Investigación",
+                    "materias": [
+                        { "id": "led_met_diseno", "nombre": "Diseños de Investigación", "semestre": 5, "creditos": 8 },
+                        { "id": "led_met_ind", "nombre": "Indicadores de Desarrollo", "semestre": 6, "creditos": 6 },
+                        { "id": "led_met_est", "nombre": "Estadística en ciencias sociales", "semestre": 4, "creditos": 8 },
+                        { "id": "led_met_herr", "nombre": "Herramientas de Trabajo Interdisciplinario", "semestre": 7, "creditos": 6 },
+                        { "id": "led_met_opt", "nombre": "Optativa Metodológica", "semestre": "Varios", "creditos": 2 }
+                    ]
+                },
+                {
+                    "id": "led_moi",
+                    "nombre": "Módulo Optativo Integral (MOI)",
+                    "materias": [
+                        { "id": "led_moi_bloque", "nombre": "Asignaturas del MOI", "semestre": "Varios", "creditos": 35, "nota": "⚠️ Cambios de escolaridad solo a partir de los 260 créditos, una vez al año y fuera de feb/jul." }
+                    ]
+                },
+                {
+                    "id": "led_taller",
+                    "nombre": "Taller de Desarrollo",
+                    "materias": [
+                        { "id": "led_tall_1", "nombre": "Taller de Desarrollo I", "semestre": 5, "creditos": 10 },
+                        { "id": "led_tall_2", "nombre": "Taller de Desarrollo II", "semestre": 6, "creditos": 20 }
+                    ]
+                },
+                {
+                    "id": "led_practica",
+                    "nombre": "Práctica Académico-Profesional y Trabajo Final",
+                    "materias": [
+                        { "id": "led_prac_metodos", "nombre": "Métodos Cuantitativos o Cualitativos aplicados", "semestre": 8, "creditos": 10 },
+                        { "id": "led_prac_opt", "nombre": "Optativas Libres", "semestre": 8, "creditos": 15 },
+                        { "id": "led_prac_tf", "nombre": "Trabajo Final", "semestre": 8, "creditos": 30, "nota": "🎓 El título se expide tras aprobar todos los créditos y el Trabajo Final." }
+                    ]
+                }
+            ]
+        },
+        "sociologia": {
+            "nombre": "Licenciatura en Sociología",
+            "creditos_totales_requeridos": 240,
+            "reglas_avance": { "minimo_total": 240 },
+            "modulos": [
+                {
+                    "id": "soc_teorias",
+                    "nombre": "Teorías Sociológicas",
+                    "materias": [
+                        { "id": "soc_teo1", "nombre": "Teoría Sociológica I", "semestre": 3, "creditos": 10 },
+                        { "id": "soc_teo2", "nombre": "Teoría Sociológica II", "semestre": 4, "creditos": 10, "nota": "⚠️ Previa obligatoria: Teoría Sociológica I" },
+                        { "id": "soc_teo3", "nombre": "Teoría Sociológica III", "semestre": 5, "creditos": 10, "nota": "⚠️ Previa obligatoria: Teoría Sociológica II" },
+                        { "id": "soc_teo4", "nombre": "Teoría Sociológica IV", "semestre": 6, "creditos": 10, "nota": "⚠️ Previa obligatoria: Teoría Sociológica III" }
+                    ]
+                },
+                {
+                    "id": "soc_metodologia",
+                    "nombre": "Metodología de la Investigación",
+                    "materias": [
+                        { "id": "soc_met_cuan1", "nombre": "Metodología Cuantitativa I", "semestre": 3, "creditos": 8 },
+                        { "id": "soc_met_cual1", "nombre": "Metodología Cualitativa I", "semestre": 3, "creditos": 8 },
+                        { "id": "soc_met_cuan2", "nombre": "Metodología Cuantitativa II", "semestre": 4, "creditos": 8, "nota": "⚠️ Previa: Metodología Cuantitativa I" },
+                        { "id": "soc_met_cual2", "nombre": "Metodología Cualitativa II", "semestre": 4, "creditos": 8, "nota": "⚠️ Previa: Metodología Cualitativa I" },
+                        { "id": "soc_met_cuan3", "nombre": "Metodología Cuantitativa III", "semestre": 5, "creditos": 8, "nota": "⚠️ Previa: Metodología Cuantitativa II" }
+                    ]
+                },
+                {
+                    "id": "soc_especiales_tematicas",
+                    "nombre": "Sociologías Especiales y Temáticas",
+                    "materias": [
+                        { "id": "soc_esp_ansoc1", "nombre": "Análisis Sociológico I", "semestre": 4, "creditos": 8 },
+                        { "id": "soc_esp_latam", "nombre": "Soc. y pensamiento sociológico Latinoamericano", "semestre": 5, "creditos": 8 },
+                        { "id": "soc_esp_elec_2", "nombre": "Análisis Sociológico II (Electiva)", "semestre": 6, "creditos": 8 },
+                        { "id": "soc_esp_elec_3", "nombre": "Sociología Especial (Electiva)", "semestre": 6, "creditos": 8 },
+                        { "id": "soc_esp_uy", "nombre": "Soc. y pensamiento sociológico del Uruguay", "semestre": 7, "creditos": 8 }
+                    ]
+                },
+                {
+                    "id": "soc_otras_cs_sociales",
+                    "nombre": "Otras Ciencias Sociales",
+                    "materias": [
+                        { "id": "soc_epis", "nombre": "Epistemología", "semestre": 8, "creditos": 6 },
+                        { "id": "soc_otras_opt", "nombre": "Seminario Temático I y Otras Cs. Sociales", "semestre": "Varios", "creditos": 24 }
+                    ]
+                },
+                {
+                    "id": "soc_talleres",
+                    "nombre": "Seminarios y Talleres",
+                    "materias": [
+                        { "id": "soc_sem_1", "nombre": "Seminario en Sociologías Especiales Temáticas 1", "semestre": 4, "creditos": 8 },
+                        { "id": "soc_sem_2", "nombre": "Seminario en Sociologías Especiales Temáticas 2", "semestre": 5, "creditos": 8 },
+                        { "id": "soc_tall_1", "nombre": "Taller Central de Investigación (Semestre 1)", "semestre": 6, "creditos": 15, "nota": "⛔ Bloqueado sin: T. Sociológica I; Met. Cuan I/II; Met. Cual I/II." },
+                        { "id": "soc_tall_2", "nombre": "Taller Central de Investigación (Semestre 2)", "semestre": 7, "creditos": 15, "nota": "⛔ Bloqueado sin: T. Sociológica II y Met. Cuantitativa III." },
+                        { "id": "soc_tall_3", "nombre": "Taller Central de Investigación (Semestre 3)", "semestre": 8, "creditos": 14 }
+                    ]
+                },
+                {
+                    "id": "soc_egreso",
+                    "nombre": "Egreso",
+                    "materias": [
+                        { "id": "soc_monografia", "nombre": "Monografía Final", "semestre": 8, "creditos": 30, "nota": "Requiere tener la totalidad de los créditos aprobados para defenderla." }
+                    ]
+                }
+            ]
+        },
+        "trabajo_social": {
+            "nombre": "Licenciatura en Trabajo Social",
+            "creditos_totales_requeridos": 240,
+            "reglas_avance": { "minimo_total": 240 },
+            "modulos": [
+                {
+                    "id": "ts_fundamentos",
+                    "nombre": "Fundamentos Teórico-Metodológicos",
+                    "materias": [
+                        { "id": "ts_ts1", "nombre": "Trabajo Social I", "semestre": 3, "creditos": 6 },
+                        { "id": "ts_ts2", "nombre": "Trabajo Social II", "semestre": 4, "creditos": 6 },
+                        { "id": "ts_ts3", "nombre": "Trabajo Social III", "semestre": 5, "creditos": 6 },
+                        { "id": "ts_ts4", "nombre": "Trabajo Social IV", "semestre": 6, "creditos": 6 },
+                        { "id": "ts_intro_pi", "nombre": "Introducción a Proyectos Integrales", "semestre": 3, "creditos": 3 },
+                        { "id": "ts_lab", "nombre": "Laboratorio", "semestre": 4, "creditos": 6 },
+                        { "id": "ts_pi1", "nombre": "Proyectos Integrales I", "semestre": 5, "creditos": 24, "nota": "⛔ PREVIAS EXCLUYENTES: Laboratorio, Intro a PI, Planificación I, Met. Cualitativa I y Met. Cuantitativa I." },
+                        { "id": "ts_pi2", "nombre": "Proyectos Integrales II", "semestre": 6, "creditos": 24, "nota": "⛔ PREVIAS EXCLUYENTES: Proyectos Integrales I, Pol. Sociales, Planificación II, Teorías Sociales I, TS I y TS II." }
+                    ]
+                },
+                {
+                    "id": "ts_politicas",
+                    "nombre": "Políticas Públicas, Planificación y Gestión",
+                    "materias": [
+                        { "id": "ts_planif1", "nombre": "Planificación y Gestión I", "semestre": 3, "creditos": 6 },
+                        { "id": "ts_planif2", "nombre": "Planificación y Gestión II", "semestre": 4, "creditos": 6 },
+                        { "id": "ts_polsoc", "nombre": "Políticas Sociales", "semestre": 5, "creditos": 8 },
+                        { "id": "ts_pol_opt", "nombre": "Optativas del Módulo", "semestre": "Varios", "creditos": 10 }
+                    ]
+                },
+                {
+                    "id": "ts_psico",
+                    "nombre": "Componentes Psicosociales y Pedagógicos",
+                    "materias": [
+                        { "id": "ts_psico1", "nombre": "Psicología", "semestre": 3, "creditos": 4 },
+                        { "id": "ts_psico_soc", "nombre": "Psicología Social", "semestre": 4, "creditos": 6 },
+                        { "id": "ts_psico_opt", "nombre": "Optativa del Módulo", "semestre": "Varios", "creditos": 4 }
+                    ]
+                },
+                {
+                    "id": "ts_teorias",
+                    "nombre": "Teorías Sociales",
+                    "materias": [
+                        { "id": "ts_teo1", "nombre": "Teorías Sociales I", "semestre": 3, "creditos": 8 },
+                        { "id": "ts_teo2", "nombre": "Teorías Sociales II", "semestre": 4, "creditos": 6, "nota": "⚠️ Previa obligatoria: Haber reglamentado o aprobado Teorías Sociales I." },
+                        { "id": "ts_antrop", "nombre": "Antropología de las Sociedades Contemporáneas", "semestre": 5, "creditos": 6 },
+                        { "id": "ts_teo_opt", "nombre": "Optativas del Módulo", "semestre": "Varios", "creditos": 14 }
+                    ]
+                },
+                {
+                    "id": "ts_metodologia",
+                    "nombre": "Metodología de la Investigación",
+                    "materias": [
+                        { "id": "ts_met_cual1", "nombre": "Metodología Cualitativa I", "semestre": 3, "creditos": 8 },
+                        { "id": "ts_met_cuan1", "nombre": "Metodología Cuantitativa I", "semestre": 4, "creditos": 8 },
+                        { "id": "ts_epist", "nombre": "Epistemología", "semestre": 8, "creditos": 6 },
+                        { "id": "ts_met_opt", "nombre": "Optativa del Módulo", "semestre": "Varios", "creditos": 5 }
+                    ]
+                },
+                {
+                    "id": "ts_historicos",
+                    "nombre": "Análisis de los Procesos Históricos",
+                    "materias": [
+                        { "id": "ts_hist_uni", "nombre": "Historia Universal Contemporánea", "semestre": 3, "creditos": 5 },
+                        { "id": "ts_hist_uy", "nombre": "Historia del Uruguay Contemporáneo", "semestre": 4, "creditos": 7 }
+                    ]
+                },
+                {
+                    "id": "ts_egreso",
+                    "nombre": "Egreso",
+                    "materias": [
+                        { "id": "ts_monografia", "nombre": "Monografía Final", "semestre": 8, "creditos": 30 }
+                    ]
+                }
+            ]
+        }
+    };
+
+    let estadoTrayectoria = JSON.parse(localStorage.getItem("cecso_trayectoria")) || {};
+    let carreraActivaId = null;
+
+    window.cargarPlan = function(idCarrera) {
+        carreraActivaId = idCarrera;
+        document.getElementById('trayectoria-content').style.display = 'block';
+        
+        if (!estadoTrayectoria[idCarrera]) {
+            estadoTrayectoria[idCarrera] = { aprobadas: [], cursar: [] };
+        }
+        
+        renderPlan(idCarrera);
+    };
+
+    function renderPlan(idCarrera) {
+        const plan = planesEstudio[idCarrera];
+        document.getElementById('titulo-carrera-activa').innerText = plan.nombre;
+        const container = document.getElementById('modulos-container');
+        container.innerHTML = '';
+
+        let creditosTotalesAprobados = 0;
+
+        plan.modulos.forEach(modulo => {
+            let creditosModulo = 0;
+            let htmlMaterias = '';
+
+            modulo.materias.forEach(mat => {
+                const isAprobada = estadoTrayectoria[idCarrera].aprobadas.includes(mat.id);
+                const isCursar = estadoTrayectoria[idCarrera].cursar.includes(mat.id);
+                
+                if (isAprobada) {
+                    creditosModulo += mat.creditos;
+                    creditosTotalesAprobados += mat.creditos;
+                }
+
+                htmlMaterias += `
+                    <div class="materia-item">
+                        <div class="materia-info">
+                            <h4 class="materia-nombre">${mat.nombre}</h4>
+                            <p class="materia-meta">Semestre ${mat.semestre} | ${mat.creditos} créditos ${mat.nota ? '<br><span style="color:var(--terracota); font-weight:700;">' + mat.nota + '</span>' : ''}</p>
+                        </div>
+                        <div class="materia-acciones">
+                            <button class="btn-estado btn-aprobada ${isAprobada ? 'activa' : ''}" 
+                                onclick="toggleMateria('${idCarrera}', '${mat.id}', 'aprobada')">
+                                ${isAprobada ? '✅ Aprobada' : 'Aprobada'}
+                            </button>
+                            <button class="btn-estado btn-cursar ${isCursar ? 'activa' : ''}" 
+                                onclick="toggleMateria('${idCarrera}', '${mat.id}', 'cursar')">
+                                ${isCursar ? '🎯 Voy a cursar' : 'Cursar'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML += `
+                <div class="modulo-box">
+                    <div class="modulo-header">
+                        <h3>${modulo.nombre}</h3>
+                        <span class="modulo-progreso">${creditosModulo} cr. completados</span>
+                    </div>
+                    ${htmlMaterias}
+                </div>
+            `;
+        });
+
+        actualizarProgresoGlobal(creditosTotalesAprobados, plan.creditos_totales_requeridos, plan.reglas_avance.minimo_total);
+    }
+
+    window.toggleMateria = function(idCarrera, idMateria, accion) {
+        let estado = estadoTrayectoria[idCarrera];
+
+        if (accion === 'aprobada') {
+            const idx = estado.aprobadas.indexOf(idMateria);
+            if (idx === -1) {
+                estado.aprobadas.push(idMateria);
+                estado.cursar = estado.cursar.filter(id => id !== idMateria); 
+            } else {
+                estado.aprobadas.splice(idx, 1);
+            }
+        } else if (accion === 'cursar') {
+            const idx = estado.cursar.indexOf(idMateria);
+            if (idx === -1) {
+                estado.cursar.push(idMateria);
+                estado.aprobadas = estado.aprobadas.filter(id => id !== idMateria);
+            } else {
+                estado.cursar.splice(idx, 1);
+            }
+        }
+
+        localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria));
+        renderPlan(idCarrera);
+    };
+
+    function actualizarProgresoGlobal(creditos, totales, minimoAvanzado) {
+        const porcentaje = Math.min(Math.round((creditos / totales) * 100), 100);
+        document.getElementById('texto-progreso-global').innerText = `Créditos obtenidos: ${creditos} / ${totales}`;
+        document.getElementById('barra-global').style.width = porcentaje + '%';
+        document.getElementById('porcentaje-global').innerText = porcentaje + '%';
+
+        const msjAvance = document.getElementById('mensaje-avance');
+        if (creditos >= minimoAvanzado) {
+            msjAvance.style.display = 'block';
+        } else {
+            msjAvance.style.display = 'none';
+        }
+    }
+
+    window.enviarAsesoramiento = function() {
+        const email = document.getElementById('asesor_email').value;
+        const consulta = document.getElementById('asesor_consulta').value;
+        
+        if (!email || !consulta) {
+            alert("Por favor completá tu email y la consulta.");
+            return;
+        }
+
+        const datosTrayectoria = JSON.stringify(estadoTrayectoria[carreraActivaId] || {});
+        
+        alert("¡Consulta guardada! (Acá conectaremos con tu Apps Script). \\n\\nDatos ocultos enviados:\\n" + datosTrayectoria);
     };
 
     window.onload = () => { renderCarrito(); navegar('inicio'); };
