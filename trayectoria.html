@@ -146,7 +146,6 @@
     .envio-wrapper input { width: 20px; height: 20px; cursor: pointer; accent-color: var(--terracota); }
     .envio-label { font-weight: 700; font-size: 0.9rem; cursor: pointer; }
 
-    /* MOBILE TOGGLE BUTTON */
     #cart-toggle-btn { display: none; position: fixed; bottom: 25px; right: 20px; background: var(--terracota); border: 3px solid #000; padding: 15px 25px; color: white; font-weight: 900; box-shadow: 5px 5px 0px #000; z-index: 3000; cursor: pointer; border-radius: 50px; text-transform: uppercase; font-size: 0.9rem; }
 
     /* ============ MI TRAYECTORIA ============ */
@@ -155,14 +154,17 @@
     .trayectoria-header h2 { font-size: 2.5rem; font-family: 'Archivo Black'; color: var(--terracota); margin: 0; text-transform: uppercase; }
     .trayectoria-header p { font-size: 1.1rem; font-weight: 600; color: var(--petroleo); }
 
-    .progreso-global {
-        background: white; border: var(--borde); padding: 20px; border-radius: 15px;
+    /* CONTADOR ZEN */
+    .panel-zen {
+        background: white; border: var(--borde); padding: 30px 20px; border-radius: 15px;
         box-shadow: var(--sombra); margin-bottom: 40px; text-align: center;
         position: sticky; top: 75px; z-index: 100;
+        display: flex; flex-direction: column; align-items: center; gap: 15px;
     }
-    .barra-fondo { background: #eee; height: 25px; border-radius: 15px; border: 2px solid var(--negro); overflow: hidden; position: relative; margin-top: 10px; }
-    .barra-relleno { background: var(--petroleo); height: 100%; width: 0%; transition: width 0.5s ease-out; }
-    .barra-texto { position: absolute; top: 0; left: 0; width: 100%; text-align: center; font-weight: 900; color: var(--negro); line-height: 25px; font-size: 0.85rem; mix-blend-mode: difference; color: white; }
+    .titulo-zen { margin: 0; font-family: 'Archivo Black'; font-size: 1.5rem; color: var(--petroleo); }
+    .contador-box { background: var(--rosa-suave); border: 2px solid var(--negro); padding: 10px 25px; border-radius: 50px; display: inline-block; box-shadow: 3px 3px 0px var(--negro); }
+    .numero-zen { font-size: 1.4rem; font-family: 'Archivo Black'; color: var(--negro); }
+    .frase-zen { font-weight: 700; color: var(--terracota); font-size: 1rem; margin: 0; font-style: italic; max-width: 600px; line-height: 1.4; }
 
     .modulo-box {
         background: white; border: var(--borde); padding: 25px; border-radius: 15px;
@@ -170,7 +172,7 @@
     }
     .modulo-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--rosa-suave); padding-bottom: 10px; margin-bottom: 20px; }
     .modulo-header h3 { margin: 0; font-family: 'Archivo Black'; font-size: 1.4rem; color: var(--petroleo); }
-    .modulo-progreso { font-weight: 800; color: var(--terracota); }
+    .modulo-progreso { font-weight: 800; color: var(--terracota); background: #fdfaf6; padding: 5px 10px; border-radius: 8px; border: 1px dashed var(--terracota); }
 
     .materia-item {
         display: flex; justify-content: space-between; align-items: center;
@@ -181,7 +183,7 @@
     .materia-nombre { font-weight: 700; font-size: 1rem; margin: 0; line-height: 1.2; }
     .materia-meta { font-size: 0.8rem; font-weight: 600; color: #666; margin-top: 5px; }
 
-    .materia-acciones { display: flex; gap: 10px; flex-shrink: 0; }
+    .materia-acciones { display: flex; gap: 10px; flex-shrink: 0; align-items: center; }
     .btn-estado {
         background: white; border: 2px solid var(--negro); padding: 8px 15px;
         font-weight: 800; cursor: pointer; font-size: 0.75rem; text-transform: uppercase;
@@ -203,10 +205,9 @@
     }
     .asesoramiento-box textarea { resize: vertical; min-height: 80px; }
 
-    /* ============ OPTATIVAS Y ESTE SEMESTRE ============ */
     .input-optativos {
-        width: 70px; padding: 10px; border: 2px solid var(--negro);
-        font-family: 'Archivo Black'; font-size: 1.2rem; text-align: center;
+        width: 60px; padding: 8px; border: 2px solid var(--negro);
+        font-family: 'Archivo Black'; font-size: 1rem; text-align: center;
         border-radius: 5px; outline: none; box-shadow: 3px 3px 0px var(--negro);
         transition: 0.1s;
     }
@@ -216,16 +217,16 @@
         background: var(--rosa-suave); border: var(--borde); padding: 25px; 
         border-radius: 15px; margin-bottom: 40px; box-shadow: var(--sombra);
     }
-    #lista-este-semestre { font-weight: 700; line-height: 1.8; color: var(--petroleo); padding-left: 20px; font-size: 1.1rem; }
+    #lista-este-semestre { font-weight: 700; line-height: 1.8; color: var(--petroleo); padding-left: 20px; font-size: 1rem; }
 
-    /* ============ MODAL DE INSCRIPCIÓN ============ */
+    /* ============ MODALES ============ */
     .modal-overlay { 
         display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
         background: rgba(0,0,0,0.6); z-index: 4000; align-items: center; justify-content: center; padding: 20px; 
     }
     .modal-content { 
         background: white; border: var(--borde); border-radius: 15px; padding: 30px; 
-        max-width: 500px; width: 100%; box-shadow: var(--sombra); position: relative; 
+        max-width: 500px; width: 100%; box-shadow: var(--sombra); position: relative; max-height: 90vh; overflow-y: auto;
     }
     .modal-close { 
         position: absolute; top: 15px; right: 20px; font-weight: 900; font-size: 1.5rem; 
@@ -234,41 +235,38 @@
     .modal-close:hover { transform: scale(1.2); }
     .caja-estado { border: 2px solid var(--negro); padding: 15px; border-radius: 10px; margin-bottom: 15px; }
 
-    /* ============ MEDIA QUERIES ============ */
+    /* Estilos Catálogos (Optativas y Librillos) */
+    .optativa-card {
+        border-bottom: 1px dashed #ccc; padding: 15px 0; display: flex; justify-content: space-between; align-items: center; gap: 15px;
+    }
+    .optativa-card:last-child { border-bottom: none; }
+    .btn-programa {
+        background: var(--rosa-suave); border: 2px solid var(--negro); padding: 8px 12px; font-weight: 800; font-size: 0.75rem; text-decoration: none; color: var(--negro); box-shadow: 2px 2px 0px var(--negro); text-transform: uppercase; white-space: nowrap; transition: 0.1s; display: inline-block; cursor: pointer;
+    }
+    .btn-programa:active { transform: translate(2px,2px); box-shadow: 0 0 0 #000; }
+    #buscador-optativas { width: 100%; padding: 12px; border: 2px solid var(--negro); font-family: 'Inter'; font-weight: 700; margin-bottom: 15px; border-radius: 5px; outline: none; }
+
     @media (max-width: 900px) {
         .navbar .brand { display: none; }
         .navbar { justify-content: center; padding: 12px; }
         .nav-links { width: 100%; justify-content: center; gap: 10px; flex-wrap: wrap; }
-
-        .nav-links button {
-            background: var(--rosa-suave); border: 2px solid var(--negro);
-            box-shadow: none; border-radius: 50px; padding: 8px 15px;
-            font-size: 0.8rem; width: auto;
-        }
+        .nav-links button { background: var(--rosa-suave); border: 2px solid var(--negro); box-shadow: none; border-radius: 50px; padding: 8px 15px; font-size: 0.8rem; width: auto; }
         .nav-links button:active { background: var(--negro); color: white; transform: none; }
-
         .main-layout { flex-direction: column; }
-        
         .hero { text-align: center; margin-bottom: 30px; }
-        .hero h1 { 
-            font-size: 2.3rem; white-space: normal; -webkit-text-stroke: 0.8px var(--negro); 
-            letter-spacing: 1px; display: inline-block; border-bottom: 6px solid var(--terracota); padding-bottom: 5px;
-        } 
+        .hero h1 { font-size: 2.3rem; white-space: normal; -webkit-text-stroke: 0.8px var(--negro); letter-spacing: 1px; display: inline-block; border-bottom: 6px solid var(--terracota); padding-bottom: 5px; } 
         .step-title { font-size: 2.2rem; }
-
-        .cart-box {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            z-index: 2500; border-top: var(--borde); 
-            transform: translateY(110%); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-            box-shadow: 0px -10px 30px rgba(0,0,0,0.2);
-            background: white; padding: 30px 20px; max-height: 85vh; overflow-y: auto;
-        }
+        .cart-box { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 2500; border-top: var(--borde); transform: translateY(110%); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0px -10px 30px rgba(0,0,0,0.2); background: white; padding: 30px 20px; max-height: 85vh; overflow-y: auto; }
         .cart-box.open { transform: translateY(0); }
         #app-container { padding-bottom: 120px; }
-
         .materia-item { flex-direction: column; align-items: flex-start; gap: 10px; }
-        .materia-acciones { width: 100%; display: grid; grid-template-columns: 1fr 1fr; }
-        .btn-estado { width: 100%; padding: 12px 5px; }
+        .materia-acciones { width: 100%; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: stretch; }
+        .btn-estado { flex: 1; padding: 12px 5px; }
+        
+        .bolsa-mobile { flex-direction: column; align-items: flex-start !important; width: 100%; gap: 10px; }
+        .bolsa-mobile > div { width: 100%; justify-content: space-between; }
+        .optativa-card { flex-direction: column; align-items: flex-start; }
+        .btn-programa { width: 100%; text-align: center; }
     }
     .mobile-only-btn { display: none; }
     @media (max-width: 900px) { .mobile-only-btn { display: block; } }
@@ -310,7 +308,7 @@
         
         <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
             <button class="btn-choice" style="max-width: 330px; font-size: 0.85rem; background: var(--rosa-suave); flex: 1; min-width: 250px;" onclick="window.open('https://drive.google.com/drive/folders/1FHf3V4HAhwpLYOpaevKk3GsVMGEFqgXs', '_blank')">
-                📂 Primer Semestre 2026
+                📂 Primer Semestre
             </button>
             <button class="btn-choice" style="max-width: 330px; font-size: 0.85rem; flex: 1; min-width: 250px;" onclick="window.open('https://drive.google.com/drive/folders/16w8F8sBeJSbU2rO11O8owofr13l4ZIyK', '_blank')">
                 📁 Años anteriores
@@ -334,29 +332,33 @@
       </div>
 
       <div id="este-semestre-container" style="display: none; max-width: 900px; margin: 0 auto 40px auto;">
-          <h3 style="font-family:'Archivo Black'; margin-top:0; color:var(--petroleo); font-size: 1.8rem;">🎯 Este Semestre</h3>
-          <p style="font-weight: 600; margin: 0;">Marcaste que vas a cursar las siguientes materias:</p>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 15px;">
+              <h3 style="font-family:'Archivo Black'; margin:0; color:var(--petroleo); font-size: 1.8rem;">🎯 En mi mochila</h3>
+              <div style="background: white; border: 3px solid var(--negro); padding: 8px 15px; border-radius: 50px; font-family: 'Archivo Black'; font-size: 1.1rem; box-shadow: 4px 4px 0px var(--negro);">
+                  <span id="txt-creditos-semestre" style="color: var(--terracota);">0 cr.</span> / 52 cr. max
+              </div>
+          </div>
           
-          <ul id="lista-este-semestre">
-              </ul>
+          <p id="alerta-creditos-semestre" style="display: none; background: #f8d7da; border: 2px solid #721c24; color: #721c24; padding: 12px; border-radius: 8px; font-weight: 700; margin-top: 15px; font-size: 0.9rem;"></p>
+
+          <p style="font-weight: 600; margin-top: 20px;">Marcaste que vas a cursar las siguientes materias este semestre:</p>
+          <ul id="lista-este-semestre"></ul>
           
-          <button class="btn-cta-top" style="margin: 10px 0 0 0; padding: 15px 25px; font-size: 1.1rem; width:100%;" onclick="irALibrillos()">
+          <button class="btn-cta-top" style="margin: 10px 0 0 0; padding: 15px 25px; font-size: 1.1rem; width:100%;" onclick="abrirModalLibrillosMochila()">
               📚 QUIERO MIS LIBRILLOS
           </button>
       </div>
 
       <div id="trayectoria-content" style="display: none;">
-          <div class="progreso-global">
-              <h3 id="titulo-carrera-activa" style="margin: 0 0 10px 0; font-family: 'Archivo Black';">Ciclo Inicial</h3>
-              <p style="margin: 0; font-weight: 800;" id="texto-progreso-global">Créditos: 0 / 120</p>
-              <div class="barra-fondo">
-                  <div class="barra-relleno" id="barra-global" style="width: 0%;"></div>
-                  <div class="barra-texto" id="porcentaje-global">0%</div>
+          
+          <div class="panel-zen">
+              <h3 id="titulo-carrera-activa" class="titulo-zen">Ciclo Inicial</h3>
+              <div class="contador-box">
+                  <span id="texto-progreso-global" class="numero-zen">0 / 120 cr.</span>
               </div>
-              <p id="mensaje-avance" style="font-weight: 700; color: var(--terracota); margin-top: 10px; font-size: 0.9rem; display: none;">
-                  🎉 ¡Tenés los créditos necesarios para este ciclo!
-              </p>
-              <button id="btn-estado-inscripcion" class="btn-estado" style="margin-top: 15px; background: var(--rosa-suave); width: 100%; display: none; padding: 12px; font-size: 0.85rem;" onclick="abrirModalInscripcion()">
+              <p id="frase-zen" class="frase-zen"></p>
+              
+              <button id="btn-estado-inscripcion" class="btn-estado" style="margin-top: 10px; background: white; padding: 10px 20px; font-size: 0.85rem;" onclick="abrirModalInscripcion()">
                   ¿Qué me falta para poder inscribirme a Ciclo Avanzado?
               </button>
           </div>
@@ -367,7 +369,7 @@
           <div class="asesoramiento-box">
               <h3>¿Dudas con tu trayectoria?</h3>
               <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 20px;">
-                  Pedinos asesoramiento. Al enviar este formulario, los compañeros del CECSo van a poder ver las materias que marcaste arriba para ayudarte mejor.
+                  Entre los mates, las reuniones largas y la facu, a veces es difícil acomodar los horarios. Pedinos asesoramiento y un compañero te va a escribir para darte una mano.
               </p>
               <input type="text" id="asesor_nombre" placeholder="Tu nombre (opcional)">
               <input type="email" id="asesor_email" placeholder="Tu email (para que te respondamos)" required>
@@ -385,6 +387,38 @@
               </div>
       </div>
   </div>
+
+  <div id="modal-optativas" class="modal-overlay">
+      <div class="modal-content" style="max-width: 650px;">
+          <button class="modal-close" onclick="cerrarModalOptativas()">✕</button>
+          <h3 id="titulo-modal-optativas" style="font-family:'Archivo Black'; color:var(--petroleo); margin-top:0; font-size:1.5rem; margin-bottom: 5px;">Catálogo de Optativas</h3>
+          <p style="font-weight: 600; font-size: 0.9rem; margin-top: 0; margin-bottom: 20px;">Explorá los programas de las materias optativas disponibles y armá tu semestre.</p>
+          <input type="text" id="buscador-optativas" placeholder="🔍 Buscar por nombre de materia..." oninput="filtrarOptativas()">
+          <div id="lista-optativas-modal"></div>
+      </div>
+  </div>
+
+  <div id="modal-mochila-librillos" class="modal-overlay">
+      <div class="modal-content" style="max-width: 650px; background: var(--crema-papel);">
+          <button class="modal-close" onclick="cerrarModalLibrillosMochila()">✕</button>
+          <h3 style="font-family:'Archivo Black'; color:var(--petroleo); margin-top:0; font-size:1.5rem; border-bottom: 4px solid var(--negro); padding-bottom: 10px;">Librillos de tu Mochila</h3>
+          
+          <div id="contenido-librillos-mochila" style="min-height: 100px; margin-bottom: 20px;">
+              </div>
+          
+          <div style="background: white; border: var(--borde); padding: 20px; box-shadow: var(--sombra);">
+              <div class="total-amount" id="display-total-mochila">$0</div>
+              
+              <div class="envio-wrapper" onclick="toggleEnvioMochila()">
+                  <input type="checkbox" id="check-envio-mochila">
+                  <label for="check-envio-mochila" class="envio-label">Envío al interior (+$200)</label>
+              </div>
+
+              <button class="btn-cta-top" style="width:100%; margin:0; padding:15px;" onclick="finalizarCompraMochila()">FINALIZAR COMPRA</button>
+          </div>
+      </div>
+  </div>
+
   <div id="app-container">
       <div id="step-carrera" class="step-view">
           <h2 class="step-title">Elegí tu Carrera</h2>
@@ -449,7 +483,9 @@
   </div>
 
   <script>
+    // ACA PONÉ EL LINK DE TU APPS SCRIPT (EL QUE TE DIO GOOGLE)
     const API_URL = "https://script.google.com/macros/s/AKfycbwGPzuKCAN2H-h1FDr-26__T3HzhfPOHjDBoXzv9fXBXTHKc3Ch45qn8ZAEGQSBR9aX/exec"; 
+    
     const COSTO_ENVIO = 200; 
 
     let cacheCatalogo = {};
@@ -460,6 +496,35 @@
     let semActual = "";
     let tipoActual = "";
     let conEnvio = false;
+
+    let optativasActuales = [];
+    let librillosMochilaEncontrados = []; 
+
+    // VARIABLE CLAVE: Ahora arranca vacía y se llena con Google Sheets
+    let planesEstudio = null;
+
+    const frasesZen = [
+        "\"La universidad no es una carrera de velocidad. Organizá tus semestres cuidando tu salud mental.\"",
+        "\"Cada trayectoria es única. Armá el recorrido que mejor se adapte a tu vida y tus tiempos.\"",
+        "\"No existe un único camino. Mover materias de semestre es completamente normal y válido.\"",
+        "\"Equilibrar el estudio con la familia, el laburo o tu tiempo libre es clave. ¡Vas a tu propio ritmo!\"",
+        "\"Los números de los semestres en la malla son solo una sugerencia, no una regla de oro.\""
+    ];
+
+    // INICIALIZACIÓN MAGICA
+    window.onload = () => { 
+        renderCarrito(); 
+        navegar('inicio'); 
+        
+        // Carga las mallas silenciosamente por detrás
+        fetch(`${API_URL}?action=obtenerMallas`)
+            .then(res => res.json())
+            .then(data => {
+                planesEstudio = data;
+                console.log("Mallas maestras sincronizadas con el Google Sheets ✅");
+            })
+            .catch(err => console.error("Error al sincronizar las mallas: ", err));
+    };
 
     function sanearTexto(texto) {
         if (!texto) return "";
@@ -474,6 +539,11 @@
         });
         return saneado;
     }
+
+    const normalizar = (str) => {
+        if (!str) return "";
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    };
 
     window.navegar = function(seccion) {
         window.scrollTo(0,0);
@@ -501,59 +571,29 @@
     };
 
     window.seleccionarCarrera = function(c) {
-        licActual = c;
-        document.getElementById('txt-carrera-header').innerText = c;
-        navegarApp('step-semestre');
+        licActual = c; document.getElementById('txt-carrera-header').innerText = c; navegarApp('step-semestre');
     };
-
     window.seleccionarSemestre = function(s) {
-        semActual = s;
-        document.getElementById('txt-semestre-header').innerText = `${licActual} - ${s}`;
-        navegarApp('step-tipo');
+        semActual = s; document.getElementById('txt-semestre-header').innerText = `${licActual} - ${s}`; navegarApp('step-tipo');
     };
-
     window.iniciarCarga = function(t) {
-        tipoActual = t;
-        const hoja = `${licActual} ${semActual} ${t}`;
-        document.getElementById('txt-hoja-sel').innerText = hoja;
-        navegarApp('step-catalogo');
-        fetchAPI(hoja);
+        tipoActual = t; const hoja = `${licActual} ${semActual} ${t}`; document.getElementById('txt-hoja-sel').innerText = hoja; navegarApp('step-catalogo'); fetchAPI(hoja);
     };
 
     function fetchAPI(hoja) {
         const lista = document.getElementById('lista-libros');
-        
-        if (cacheCatalogo[hoja]) {
-            db = cacheCatalogo[hoja];
-            filtered = db;
-            renderCatalogo();
-            return; 
-        }
-
+        if (cacheCatalogo[hoja]) { db = cacheCatalogo[hoja]; filtered = db; renderCatalogo(); return; }
         lista.innerHTML = "<p style='font-weight:900;'>Cargando catálogo...</p>";
         fetch(`${API_URL}?action=obtenerCatalogo&licenciatura=${encodeURIComponent(hoja)}`)
             .then(res => res.json())
-            .then(data => {
-                const procesados = data.map(item => ({ ...item, titulo: sanearTexto(item.titulo) }));
-                cacheCatalogo[hoja] = procesados;
-                db = procesados;
-                filtered = db;
-                renderCatalogo();
-            })
-            .catch(err => {
-                lista.innerHTML = "<p style='color:red;'>⚠️ Error: No se encontró la hoja <strong>'" + hoja + "'</strong>. Revisá el Excel.</p>";
-                console.error(err);
-            });
+            .then(data => { const procesados = data.map(item => ({ ...item, titulo: sanearTexto(item.titulo) })); cacheCatalogo[hoja] = procesados; db = procesados; filtered = db; renderCatalogo(); })
+            .catch(err => { lista.innerHTML = "<p style='color:red;'>⚠️ Error: No se encontró la hoja.</p>"; });
     }
 
     function renderCatalogo() {
         const grid = document.getElementById('lista-libros');
         grid.innerHTML = "";
-        
-        if(filtered.length === 0) {
-            grid.innerHTML = "<p>No hay libros disponibles en esta sección.</p>";
-            return;
-        }
+        if(filtered.length === 0) { grid.innerHTML = "<p>No hay libros disponibles en esta sección.</p>"; return; }
 
         filtered.forEach(item => {
             const isAdded = carrito.some(c => c.id === item.id);
@@ -570,23 +610,27 @@
         });
     }
 
-    window.toggleCartView = function() {
-        document.getElementById('carrito-panel').classList.toggle('open');
-    };
+    window.toggleCartView = function() { document.getElementById('carrito-panel').classList.toggle('open'); };
 
     window.toggleEnvio = function() {
         const check = document.getElementById('check-envio');
-        if(event.target.tagName !== 'INPUT') check.checked = !check.checked;
+        if(event && event.target.tagName !== 'INPUT') check.checked = !check.checked;
         conEnvio = check.checked;
         renderCarrito();
     };
 
-    window.toggleCart = function(id, titulo, precio) {
+    window.toggleCart = function(id, titulo, precio, esDesdeMochila = false) {
         const idx = carrito.findIndex(c => c.id === id);
-        if(idx === -1) carrito.push({ id, titulo, precio });
+        if(idx === -1) carrito.push({ id, titulo, precio: parseInt(precio) });
         else carrito.splice(idx, 1);
+        
         localStorage.setItem("cecsocart", JSON.stringify(carrito));
-        renderCatalogo(); renderCarrito();
+        
+        renderCatalogo(); 
+        renderCarrito();
+        if(document.getElementById('modal-mochila-librillos').style.display === 'flex') {
+            renderLibrillosMochila();
+        }
     };
 
     function renderCarrito() {
@@ -612,12 +656,8 @@
         carrito.splice(i, 1);
         localStorage.setItem("cecsocart", JSON.stringify(carrito));
         renderCarrito(); renderCatalogo();
+        if(document.getElementById('modal-mochila-librillos').style.display === 'flex') renderLibrillosMochila();
     }
-
-    const normalizar = (str) => {
-        if (!str) return "";
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
-    };
 
     document.getElementById('buscador-librillos').oninput = (e) => {
         const query = normalizar(e.target.value);
@@ -627,384 +667,44 @@
 
     window.finalizar = function() {
         if(carrito.length === 0) return alert("El carrito está vacío.");
-        
         const titulos = carrito.map(c => c.titulo).join(", ");
         const total = document.getElementById('display-total').innerText.replace("$","");
         const envio = conEnvio ? "Sí" : "No";
-
         const url = "https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url"
-            + "&entry.539670442=" + encodeURIComponent(titulos)
-            + "&entry.482914514=" + encodeURIComponent(total)
-            + "&entry.1104329366=" + encodeURIComponent(envio);
-
+            + "&entry.539670442=" + encodeURIComponent(titulos) + "&entry.482914514=" + encodeURIComponent(total) + "&entry.1104329366=" + encodeURIComponent(envio);
         window.open(url, "_blank");
     };
 
     // ================= LÓGICA DE MI TRAYECTORIA =================
-    const planesEstudio = {
-        "ciclo_inicial": {
-            "nombre": "Ciclo Inicial",
-            "creditos_totales_requeridos": 120,
-            "reglas_avance": { "minimo_total": 48 },
-            "modulos": [
-                {
-                    "id": "intro_cs_sociales",
-                    "nombre": "Introducción a las Ciencias Sociales",
-                    "materias": [
-                        { "id": "ci_cuestion", "nombre": "La cuestión social en la historia", "semestre": 1, "creditos": 8 },
-                        { "id": "ci_poder", "nombre": "Poder, estado y sistema político", "semestre": 2, "creditos": 8 },
-                        { "id": "ci_historia", "nombre": "Historia contemporánea de América Latina", "semestre": 3, "creditos": 8 },
-                        { "id": "ci_economia", "nombre": "Principios de economía", "semestre": 1, "creditos": 8 },
-                        { "id": "ci_opcion", "nombre": "Opción Política (Electiva)", "semestre": 2, "creditos": 8 },
-                        { "id": "ci_opcion2", "nombre": "Opción Económica y Social (Electiva)", "semestre": 2, "creditos": 8 }
-                    ]
-                },
-                {
-                    "id": "metodologico",
-                    "nombre": "Métodos aplicados a las Ciencias Sociales",
-                    "materias": [
-                        { "id": "ci_mate1", "nombre": "Matemática I / Curso Extendido", "semestre": 1, "creditos": 8 },
-                        { "id": "ci_estadistica", "nombre": "Estadística social", "semestre": 2, "creditos": 8 },
-                        { "id": "ci_metodologia", "nombre": "Metodología de la investigación", "semestre": 3, "creditos": 10 }
-                    ]
-                },
-                {
-                    "id": "tematicas_cs",
-                    "nombre": "Temáticas en Ciencias Sociales",
-                    "materias": [
-                        { "id": "ci_sem_amb", "nombre": "Seminario: Debates ambientales y poblacionales", "semestre": 4, "creditos": 8 },
-                        { "id": "ci_sem_renta", "nombre": "Seminario: Renta básica y políticas afirmativas", "semestre": 4, "creditos": 8 },
-                        { "id": "ci_sem_hist", "nombre": "Seminario: Experiencias históricas y desigualdades", "semestre": 4, "creditos": 8 },
-                        { "id": "ci_sem_accion", "nombre": "Seminario: Acción colectiva interdisciplinaria", "semestre": 4, "creditos": 8 }
-                    ]
-                },
-                {
-                     "id": "optativas",
-                     "nombre": "Actividades Curriculares Optativas",
-                     "materias": [
-                        { "id": "opt_especifica", "nombre": "Optativa Específica de tu carrera", "semestre": 4, "creditos": 10, "nota": "C. Política: Pol. públicas | Sociología: Teoría soc. | T.S.: Intro al T.S. | Desarrollo: Bases teóricas del des." },
-                        { "id": "opt_bolsa", "nombre": "Créditos Optativos libres a completar", "creditos": 28, "es_bolsa_creditos": true }
-                     ]
-                }
-            ]
-        },
-        "ciencia_politica": {
-            "nombre": "Licenciatura en Ciencia Política",
-            "creditos_totales_requeridos": 240,
-            "reglas_avance": { "minimo_total": 240 },
-            "modulos": [
-                {
-                    "id": "cp_sistema_politico",
-                    "nombre": "Sistema Político Nacional",
-                    "materias": [
-                        { "id": "cp_spn1", "nombre": "Sistema Político Nacional I", "semestre": 3, "creditos": 8 },
-                        { "id": "cp_spn2", "nombre": "Sistema Político Nacional II", "semestre": 4, "creditos": 8 },
-                        { "id": "cp_spn3", "nombre": "Sistema Político Nacional III", "semestre": 7, "creditos": 8 }
-                    ]
-                },
-                {
-                    "id": "cp_instituciones",
-                    "nombre": "Instituciones Políticas y Actores",
-                    "materias": [
-                        { "id": "cp_ipa1", "nombre": "Instituciones Políticas y Actores I", "semestre": 5, "creditos": 8 },
-                        { "id": "cp_ipa2", "nombre": "Instituciones Políticas y Actores II", "semestre": 6, "creditos": 8 },
-                        { "id": "cp_ipa3", "nombre": "Instituciones Políticas y Actores III (Electiva)", "semestre": 7, "creditos": 8 }
-                    ]
-                },
-                {
-                    "id": "cp_estado_politicas",
-                    "nombre": "Estado y Políticas Públicas",
-                    "materias": [
-                        { "id": "cp_epp1", "nombre": "Estado y Políticas Públicas I", "semestre": 3, "creditos": 8, "nota": "⚠️ Previa: Políticas Públicas del Ciclo Inicial" },
-                        { "id": "cp_epp2", "nombre": "Estado y Políticas Públicas II", "semestre": 4, "creditos": 6 },
-                        { "id": "cp_epp3", "nombre": "Estado y Políticas Públicas III", "semestre": 6, "creditos": 6 },
-                        { "id": "cp_epp4", "nombre": "Estado y Políticas Públicas IV (Electiva)", "semestre": 7, "creditos": 4 }
-                    ]
-                },
-                {
-                    "id": "cp_teoria_politica",
-                    "nombre": "Teoría Política",
-                    "materias": [
-                        { "id": "cp_tp1", "nombre": "Teoría Política I", "semestre": 3, "creditos": 8 },
-                        { "id": "cp_tp2", "nombre": "Teoría Política II", "semestre": 4, "creditos": 8 },
-                        { "id": "cp_tp3", "nombre": "Teoría Política III (Electiva)", "semestre": 8, "creditos": 8 }
-                    ]
-                },
-                {
-                    "id": "cp_metodologia",
-                    "nombre": "Metodología de la Investigación",
-                    "materias": [
-                        { "id": "cp_met1", "nombre": "Medición y Diseño de Investigación", "semestre": 3, "creditos": 8 },
-                        { "id": "cp_met2", "nombre": "Técnicas Cualitativas para la Inv. en C.P.", "semestre": 4, "creditos": 8 },
-                        { "id": "cp_met3_a", "nombre": "Análisis de datos cuantitativos (Electiva)", "semestre": 5, "creditos": 8 },
-                        { "id": "cp_met3_b", "nombre": "Estadística y sus Aplicaciones (Electiva)", "semestre": 5, "creditos": 8 },
-                        { "id": "cp_met4", "nombre": "Método Comparado y Estudio de Caso", "semestre": 5, "creditos": 7 },
-                        { "id": "cp_met5", "nombre": "Métodos de Inferencia Causal Aplicada", "semestre": 7, "creditos": 8 }
-                    ]
-                },
-                {
-                    "id": "cp_disciplinas_comp",
-                    "nombre": "Disciplinas Complementarias",
-                    "materias": [
-                        { "id": "cp_dc_hist_uy", "nombre": "Historia del Uruguay Contemporáneo", "semestre": 3, "creditos": 11 },
-                        { "id": "cp_dc_hist_uni", "nombre": "Historia Universal Contemporánea", "semestre": 4, "creditos": 10 },
-                        { "id": "cp_dc_der", "nombre": "Teoría del Derecho", "semestre": 7, "creditos": 8 },
-                        { "id": "cp_dc_eco_core1", "nombre": "Análisis Macroeconómico", "semestre": 4, "creditos": 4 },
-                        { "id": "cp_dc_eco_core2", "nombre": "Análisis Microeconómico", "semestre": 4, "creditos": 4 },
-                        { "id": "cp_dc_eco_elec", "nombre": "Electiva de Análisis Económico", "creditos": 6, "es_bolsa_creditos": true }
-                    ]
-                },
-                {
-                    "id": "cp_optativas",
-                    "nombre": "Profundización Temática (Optativas libres)",
-                    "materias": [
-                        { "id": "cp_opt_bolsa", "nombre": "Créditos de Profundización Temática", "creditos": 36, "es_bolsa_creditos": true }
-                    ]
-                },
-                {
-                    "id": "cp_egreso",
-                    "nombre": "Egreso",
-                    "materias": [
-                        { "id": "cp_trabajo_final", "nombre": "Trabajo Final (Monografía o Pasantía)", "semestre": 8, "creditos": 30 }
-                    ]
-                }
-            ]
-        },
-        "desarrollo": {
-            "nombre": "Licenciatura en Desarrollo",
-            "creditos_totales_requeridos": 240,
-            "reglas_avance": { "minimo_total": 240 },
-            "modulos": [
-                {
-                    "id": "led_problemas",
-                    "nombre": "Problemas del Desarrollo",
-                    "materias": [
-                        { "id": "led_pd_pensamiento", "nombre": "El pensamiento sobre el desarrollo", "semestre": 3, "creditos": 8 },
-                        { "id": "led_pd_objeto", "nombre": "Objeto y método de los estudios...", "semestre": 3, "creditos": 8 },
-                        { "id": "led_pd_teoria_soc", "nombre": "Teoría sociológica del desarrollo", "semestre": 4, "creditos": 8 },
-                        { "id": "led_pd_ciencia", "nombre": "Ciencia, tecnología, innovación", "semestre": 5, "creditos": 6 },
-                        { "id": "led_pd_sistema", "nombre": "Sistema Internacional y Gobernanza", "semestre": 5, "creditos": 6 },
-                        { "id": "led_pd_planificacion", "nombre": "Planificación del Desarrollo", "semestre": 6, "creditos": 6 },
-                        { "id": "led_pd_estado", "nombre": "Estado, desarrollo y políticas públicas", "semestre": 6, "creditos": 8 },
-                        { "id": "led_pd_poblacion", "nombre": "Población y desarrollo", "semestre": 6, "creditos": 4 },
-                        { "id": "led_pd_teoria_eco", "nombre": "Teoría del Desarrollo Económico", "semestre": 6, "creditos": 6 }
-                    ]
-                },
-                {
-                    "id": "led_teorica",
-                    "nombre": "Profundización Teórica",
-                    "materias": [
-                        { "id": "led_pt_macro", "nombre": "Análisis Macroeconómico", "semestre": 5, "creditos": 7 },
-                        { "id": "led_pt_micro", "nombre": "Análisis Microeconómico", "semestre": 4, "creditos": 6 },
-                        { "id": "led_pt_insti", "nombre": "Teoría de las instituciones", "semestre": 7, "creditos": 8 },
-                        { "id": "led_pt_opt", "nombre": "Optativas de Profundización Teórica", "creditos": 9, "es_bolsa_creditos": true }
-                    ]
-                },
-                {
-                    "id": "led_metodologia",
-                    "nombre": "Metodología de la Investigación",
-                    "materias": [
-                        { "id": "led_met_diseno", "nombre": "Diseños de Investigación", "semestre": 5, "creditos": 8 },
-                        { "id": "led_met_ind", "nombre": "Indicadores de Desarrollo", "semestre": 6, "creditos": 6 },
-                        { "id": "led_met_est", "nombre": "Estadística en ciencias sociales", "semestre": 4, "creditos": 8 },
-                        { "id": "led_met_herr", "nombre": "Herramientas de Trabajo Interdisciplinario", "semestre": 7, "creditos": 6 },
-                        { "id": "led_met_opt", "nombre": "Optativa Metodológica", "creditos": 2, "es_bolsa_creditos": true }
-                    ]
-                },
-                {
-                    "id": "led_moi",
-                    "nombre": "Módulo Optativo Integral (MOI)",
-                    "materias": [
-                        { "id": "led_moi_bloque", "nombre": "Créditos Asignaturas del MOI", "creditos": 35, "es_bolsa_creditos": true, "nota": "⚠️ Cambios de módulo: Solo a partir de 260 cr., una vez al año." }
-                    ]
-                },
-                {
-                    "id": "led_taller",
-                    "nombre": "Taller de Desarrollo",
-                    "materias": [
-                        { "id": "led_tall_1", "nombre": "Taller de Desarrollo I", "semestre": 5, "creditos": 10 },
-                        { "id": "led_tall_2", "nombre": "Taller de Desarrollo II", "semestre": 6, "creditos": 20 }
-                    ]
-                },
-                {
-                    "id": "led_practica",
-                    "nombre": "Práctica Académico-Profesional y Trabajo Final",
-                    "materias": [
-                        { "id": "led_prac_metodos", "nombre": "Métodos Cuantitativos o Cualitativos", "semestre": 8, "creditos": 10 },
-                        { "id": "led_prac_opt", "nombre": "Optativas Libres", "creditos": 15, "es_bolsa_creditos": true },
-                        { "id": "led_prac_tf", "nombre": "Trabajo Final", "semestre": 8, "creditos": 30 }
-                    ]
-                }
-            ]
-        },
-        "sociologia": {
-            "nombre": "Licenciatura en Sociología",
-            "creditos_totales_requeridos": 240,
-            "reglas_avance": { "minimo_total": 240 },
-            "modulos": [
-                {
-                    "id": "soc_teorias",
-                    "nombre": "Teorías Sociológicas",
-                    "materias": [
-                        { "id": "soc_teo1", "nombre": "Teoría Sociológica I", "semestre": 3, "creditos": 10 },
-                        { "id": "soc_teo2", "nombre": "Teoría Sociológica II", "semestre": 4, "creditos": 10 },
-                        { "id": "soc_teo3", "nombre": "Teoría Sociológica III", "semestre": 5, "creditos": 10 },
-                        { "id": "soc_teo4", "nombre": "Teoría Sociológica IV", "semestre": 6, "creditos": 10 }
-                    ]
-                },
-                {
-                    "id": "soc_metodologia",
-                    "nombre": "Metodología de la Investigación",
-                    "materias": [
-                        { "id": "soc_met_cuan1", "nombre": "Metodología Cuantitativa I", "semestre": 3, "creditos": 8 },
-                        { "id": "soc_met_cual1", "nombre": "Metodología Cualitativa I", "semestre": 3, "creditos": 8 },
-                        { "id": "soc_met_cuan2", "nombre": "Metodología Cuantitativa II", "semestre": 4, "creditos": 8 },
-                        { "id": "soc_met_cual2", "nombre": "Metodología Cualitativa II", "semestre": 4, "creditos": 8 },
-                        { "id": "soc_met_cuan3", "nombre": "Metodología Cuantitativa III", "semestre": 5, "creditos": 8 }
-                    ]
-                },
-                {
-                    "id": "soc_especiales_tematicas",
-                    "nombre": "Sociologías Especiales y Temáticas",
-                    "materias": [
-                        { "id": "soc_esp_ansoc1", "nombre": "Análisis Sociológico I (Electivo)", "semestre": 4, "creditos": 8 },
-                        { "id": "soc_esp_ansoc2", "nombre": "Análisis Sociológico II (Electivo)", "semestre": 6, "creditos": 8 },
-                        { "id": "soc_esp_latam", "nombre": "Sociedad y pens. Latinoamericano", "semestre": 5, "creditos": 8 },
-                        { "id": "soc_esp_uy", "nombre": "Sociedad y pens. del Uruguay", "semestre": 7, "creditos": 8 },
-                        { "id": "soc_esp_elec", "nombre": "Sociología Especial (Electiva)", "creditos": 8, "semestre": 7 }
-                    ]
-                },
-                {
-                    "id": "soc_otras_cs_sociales",
-                    "nombre": "Otras Ciencias Sociales",
-                    "materias": [
-                        { "id": "soc_epis", "nombre": "Epistemología", "semestre": 8, "creditos": 6 },
-                        { "id": "soc_otras_opt", "nombre": "Créditos Seminarios y Otras CCSS", "creditos": 24, "es_bolsa_creditos": true }
-                    ]
-                },
-                {
-                    "id": "soc_talleres",
-                    "nombre": "Seminarios y Talleres",
-                    "materias": [
-                        { "id": "soc_sem_1", "nombre": "Seminario Especial Temático 1", "semestre": 4, "creditos": 8 },
-                        { "id": "soc_sem_2", "nombre": "Seminario Especial Temático 2", "semestre": 5, "creditos": 8 },
-                        { "id": "soc_tall_1", "nombre": "Taller Central de Investigación (1)", "semestre": 6, "creditos": 15 },
-                        { "id": "soc_tall_2", "nombre": "Taller Central de Investigación (2)", "semestre": 7, "creditos": 15 },
-                        { "id": "soc_tall_3", "nombre": "Taller Central de Investigación (3)", "semestre": 8, "creditos": 14 }
-                    ]
-                },
-                {
-                    "id": "soc_egreso",
-                    "nombre": "Egreso",
-                    "materias": [
-                        { "id": "soc_monografia", "nombre": "Monografía Final", "semestre": 8, "creditos": 30 }
-                    ]
-                }
-            ]
-        },
-        "trabajo_social": {
-            "nombre": "Licenciatura en Trabajo Social",
-            "creditos_totales_requeridos": 240,
-            "reglas_avance": { "minimo_total": 240 },
-            "modulos": [
-                {
-                    "id": "ts_fundamentos",
-                    "nombre": "Fundamentos Teórico-Metodológicos",
-                    "materias": [
-                        { "id": "ts_ts1", "nombre": "Trabajo Social I", "semestre": 3, "creditos": 6 },
-                        { "id": "ts_ts2", "nombre": "Trabajo Social II", "semestre": 4, "creditos": 6 },
-                        { "id": "ts_ts3", "nombre": "Trabajo Social III", "semestre": 5, "creditos": 6 },
-                        { "id": "ts_ts4", "nombre": "Trabajo Social IV", "semestre": 6, "creditos": 6 },
-                        { "id": "ts_intro_pi", "nombre": "Introducción a Proyectos Integrales", "semestre": 3, "creditos": 3 },
-                        { "id": "ts_lab", "nombre": "Laboratorio", "semestre": 4, "creditos": 6 },
-                        { "id": "ts_pi1", "nombre": "Proyectos Integrales I", "semestre": 5, "creditos": 24 },
-                        { "id": "ts_pi2", "nombre": "Proyectos Integrales II", "semestre": 6, "creditos": 24 }
-                    ]
-                },
-                {
-                    "id": "ts_politicas",
-                    "nombre": "Políticas Públicas y Planificación",
-                    "materias": [
-                        { "id": "ts_planif1", "nombre": "Planificación y Gestión I", "semestre": 3, "creditos": 6 },
-                        { "id": "ts_planif2", "nombre": "Planificación y Gestión II", "semestre": 4, "creditos": 6 },
-                        { "id": "ts_polsoc", "nombre": "Políticas Sociales", "semestre": 5, "creditos": 8 },
-                        { "id": "ts_pol_opt", "nombre": "Créditos Optativos del Módulo", "creditos": 10, "es_bolsa_creditos": true }
-                    ]
-                },
-                {
-                    "id": "ts_psico",
-                    "nombre": "Componentes Psicosociales",
-                    "materias": [
-                        { "id": "ts_psico1", "nombre": "Psicología", "semestre": 3, "creditos": 4 },
-                        { "id": "ts_psico_soc", "nombre": "Psicología Social", "semestre": 4, "creditos": 6 },
-                        { "id": "ts_psico_opt", "nombre": "Créditos Optativos del Módulo", "creditos": 4, "es_bolsa_creditos": true }
-                    ]
-                },
-                {
-                    "id": "ts_teorias",
-                    "nombre": "Teorías Sociales",
-                    "materias": [
-                        { "id": "ts_teo1", "nombre": "Teorías Sociales I", "semestre": 3, "creditos": 8 },
-                        { "id": "ts_teo2", "nombre": "Teorías Sociales II", "semestre": 4, "creditos": 6 },
-                        { "id": "ts_antrop", "nombre": "Antropología de las Sociedades Contemp.", "semestre": 5, "creditos": 6 },
-                        { "id": "ts_teo_opt", "nombre": "Créditos Optativos del Módulo", "creditos": 14, "es_bolsa_creditos": true }
-                    ]
-                },
-                {
-                    "id": "ts_metodologia",
-                    "nombre": "Metodología de la Investigación",
-                    "materias": [
-                        { "id": "ts_met_cual1", "nombre": "Metodología Cualitativa I", "semestre": 3, "creditos": 8 },
-                        { "id": "ts_met_cuan1", "nombre": "Metodología Cuantitativa I", "semestre": 4, "creditos": 8 },
-                        { "id": "ts_epist", "nombre": "Epistemología", "semestre": 8, "creditos": 6 },
-                        { "id": "ts_met_opt", "nombre": "Créditos Optativos del Módulo", "creditos": 5, "es_bolsa_creditos": true }
-                    ]
-                },
-                {
-                    "id": "ts_historicos",
-                    "nombre": "Análisis de Procesos Históricos",
-                    "materias": [
-                        { "id": "ts_hist_uni", "nombre": "Historia Universal Contemporánea", "semestre": 3, "creditos": 5 },
-                        { "id": "ts_hist_uy", "nombre": "Historia del Uruguay Contemporáneo", "semestre": 4, "creditos": 7 }
-                    ]
-                },
-                {
-                    "id": "ts_optativas_libres",
-                    "nombre": "Optativas Libres",
-                    "materias": [
-                        { "id": "ts_opt_libres_bolsa", "nombre": "Créditos Optativos Libres", "creditos": 10, "es_bolsa_creditos": true }
-                    ]
-                },
-                {
-                    "id": "ts_egreso",
-                    "nombre": "Egreso",
-                    "materias": [
-                        { "id": "ts_monografia", "nombre": "Monografía Final", "semestre": 8, "creditos": 30 }
-                    ]
-                }
-            ]
-        }
-    };
-
+    
     let estadoTrayectoria = JSON.parse(localStorage.getItem("cecso_trayectoria")) || {};
     let carreraActivaId = null;
 
     window.cargarPlan = function(idCarrera) {
+        if (!planesEstudio) {
+            alert("Las trayectorias se están actualizando desde la nube. ¡Esperá unos segunditos e intentá de nuevo! ☁️");
+            return;
+        }
+
         carreraActivaId = idCarrera;
         document.getElementById('trayectoria-content').style.display = 'block';
         
+        const randomFrase = frasesZen[Math.floor(Math.random() * frasesZen.length)];
+        document.getElementById('frase-zen').innerText = randomFrase;
+        
         if (!estadoTrayectoria[idCarrera]) {
-            estadoTrayectoria[idCarrera] = { aprobadas: [], cursar: [], creditos_optativos: {} };
+            estadoTrayectoria[idCarrera] = { aprobadas: [], cursar: [], creditos_optativos: {}, cursar_optativos: {} };
         }
-        if (!estadoTrayectoria[idCarrera].creditos_optativos) {
-            estadoTrayectoria[idCarrera].creditos_optativos = {};
-        }
+        if (!estadoTrayectoria[idCarrera].creditos_optativos) estadoTrayectoria[idCarrera].creditos_optativos = {};
+        if (!estadoTrayectoria[idCarrera].cursar_optativos) estadoTrayectoria[idCarrera].cursar_optativos = {};
         
         renderPlan(idCarrera);
     };
 
     function renderPlan(idCarrera) {
         const plan = planesEstudio[idCarrera];
+        if (!plan) return; // Por si falla la carga
+
         document.getElementById('titulo-carrera-activa').innerText = plan.nombre;
         const container = document.getElementById('modulos-container');
         container.innerHTML = '';
@@ -1021,20 +721,38 @@
 
                 if (mat.es_bolsa_creditos) {
                     const valorOptativo = estadoTrayectoria[idCarrera].creditos_optativos[mat.id] || 0;
+                    const valorCursar = estadoTrayectoria[idCarrera].cursar_optativos?.[mat.id] || 0;
+                    
                     creditosModulo += parseInt(valorOptativo);
                     creditosTotalesAprobados += parseInt(valorOptativo);
+
+                    let btnCualesPuedoHacer = "";
+                    if (valorOptativo < mat.creditos) {
+                        btnCualesPuedoHacer = `<button class="btn-estado" style="margin-top: 10px; font-size: 0.7rem; background: var(--rosa-suave);" onclick="abrirModalOptativas('${mat.id}', '${mat.nombre}')">¿Y cuáles puedo hacer?</button>`;
+                    }
 
                     htmlMaterias += `
                         <div class="materia-item">
                             <div class="materia-info">
                                 <h4 class="materia-nombre">${mat.nombre}</h4>
                                 ${mat.nota ? `<p class="materia-meta" style="color:var(--terracota); font-weight:700;">${mat.nota}</p>` : ''}
+                                ${btnCualesPuedoHacer}
                             </div>
-                            <div class="materia-acciones" style="align-items: center; justify-content: flex-end;">
-                                <input type="number" min="0" max="${mat.creditos}" value="${valorOptativo}" 
-                                    class="input-optativos" 
-                                    onchange="actualizarBolsaOptativas('${idCarrera}', '${mat.id}', this.value, ${mat.creditos})">
-                                <span style="font-weight:900; color:var(--petroleo); margin-left:10px; font-size:1.1rem;">/ ${mat.creditos} cr.</span>
+                            <div class="materia-acciones bolsa-mobile" style="flex-direction: column; align-items: flex-end; gap: 8px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #666;">Ya aprobados:</span>
+                                    <input type="number" min="0" max="${mat.creditos}" value="${valorOptativo}" 
+                                        class="input-optativos" 
+                                        onchange="actualizarBolsaOptativas('${idCarrera}', '${mat.id}', this.value, ${mat.creditos})">
+                                    <span style="font-weight:900; color:var(--petroleo); font-size:0.9rem;">/ ${mat.creditos} cr.</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-size: 0.8rem; font-weight: 800; color: var(--terracota);">Voy a cursar:</span>
+                                    <input type="number" min="0" value="${valorCursar}" 
+                                        class="input-optativos" style="border-color: var(--terracota); box-shadow: 3px 3px 0px var(--terracota);"
+                                        onchange="actualizarBolsaCursar('${idCarrera}', '${mat.id}', this.value)">
+                                    <span style="font-weight:900; color:var(--terracota); font-size:0.9rem;">cr.</span>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -1047,11 +765,24 @@
                         creditosTotalesAprobados += mat.creditos;
                     }
 
+                    let txtSemestre = 'Semestre variable';
+                    if (mat.semestre) {
+                        txtSemestre = (mat.semestre % 2 === 0) ? 'Semestre Par' : 'Semestre Impar';
+                    }
+
+                    let cartelLlave = '';
+                    if (mat.llave_de) {
+                        cartelLlave = `<div style="background: #fdfaf6; border-left: 4px solid var(--terracota); padding: 5px 10px; margin-top: 8px; font-size: 0.8rem; font-weight: 700; color: var(--petroleo);">
+                            🔑 Materia previa de <strong>${mat.llave_de}</strong>. ¡Importante priorizar para no trancar!
+                        </div>`;
+                    }
+
                     htmlMaterias += `
                         <div class="materia-item">
                             <div class="materia-info">
                                 <h4 class="materia-nombre">${mat.nombre}</h4>
-                                <p class="materia-meta">Semestre ${mat.semestre || 'Varios'} | ${mat.creditos} créditos ${mat.nota ? '<br><span style="color:var(--terracota); font-weight:700;">' + mat.nota + '</span>' : ''}</p>
+                                <p class="materia-meta">${txtSemestre} | ${mat.creditos} créditos ${mat.nota ? '<br><span style="color:var(--terracota); font-weight:700;">' + mat.nota + '</span>' : ''}</p>
+                                ${cartelLlave}
                             </div>
                             <div class="materia-acciones">
                                 <button class="btn-estado btn-aprobada ${isAprobada ? 'activa' : ''}" 
@@ -1060,7 +791,7 @@
                                 </button>
                                 <button class="btn-estado btn-cursar ${isCursar ? 'activa' : ''}" 
                                     onclick="toggleMateria('${idCarrera}', '${mat.id}', 'cursar')">
-                                    ${isCursar ? '🎯 Voy a cursar' : 'Cursar'}
+                                    ${isCursar ? '🎒 En mochila' : 'A mi mochila'}
                                 </button>
                             </div>
                         </div>
@@ -1072,14 +803,14 @@
                 <div class="modulo-box">
                     <div class="modulo-header">
                         <h3>${modulo.nombre}</h3>
-                        <span class="modulo-progreso">${creditosModulo} / ${creditosTotalesModulo} cr. completados</span>
+                        <span class="modulo-progreso">${creditosModulo} / ${creditosTotalesModulo} cr.</span>
                     </div>
                     ${htmlMaterias}
                 </div>
             `;
         });
 
-        actualizarProgresoGlobal(creditosTotalesAprobados, plan.creditos_totales_requeridos, plan.reglas_avance.minimo_total);
+        actualizarProgresoGlobal(creditosTotalesAprobados, plan.creditos_totales_requeridos);
         actualizarEsteSemestreGlobal();
         actualizarVisibilidadBotonInscripcion(idCarrera);
     }
@@ -1093,8 +824,16 @@
         let numero = parseInt(valor);
         if (isNaN(numero) || numero < 0) numero = 0;
         if (numero > maximo) numero = maximo; 
-        
         estadoTrayectoria[idCarrera].creditos_optativos[idMateria] = numero;
+        localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria));
+        renderPlan(idCarrera);
+    };
+
+    window.actualizarBolsaCursar = function(idCarrera, idMateria, valor) {
+        let numero = parseInt(valor);
+        if (isNaN(numero) || numero < 0) numero = 0;
+        if (!estadoTrayectoria[idCarrera].cursar_optativos) estadoTrayectoria[idCarrera].cursar_optativos = {};
+        estadoTrayectoria[idCarrera].cursar_optativos[idMateria] = numero;
         localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria));
         renderPlan(idCarrera);
     };
@@ -1124,42 +863,54 @@
         renderPlan(idCarrera);
     };
 
-    function actualizarProgresoGlobal(creditos, totales, minimoAvanzado) {
-        const porcentaje = Math.min(Math.round((creditos / totales) * 100), 100);
-        document.getElementById('texto-progreso-global').innerText = `Créditos obtenidos: ${creditos} / ${totales}`;
-        document.getElementById('barra-global').style.width = porcentaje + '%';
-        document.getElementById('porcentaje-global').innerText = porcentaje + '%';
-
-        const msjAvance = document.getElementById('mensaje-avance');
-        if (creditos >= minimoAvanzado) {
-            msjAvance.style.display = 'block';
-        } else {
-            msjAvance.style.display = 'none';
-        }
+    function actualizarProgresoGlobal(creditos, totales) {
+        document.getElementById('texto-progreso-global').innerText = `${creditos} / ${totales} cr.`;
     }
 
-    // Novedad: Ahora revisa todo el perfil del alumno, no importa en qué solapa esté.
     function actualizarEsteSemestreGlobal() {
+        if (!planesEstudio) return;
+
         const contenedor = document.getElementById('este-semestre-container');
         const lista = document.getElementById('lista-este-semestre');
+        const txtCreditos = document.getElementById('txt-creditos-semestre');
+        const alertaCreditos = document.getElementById('alerta-creditos-semestre');
+        
         let todasLasMateriasCursando = [];
+        let creditosSemestre = 0;
 
         Object.keys(planesEstudio).forEach(carrera => {
             const plan = planesEstudio[carrera];
-            const estado = estadoTrayectoria[carrera] || { cursar: [] };
+            const estado = estadoTrayectoria[carrera] || { cursar: [], cursar_optativos: {} };
             
             plan.modulos.forEach(modulo => {
                 modulo.materias.forEach(mat => {
-                    if (estado.cursar.includes(mat.id)) {
-                        todasLasMateriasCursando.push(`<strong>[${plan.nombre.replace('Licenciatura en ', '')}]</strong> ${mat.nombre}`);
+                    if (mat.es_bolsa_creditos) {
+                        const credsMochila = parseInt(estado.cursar_optativos?.[mat.id] || 0);
+                        if (credsMochila > 0) {
+                            creditosSemestre += credsMochila;
+                            todasLasMateriasCursando.push(`<strong>[${plan.nombre.replace('Licenciatura en ', '')}]</strong> ${mat.nombre} (<em>${credsMochila} cr.</em>)`);
+                        }
+                    } else {
+                        if (estado.cursar.includes(mat.id)) {
+                            creditosSemestre += mat.creditos;
+                            todasLasMateriasCursando.push(`<strong>[${plan.nombre.replace('Licenciatura en ', '')}]</strong> ${mat.nombre} (<em>${mat.creditos} cr.</em>)`);
+                        }
                     }
                 });
             });
         });
         
-        if (todasLasMateriasCursando.length > 0) {
+        if (todasLasMateriasCursando.length > 0 || creditosSemestre > 0) {
             contenedor.style.display = 'block';
             lista.innerHTML = todasLasMateriasCursando.map(mat => `<li>${mat}</li>`).join('');
+            txtCreditos.innerText = `${creditosSemestre} cr.`;
+
+            if (creditosSemestre > 52) {
+                alertaCreditos.style.display = 'block';
+                alertaCreditos.innerHTML = `⚠️ Tenés ${creditosSemestre} créditos. Estás superando el límite reglamentario (52 cr). Bedelía no te va a dejar inscribirte a todo, revisá la mochila.`;
+            } else {
+                alertaCreditos.style.display = 'none';
+            }
         } else {
             contenedor.style.display = 'none';
         }
@@ -1168,6 +919,7 @@
     window.abrirModalInscripcion = function() {
         const estado = estadoTrayectoria['ciclo_inicial'] || { aprobadas: [], creditos_optativos: {} };
         const plan = planesEstudio['ciclo_inicial'];
+        if(!plan) return;
         
         let credIntro = 0; let credMet = 0; let credTotales = 0;
 
@@ -1186,11 +938,8 @@
             });
         });
 
-        // Calculamos los topes de las reglas
         const provIntro = Math.min(credIntro, 24);
         const provMet = Math.min(credMet, 16);
-        
-        // Los créditos extra que hizo en Intro o Método le sirven para la bolsa general de 8
         const excedente = credTotales - provIntro - provMet;
         const provOpc = Math.min(excedente, 8);
         
@@ -1199,7 +948,6 @@
 
         let html = `
             <p style="font-size: 0.95rem;">Para avanzar en tu carrera existen diferentes etapas:</p>
-            
             <div class="caja-estado" style="background: ${cumpleIngreso ? '#d4edda' : '#fff3cd'};">
                 <h4 style="margin:0 0 10px 0; font-family:'Archivo Black';">1. Ingreso al Ciclo Avanzado</h4>
                 <p style="margin:0 0 10px 0; font-size:0.85rem;">Para empezar a cursar tu Licenciatura necesitás 48 créditos distribuidos así:</p>
@@ -1210,14 +958,12 @@
                 </ul>
                 ${cumpleIngreso ? '<p style="color:#155724; font-weight:800; margin-top:10px;">¡Ya estás habilitado para cursar materias de la Licenciatura! 🎉</p>' : ''}
             </div>
-
             ${!cumpleIngreso ? `
             <div class="caja-estado" style="background: #e2e3e5; border-color: #6c757d;">
                 <h4 style="margin:0 0 10px 0; font-family:'Archivo Black'; color: #383d41;">⏳ Inscripción Provisoria (Excepción)</h4>
                 <p style="margin:0; font-size:0.85rem;">Durante los meses de <strong>febrero y julio</strong> es posible inscribirse al Ciclo Avanzado <em>aunque aún no tengas los créditos indicados arriba</em>. Tendrás la posibilidad de aprobar los créditos que te falten en el siguiente período acotado de exámenes (mayo o setiembre).</p>
             </div>
             ` : ''}
-
             <div class="caja-estado" style="background: ${cumpleDefinitiva ? '#d4edda' : '#f8d7da'};">
                 <h4 style="margin:0 0 10px 0; font-family:'Archivo Black';">2. Egreso del Ciclo Inicial</h4>
                 <p style="margin:0 0 10px 0; font-size:0.85rem;">Para obtener el certificado final de este ciclo necesitás completarlo en su totalidad.</p>
@@ -1232,29 +978,149 @@
         document.getElementById('modal-inscripcion').style.display = 'flex';
     };
 
-    window.cerrarModalInscripcion = function() {
-        document.getElementById('modal-inscripcion').style.display = 'none';
+    window.cerrarModalInscripcion = function() { document.getElementById('modal-inscripcion').style.display = 'none'; };
+
+    // ================= LOGICA CATÁLOGO OPTATIVAS =================
+    window.abrirModalOptativas = function(idBolsa, nombreBolsa) {
+        document.getElementById('modal-optativas').style.display = 'flex';
+        document.getElementById('buscador-optativas').value = '';
+        document.getElementById('titulo-modal-optativas').innerText = nombreBolsa;
+        
+        const contenedor = document.getElementById('lista-optativas-modal');
+
+        if (cacheCatalogo[idBolsa]) {
+            optativasActuales = cacheCatalogo[idBolsa];
+            renderListaOptativas(optativasActuales);
+            return;
+        }
+
+        contenedor.innerHTML = '<p style="text-align:center; font-weight:900; color:var(--petroleo); margin: 40px 0;">Cargando programas de Drive... ⏳</p>';
+
+        fetch(`${API_URL}?action=obtenerOptativas&bolsa=${encodeURIComponent(idBolsa)}`)
+            .then(res => res.json())
+            .then(data => {
+                optativasActuales = data; cacheCatalogo[idBolsa] = data; renderListaOptativas(optativasActuales);
+            })
+            .catch(err => {
+                contenedor.innerHTML = `<p style='color:red; text-align:center; font-weight:700;'>⚠️ Ups! No encontramos el listado de esta materia en la base de datos. Avisale al CECSo.</p>`;
+            });
     };
 
-    window.irALibrillos = function() {
-        alert("Acá irá la conexión para enviar las materias de 'Este Semestre' directo a tu carrito. ¡Próximo paso!");
+    window.cerrarModalOptativas = function() { document.getElementById('modal-optativas').style.display = 'none'; };
+
+    window.filtrarOptativas = function() {
+        const query = normalizar(document.getElementById('buscador-optativas').value);
+        const filtradas = optativasActuales.filter(opt => normalizar(opt.nombre).includes(query));
+        renderListaOptativas(filtradas);
+    };
+
+    function renderListaOptativas(lista) {
+        const contenedor = document.getElementById('lista-optativas-modal');
+        contenedor.innerHTML = '';
+        if (lista.length === 0) {
+            contenedor.innerHTML = '<p style="font-weight:700; color:var(--terracota); text-align:center;">No encontramos ninguna materia con ese nombre.</p>';
+            return;
+        }
+        lista.forEach(opt => {
+            contenedor.innerHTML += `
+                <div class="optativa-card">
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0; font-size: 1rem; color: var(--petroleo);">${opt.nombre}</h4>
+                        <span style="font-weight: 900; color: var(--terracota); font-size: 0.85rem;">${opt.creditos} créditos</span>
+                    </div>
+                    <a href="${opt.link}" target="_blank" class="btn-programa">Ver Programa</a>
+                </div>
+            `;
+        });
+    }
+
+    // ================= LOGICA LIBRILLOS DE LA MOCHILA =================
+    window.abrirModalLibrillosMochila = function() {
+        let idsMochila = [];
+        Object.keys(planesEstudio).forEach(carrera => {
+            if(estadoTrayectoria[carrera] && estadoTrayectoria[carrera].cursar) {
+                idsMochila = idsMochila.concat(estadoTrayectoria[carrera].cursar);
+            }
+        });
+
+        if(idsMochila.length === 0) {
+            alert("No marcaste ninguna materia obligatoria en tu mochila este semestre.");
+            return;
+        }
+
+        document.getElementById('modal-mochila-librillos').style.display = 'flex';
+        const contenedor = document.getElementById('contenido-librillos-mochila');
+        
+        contenedor.innerHTML = '<p style="text-align:center; font-weight:900; color:var(--petroleo); margin: 40px 0;">Buscando tus materiales en fotocopiadora... 🏃💨</p>';
+        
+        document.getElementById('check-envio-mochila').checked = conEnvio;
+
+        fetch(`${API_URL}?action=librillosPorIds&ids=${idsMochila.join(',')}`)
+            .then(res => res.json())
+            .then(data => {
+                librillosMochilaEncontrados = data;
+                renderLibrillosMochila();
+            })
+            .catch(err => {
+                contenedor.innerHTML = `<p style='color:red; text-align:center; font-weight:700;'>⚠️ Ups! Hubo un error de conexión con el inventario de librillos.</p>`;
+            });
+    };
+
+    window.cerrarModalLibrillosMochila = function() {
+        document.getElementById('modal-mochila-librillos').style.display = 'none';
+    };
+
+    function renderLibrillosMochila() {
+        const contenedor = document.getElementById('contenido-librillos-mochila');
+        contenedor.innerHTML = '';
+        
+        if (librillosMochilaEncontrados.length === 0) {
+            contenedor.innerHTML = '<p style="font-weight:700; color:var(--terracota); text-align:center;">Todavía no subimos a la web los librillos de las materias que tenés en tu mochila. ¡Pegate una vuelta por fotocopiadora!</p>';
+        } else {
+            librillosMochilaEncontrados.forEach(item => {
+                const isAdded = carrito.some(c => c.id === item.id);
+                contenedor.innerHTML += `
+                    <div style="border-bottom: 1px dashed #ccc; padding: 15px 0; display: flex; justify-content: space-between; align-items: center; gap: 15px;">
+                        <div style="flex: 1;">
+                            <h4 style="margin: 0; font-size: 0.95rem; color: var(--petroleo);">${sanearTexto(item.titulo)}</h4>
+                            <span style="font-weight: 900; color: var(--terracota); font-size: 1.1rem;">$${item.precio}</span>
+                        </div>
+                        <button class="btn-add ${isAdded ? 'active' : ''}" onclick="toggleCart('${item.id}', '${sanearTexto(item.titulo).replace(/'/g,"")}', ${item.precio}, true)">
+                            ${isAdded ? 'AÑADIDO ✓' : 'SUMAR +'}
+                        </button>
+                    </div>
+                `;
+            });
+        }
+        
+        let subtotal = 0;
+        carrito.forEach(c => subtotal += c.precio);
+        if(conEnvio) subtotal += COSTO_ENVIO;
+        document.getElementById('display-total-mochila').innerText = `$${subtotal}`;
+    }
+
+    window.toggleEnvioMochila = function() {
+        const check = document.getElementById('check-envio-mochila');
+        if(event && event.target.tagName !== 'INPUT') check.checked = !check.checked;
+        conEnvio = check.checked;
+        
+        document.getElementById('check-envio').checked = conEnvio;
+        
+        renderCarrito();
+        renderLibrillosMochila();
+    };
+
+    window.finalizarCompraMochila = function() {
+        finalizar(); 
     };
 
     window.enviarAsesoramiento = function() {
         const email = document.getElementById('asesor_email').value;
         const consulta = document.getElementById('asesor_consulta').value;
-        
-        if (!email || !consulta) {
-            alert("Por favor completá tu email y la consulta.");
-            return;
-        }
-
-        const datosTrayectoria = JSON.stringify(estadoTrayectoria[carreraActivaId] || {});
-        
-        alert("¡Consulta guardada! (Acá conectaremos con tu Apps Script). \n\nDatos ocultos enviados:\n" + datosTrayectoria);
+        if (!email || !consulta) return alert("Por favor completá tu email y la consulta.");
+        alert("¡Consulta guardada! (Acá conectaremos con tu Apps Script).");
     };
 
-    window.onload = () => { renderCarrito(); navegar('inicio'); };
   </script>
 </body>
 </html>
