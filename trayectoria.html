@@ -46,13 +46,11 @@
         font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0px var(--negro);
         transition: 0.1s; text-transform: uppercase; font-size: 0.75rem;
     }
-    .nav-links button:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px var(--negro); }
 
-    /* LAYOUT GENERAL */
+    /* SECCIONES GENERALES */
     section { display: none; max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
     /* INICIO */
-    .hero { text-align: left; }
     .hero h1 { font-size: clamp(1.8rem, 6.5vw, 4.5rem); color: var(--petroleo); line-height: 1; margin: 0; -webkit-text-stroke: 1px var(--negro); }
     .btn-cta-top {
         display: inline-block; margin: 40px 0; padding: 22px 45px;
@@ -61,30 +59,37 @@
         cursor: pointer; box-shadow: var(--sombra); transition: 0.1s;
     }
 
-    /* BUSCADOR Y CARRITO */
+    /* BUSCADOR DE LIBRILLOS */
     .grid-libros { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
     .lib-bubble { background: white; border: var(--borde); padding: 25px; border-radius: 20px; box-shadow: var(--sombra-pet); display: flex; flex-direction: column; }
     .cart-box { background: white; border: var(--borde); padding: 25px; box-shadow: var(--sombra); position: sticky; top: 120px; min-width: 300px; }
     .total-amount { font-family: 'Archivo Black'; font-size: 2.2rem; color: var(--petroleo); text-align: right; }
 
     /* TRAYECTORIA */
-    .panel-zen { background: white; border: var(--borde); padding: 30px; border-radius: 15px; box-shadow: var(--sombra); margin-bottom: 40px; text-align: center; position: sticky; top: 75px; z-index: 100; }
+    .panel-zen {
+        background: white; border: var(--borde); padding: 30px 20px; border-radius: 15px;
+        box-shadow: var(--sombra); margin-bottom: 40px; text-align: center;
+        position: sticky; top: 75px; z-index: 100;
+    }
     .modulo-box { background: white; border: var(--borde); padding: 25px; border-radius: 15px; box-shadow: var(--sombra-terra); margin-bottom: 30px; }
     .modulo-obligatoria { background-color: var(--fondo-obligatoria); }
     .modulo-optativa { background-color: var(--fondo-optativa); }
     .materia-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); gap: 15px; }
-    .btn-estado { background: white; border: 2px solid var(--negro); padding: 8px 15px; font-weight: 800; cursor: pointer; font-size: 0.75rem; box-shadow: 3px 3px 0px var(--negro); border-radius: 5px; }
-    .btn-aprobada.activa { background: #d4edda; color: #155724; border-color: #28a745; }
+    .btn-estado { background: white; border: 2px solid var(--negro); padding: 8px 15px; font-weight: 800; cursor: pointer; font-size: 0.75rem; text-transform: uppercase; box-shadow: 3px 3px 0px var(--negro); transition: 0.1s; border-radius: 5px; }
+    .btn-aprobada.activa { background: #d4edda; color: #155724; border-color: #28a745; box-shadow: 3px 3px 0px #28a745; }
+
+    .input-optativos { width: 60px; padding: 8px; border: 2px solid var(--negro); font-family: 'Archivo Black'; font-size: 1rem; text-align: center; border-radius: 5px; box-shadow: 3px 3px 0px var(--negro); }
+
+    .asesoramiento-box { background: var(--crema-papel); border: 3px dashed var(--petroleo); padding: 30px; text-align: center; border-radius: 15px; margin-top: 50px; }
 
     /* MODALES */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 4000; align-items: center; justify-content: center; padding: 20px; }
     .modal-content { background: white; border: var(--borde); border-radius: 15px; padding: 30px; max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; }
 
-    /* MOBILE */
     @media (max-width: 900px) {
+        .main-layout { flex-direction: column; }
         .materia-item { flex-direction: column; align-items: flex-start; }
         .materia-acciones { width: 100%; display: flex; gap: 5px; }
-        .main-layout { flex-direction: column; }
     }
   </style>
 </head>
@@ -103,15 +108,15 @@
   <section id="seccion-inicio" style="display:block;">
     <div class="hero">
         <h1 class="font-logo">Servicios del CECSo</h1>
-        <p style="font-weight:600; font-size:1.2rem; margin-top:20px;">Todo el material de estudio y el seguimiento de tu carrera en un solo lugar.</p>
+        <p style="font-weight:600; font-size:1.1rem; margin-top:20px;">Tu material de estudio y el seguimiento de tu carrera en un solo lugar.</p>
         <button class="btn-cta-top" onclick="navegar('app')">Conseguí tus librillos</button>
     </div>
   </section>
 
   <section id="seccion-app">
       <h2 class="font-logo" style="text-align:center;">Buscador de Librillos</h2>
-      <div id="pasos-buscador" style="text-align:center; margin-bottom:40px;">
-          <p>Elegí tu carrera para ver los librillos disponibles:</p>
+      <div style="text-align:center; margin-bottom:30px;">
+          <p>Elegí tu carrera:</p>
           <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
               <button class="btn-estado" onclick="fetchLibrillos('Ciclo Inicial Impar Obligatorias')">Ciclo Inicial</button>
               <button class="btn-estado" onclick="fetchLibrillos('Ciencia Política Impar Obligatorias')">Ciencia Política</button>
@@ -119,9 +124,9 @@
           </div>
       </div>
 
-      <div class="main-layout" style="display:flex; gap:40px;">
+      <div class="main-layout" style="display:flex; gap:40px; align-items:flex-start;">
           <div id="lista-libros" class="grid-libros" style="flex:2;">
-              <p style="text-align:center; color:#999;">Seleccioná una carrera arriba para empezar.</p>
+              <p style="text-align:center; color:#999; margin-top:40px;">Seleccioná una carrera para cargar los librillos.</p>
           </div>
           <div class="cart-box">
               <h3 class="font-logo" style="font-size:1.2rem; border-bottom:3px solid #000; padding-bottom:10px;">Tu Pedido</h3>
@@ -130,40 +135,42 @@
               <div style="margin:20px 0;">
                   <input type="checkbox" id="check-envio" onchange="actualizarCarrito()"> <label for="check-envio">Envío al interior (+$200)</label>
               </div>
-              <button class="btn-cta-top" style="width:100%; margin:0; padding:15px;" onclick="finalizarCompra()">Finalizar Compra</button>
+              <button class="btn-cta-top" style="width:100%; margin:0; padding:15px; font-size:1.1rem;" onclick="finalizarCompra()">FINALIZAR COMPRA</button>
           </div>
       </div>
   </section>
 
   <section id="seccion-trayectoria">
-      <h2 class="font-logo" style="text-align:center;">Mi Trayectoria</h2>
-      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px;">
-          <button class="btn-estado" onclick="cargarMalla('ciclo_inicial')">Ciclo Inicial</button>
-          <button class="btn-estado" onclick="cargarMalla('ciencia_politica')">Ciencia Política</button>
-          <button class="btn-estado" onclick="cargarMalla('desarrollo')">Desarrollo</button>
-          <button class="btn-estado" onclick="cargarMalla('sociologia')">Sociología</button>
-          <button class="btn-estado" onclick="cargarMalla('trabajo_social')">Trabajo Social</button>
+      <div class="trayectoria-header" style="text-align:center;">
+          <h2 class="font-logo">Mi Trayectoria</h2>
+          <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+               <button class="btn-estado" onclick="cargarPlan('ciclo_inicial')">Ciclo Inicial</button>
+               <button class="btn-estado" onclick="cargarPlan('ciencia_politica')">Ciencia Política</button>
+               <button class="btn-estado" onclick="cargarPlan('desarrollo')">Desarrollo</button>
+               <button class="btn-estado" onclick="cargarPlan('sociologia')">Sociología</button>
+               <button class="btn-estado" onclick="cargarPlan('trabajo_social')">Trabajo Social</button>
+          </div>
       </div>
 
-      <div id="trayectoria-content" style="display:none;">
+      <div id="trayectoria-content" style="display: none; margin-top: 40px;">
           <div class="panel-zen">
               <h3 id="titulo-carrera-activa" class="font-logo" style="margin:0; color:var(--petroleo);"></h3>
-              <span id="texto-progreso-global" class="font-logo" style="font-size:1.4rem;">0 / 360 cr.</span>
+              <div class="contador-box"><span id="texto-progreso-global" class="font-logo" style="font-size:1.5rem;">0 / 360 cr.</span></div>
           </div>
           <div id="modulos-container"></div>
           
-          <div class="modulo-box" style="border:3px dashed var(--petroleo); text-align:center;">
-              <h3 class="font-logo">¿Dudas?</h3>
-              <p>Si te queda alguna duda, podes plantearla por acá y capaz te podemos ayudar.</p>
-              <textarea id="consulta-trayectoria" placeholder="Escribí tu duda..." style="width:100%; height:80px; padding:10px; border:2px solid #000;"></textarea>
-              <button class="btn-estado" style="width:100%; padding:15px; margin-top:10px;" onclick="alert('Consulta recibida')">Enviar Consulta</button>
+          <div class="asesoramiento-box">
+              <h3 class="font-logo">¿Dudas con tu trayectoria?</h3>
+              <p style="font-weight: 600;">Si te queda alguna duda, podes plantearla por acá y capaz te podemos ayudar.</p>
+              <textarea id="consulta-trayectoria" placeholder="Escribí tu duda acá..." style="width:100%; height:100px; padding:15px; border:2px solid #000; margin-top:10px;"></textarea>
+              <button class="btn-cta-top" style="width:100%; margin-top:10px; padding:15px;" onclick="alert('Consulta recibida')">Enviar Consulta</button>
           </div>
       </div>
   </section>
 
   <div id="modal-optativas" class="modal-overlay">
       <div class="modal-content">
-          <button style="position:absolute; top:15px; right:20px; border:none; background:none; font-size:1.5rem; cursor:pointer;" onclick="cerrarModal()">✕</button>
+          <button style="position:absolute; top:15px; right:20px; background:none; border:none; font-weight:900; font-size:1.5rem; cursor:pointer;" onclick="cerrarModal()">✕</button>
           <h3 id="titulo-modal-optativas" class="font-logo" style="color:var(--petroleo); margin-top:0;">Optativas Disponibles</h3>
           <div id="lista-optativas-modal"></div>
       </div>
@@ -176,14 +183,11 @@
     let carrito = JSON.parse(localStorage.getItem("cecsocart")) || [];
     let estadoTrayectoria = JSON.parse(localStorage.getItem("cecso_trayectoria")) || {};
 
-    // INICIALIZACIÓN
     window.onload = () => {
-        navegar('inicio');
         actualizarCarrito();
         fetch(API_URL + "?action=obtenerMallas")
             .then(res => res.json())
-            .then(data => { planesEstudio = data; })
-            .catch(err => console.error("Error cargando mallas"));
+            .then(data => { planesEstudio = data; });
     };
 
     function navegar(sec) {
@@ -192,7 +196,7 @@
         document.getElementById('seccion-trayectoria').style.display = (sec==='trayectoria'?'block':'none');
     }
 
-    /* --- LÓGICA BUSCADOR --- */
+    /* BUSCADOR DE LIBRILLOS */
     function fetchLibrillos(hoja) {
         const grid = document.getElementById('lista-libros');
         grid.innerHTML = "<p>Cargando materiales...</p>";
@@ -205,7 +209,7 @@
                         <div class="lib-bubble">
                             <h4 style="margin:0; font-size:0.95rem;">${item.titulo}</h4>
                             <p style="font-weight:900; color:var(--terracota); margin:10px 0;">$${item.precio}</p>
-                            <button class="btn-estado" onclick="agregarCarrito('${item.id}', '${item.titulo}', ${item.precio})">Añadir</button>
+                            <button class="btn-estado" onclick="agregarCarrito('${item.id}', '${item.titulo}', ${item.precio})">Añadir al pedido</button>
                         </div>`;
                 });
             });
@@ -223,9 +227,9 @@
         let subtotal = 0;
         carrito.forEach((item, index) => {
             subtotal += item.precio;
-            container.innerHTML += `<div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:5px;">
+            container.innerHTML += `<div style="display:flex; justify-content:space-between; font-size:0.8rem; border-bottom:1px solid #eee; padding:5px 0;">
                 <span>${item.titulo}</span>
-                <button onclick="eliminarCarrito(${index})" style="border:none; background:none; cursor:pointer;">✕</button>
+                <button onclick="eliminarCarrito(${index})" style="border:none; background:none; cursor:pointer; color:red;">✕</button>
             </div>`;
         });
         if(document.getElementById('check-envio').checked) subtotal += 200;
@@ -241,70 +245,106 @@
     function finalizarCompra() {
         const titulos = carrito.map(c => c.titulo).join(", ");
         const total = document.getElementById('display-total').innerText;
-        const url = `https://docs.google.com/forms/d/e/TU_ID_FORM/viewform?entry.123=${titulos}&entry.456=${total}`;
-        window.open(url, "_blank");
+        window.open(`https://docs.google.com/forms/d/e/TU_ID/viewform?entry.123=${encodeURIComponent(titulos)}&entry.456=${total}`, "_blank");
     }
 
-    /* --- LÓGICA TRAYECTORIA --- */
-    function cargarMalla(id) {
+    /* TRAYECTORIA */
+    function cargarPlan(id) {
         document.getElementById('trayectoria-content').style.display = 'block';
-        if(!estadoTrayectoria[id]) estadoTrayectoria[id] = { aprobadas: [], creds_moi: 0 };
-        renderTrayectoria(id);
+        if(!estadoTrayectoria[id]) estadoTrayectoria[id] = { aprobadas: [], creditos_optativos: {}, creditos_moi_propio: 0, tipo_moi: 'pendiente' };
+        renderPlan(id);
     }
 
-    function renderTrayectoria(idCarrera) {
+    function renderPlan(idCarrera) {
         const plan = planesEstudio[idCarrera];
         const container = document.getElementById('modulos-container');
         container.innerHTML = '';
         let totalAprobados = 0;
+        let moiRenderizado = false;
 
         document.getElementById('titulo-carrera-activa').innerText = plan.nombre;
 
-        plan.modulos.forEach(mod => {
-            const nMod = mod.nombre.toLowerCase();
-            let claseColor = (nMod.includes('oblig') || nMod.includes('core')) ? 'modulo-obligatoria' : 'modulo-optativa';
-            let materiasHtml = '';
+        function inyectarMOI() {
+            if (idCarrera !== 'desarrollo' || moiRenderizado) return;
+            moiRenderizado = true;
+            const moiActual = estadoTrayectoria[idCarrera].tipo_moi || 'pendiente';
+            let htmlMOI = `<div class="modulo-box" style="border:3px solid var(--petroleo); background:#fdfaf6;">
+                <h3 class="font-logo" style="color:var(--petroleo); font-size:1.1rem; border-bottom:2px solid var(--petroleo); padding-bottom:10px;">🎯 Módulo Optativo Integral (MOI)</h3>`;
+            
+            if (moiActual === 'propio') {
+                const creds = estadoTrayectoria[idCarrera].creditos_moi_propio || 0;
+                totalAprobados += parseInt(creds);
+                htmlMOI += `<p><strong>MOI Propio:</strong> Ingresá tus créditos aprobados:</p>
+                    <input type="number" value="${creds}" class="input-optativos" onchange="actCreditosMOI('${idCarrera}', this.value)"> / 35 cr.
+                    <button class="btn-estado" style="margin-top:10px;" onclick="cambiarMOI('${idCarrera}', 'pendiente')">Cambiar Perfil</button>`;
+            } else {
+                htmlMOI += `<button class="btn-estado" onclick="cambiarMOI('${idCarrera}', 'propio')">Armar mi MOI propio</button>`;
+            }
+            htmlMOI += `</div>`;
+            container.innerHTML += htmlMOI;
+        }
 
-            mod.materias.forEach(mat => {
-                const isAprobada = estadoTrayectoria[idCarrera].aprobadas.includes(mat.id);
+        plan.modulos.forEach(modulo => {
+            if (idCarrera === 'desarrollo' && modulo.nombre.toLowerCase().includes('trabajo final')) inyectarMOI();
+
+            const nMod = modulo.nombre.toLowerCase();
+            let claseColor = (nMod.includes('oblig') || nMod.includes('core')) ? 'modulo-obligatoria' : 'modulo-optativa';
+
+            let materiasHtml = '';
+            modulo.materias.forEach(mat => {
+                const isAprobada = (estadoTrayectoria[idCarrera].aprobadas || []).includes(mat.id);
                 if(isAprobada) totalAprobados += mat.creditos;
 
                 materiasHtml += `
                     <div class="materia-item">
                         <div style="flex:1">
-                            <strong>${mat.nombre}</strong><br><small>${mat.creditos} cr.</small>
-                            ${mat.es_bolsa_creditos ? `<br><button class="btn-estado" style="font-size:0.6rem; padding:3px 6px;" onclick="abrirModal('${mat.id}')">¿Cuáles hay?</button>` : ''}
+                            <h4 style="margin:0;">${mat.nombre}</h4>
+                            <p style="margin:4px 0; font-size:0.8rem; color:#666;">${mat.creditos} cr.</p>
+                            ${mat.es_bolsa_creditos ? `<button class="btn-estado" style="font-size:0.6rem; padding:4px;" onclick="abrirModal('${mat.id}')">¿Qué puedo cursar?</button>` : ''}
                         </div>
-                        <button class="btn-estado ${isAprobada?'activa':''}" onclick="toggleMateria('${idCarrera}','${mat.id}')">${isAprobada?'✓':'Aprobada'}</button>
+                        <button class="btn-estado btn-aprobada ${isAprobada?'activa':''}" onclick="toggleMat('${idCarrera}','${mat.id}')">${isAprobada?'✓':'Aprobada'}</button>
                     </div>`;
             });
-
-            container.innerHTML += `<div class="modulo-box ${claseColor}"><h3 class="font-logo" style="font-size:1rem; border-bottom:2px solid #000; padding-bottom:5px;">${mod.nombre}</h3>${materiasHtml}</div>`;
+            container.innerHTML += `<div class="modulo-box ${claseColor}"><h3>${modulo.nombre}</h3>${materiasHtml}</div>`;
         });
-        document.getElementById('texto-progreso-global').innerText = `${totalAprobados} / 360 cr.`;
+        document.getElementById('texto-progreso-global').innerText = `${totalAprobados} / ${plan.creditos_totales_requeridos} cr.`;
     }
 
-    function toggleMateria(carrera, id) {
+    function toggleMat(carrera, id) {
         let list = estadoTrayectoria[carrera].aprobadas;
         const idx = list.indexOf(id);
         if(idx === -1) list.push(id); else list.splice(idx, 1);
         localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria));
-        renderTrayectoria(carrera);
+        renderPlan(carrera);
+    }
+
+    function cambiarMOI(carrera, tipo) {
+        estadoTrayectoria[carrera].tipo_moi = tipo;
+        localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria));
+        renderPlan(carrera);
+    }
+
+    function actCreditosMOI(carrera, valor) {
+        estadoTrayectoria[carrera].creditos_moi_propio = valor;
+        localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria));
+        renderPlan(carrera);
     }
 
     function abrirModal(idBolsa) {
         document.getElementById('modal-optativas').style.display = 'flex';
         const lista = document.getElementById('lista-optativas-modal');
-        lista.innerHTML = 'Cargando...';
+        lista.innerHTML = 'Cargando catálogo...';
         fetch(`${API_URL}?action=obtenerOptativas&bolsa=${idBolsa}`)
             .then(res => res.json())
             .then(data => {
                 lista.innerHTML = '';
+                if(data.length === 0) { lista.innerHTML = '<p>No hay materias cargadas.</p>'; return; }
                 data.forEach(opt => {
                     lista.innerHTML += `<div style="padding:15px 0; border-bottom:1px solid #eee;">
-                        <h4 style="margin:0; color:var(--petroleo);">${opt.nombre} (${opt.creditos} cr.)</h4>
-                        ${opt.horario ? `<div class="tag-horario">${opt.horario}</div>` : ''}
-                        ${opt.link ? `<a href="${opt.link}" target="_blank" style="color:var(--terracota); font-weight:700;">Ver Programa ↗</a>` : ''}
+                        <h4 style="margin:0; color:var(--petroleo);">${opt.nombre}</h4>
+                        <p style="font-weight:bold; margin:5px 0;">${opt.creditos} cr.</p>
+                        ${opt.horario ? `<div class="tag-horario">🕒 <strong>Horarios:</strong> ${opt.horario}</div>` : ''}
+                        ${opt.link ? `<a href="${opt.link}" target="_blank" style="display:inline-block; margin-top:10px; color:var(--terracota); font-weight:900;">Ver Programa ↗</a>` : ''}
                     </div>`;
                 });
             });
