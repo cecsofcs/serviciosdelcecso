@@ -164,7 +164,6 @@
     .titulo-zen { margin: 0; font-family: 'Archivo Black'; font-size: 1.5rem; color: var(--petroleo); }
     .contador-box { background: var(--rosa-suave); border: 2px solid var(--negro); padding: 10px 25px; border-radius: 50px; display: inline-block; box-shadow: 3px 3px 0px var(--negro); }
     .numero-zen { font-size: 1.4rem; font-family: 'Archivo Black'; color: var(--negro); }
-    .frase-zen { font-weight: 700; color: var(--terracota); font-size: 1rem; margin: 0; font-style: italic; max-width: 600px; line-height: 1.4; }
 
     .modulo-box {
         background: white; border: var(--borde); padding: 25px; border-radius: 15px;
@@ -333,7 +332,7 @@
 
       <div id="este-semestre-container" style="display: none; max-width: 900px; margin: 0 auto 40px auto;">
           <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 15px;">
-              <h3 style="font-family:'Archivo Black'; margin:0; color:var(--petroleo); font-size: 1.8rem;">🎯 En mi mochila</h3>
+              <h3 style="font-family:'Archivo Black'; margin:0; color:var(--petroleo); font-size: 1.8rem;">🎯 Plan de semestre</h3>
               <div style="background: white; border: 3px solid var(--negro); padding: 8px 15px; border-radius: 50px; font-family: 'Archivo Black'; font-size: 1.1rem; box-shadow: 4px 4px 0px var(--negro);">
                   <span id="txt-creditos-semestre" style="color: var(--terracota);">0 cr.</span> / 52 cr. max
               </div>
@@ -344,8 +343,8 @@
           <p style="font-weight: 600; margin-top: 20px;">Marcaste que vas a cursar las siguientes materias este semestre:</p>
           <ul id="lista-este-semestre"></ul>
           
-          <button class="btn-cta-top" style="margin: 10px 0 0 0; padding: 15px 25px; font-size: 1.1rem; width:100%;" onclick="abrirModalLibrillosMochila()">
-              📚 QUIERO MIS LIBRILLOS
+          <button class="btn-cta-top" style="margin: 10px 0 0 0; padding: 15px 25px; font-size: 1.1rem; width:100%;" onclick="abrirModalLibrillosCursar()">
+              📚 VER LIBRILLOS PARA CURSAR
           </button>
       </div>
 
@@ -356,7 +355,6 @@
               <div class="contador-box">
                   <span id="texto-progreso-global" class="numero-zen">0 / 120 cr.</span>
               </div>
-              <p id="frase-zen" class="frase-zen"></p>
               
               <button id="btn-estado-inscripcion" class="btn-estado" style="margin-top: 10px; background: white; padding: 10px 20px; font-size: 0.85rem;" onclick="abrirModalInscripcion()">
                   ¿Qué me falta para poder inscribirme a Ciclo Avanzado?
@@ -398,23 +396,23 @@
       </div>
   </div>
 
-  <div id="modal-mochila-librillos" class="modal-overlay">
+  <div id="modal-cursar-librillos" class="modal-overlay">
       <div class="modal-content" style="max-width: 650px; background: var(--crema-papel);">
-          <button class="modal-close" onclick="cerrarModalLibrillosMochila()">✕</button>
-          <h3 style="font-family:'Archivo Black'; color:var(--petroleo); margin-top:0; font-size:1.5rem; border-bottom: 4px solid var(--negro); padding-bottom: 10px;">Librillos de tu Mochila</h3>
+          <button class="modal-close" onclick="cerrarModalLibrillosCursar()">✕</button>
+          <h3 style="font-family:'Archivo Black'; color:var(--petroleo); margin-top:0; font-size:1.5rem; border-bottom: 4px solid var(--negro); padding-bottom: 10px;">Librillos para Cursar</h3>
           
-          <div id="contenido-librillos-mochila" style="min-height: 100px; margin-bottom: 20px;">
+          <div id="contenido-librillos-cursar" style="min-height: 100px; margin-bottom: 20px;">
               </div>
           
           <div style="background: white; border: var(--borde); padding: 20px; box-shadow: var(--sombra);">
-              <div class="total-amount" id="display-total-mochila">$0</div>
+              <div class="total-amount" id="display-total-cursar">$0</div>
               
-              <div class="envio-wrapper" onclick="toggleEnvioMochila()">
-                  <input type="checkbox" id="check-envio-mochila">
-                  <label for="check-envio-mochila" class="envio-label">Envío al interior (+$200)</label>
+              <div class="envio-wrapper" onclick="toggleEnvioCursar()">
+                  <input type="checkbox" id="check-envio-cursar">
+                  <label for="check-envio-cursar" class="envio-label">Envío al interior (+$200)</label>
               </div>
 
-              <button class="btn-cta-top" style="width:100%; margin:0; padding:15px;" onclick="finalizarCompraMochila()">FINALIZAR COMPRA</button>
+              <button class="btn-cta-top" style="width:100%; margin:0; padding:15px;" onclick="finalizarCompraCursar()">FINALIZAR COMPRA</button>
           </div>
       </div>
   </div>
@@ -483,7 +481,6 @@
   </div>
 
   <script>
-    // URL DEFINITIVA DE TU API EN GOOGLE APPS SCRIPT
     const API_URL = "https://script.google.com/macros/s/AKfycbwvN6HrSUH1qTNEnXGruTGpFI0386sLHJnqZTWSKFvAAsPvmSddeYRlTLZtzERuf8NX/exec"; 
     
     const COSTO_ENVIO = 200; 
@@ -498,17 +495,9 @@
     let conEnvio = false;
 
     let optativasActuales = [];
-    let librillosMochilaEncontrados = []; 
+    let librillosCursarEncontrados = []; 
 
     let planesEstudio = null;
-
-    const frasesZen = [
-        "\"La universidad no es una carrera de velocidad. Organizá tus semestres cuidando tu salud mental.\"",
-        "\"Cada trayectoria es única. Armá el recorrido que mejor se adapte a tu vida y tus tiempos.\"",
-        "\"No existe un único camino. Mover materias de semestre es completamente normal y válido.\"",
-        "\"Equilibrar el estudio con la familia, el laburo o tu tiempo libre es clave. ¡Vas a tu propio ritmo!\"",
-        "\"Los números de los semestres en la malla son solo una sugerencia, no una regla de oro.\""
-    ];
 
     window.onload = () => { 
         renderCarrito(); 
@@ -620,7 +609,7 @@
         renderCarrito();
     };
 
-    window.toggleCart = function(id, titulo, precio, esDesdeMochila = false) {
+    window.toggleCart = function(id, titulo, precio, esDesdeCursar = false) {
         const idx = carrito.findIndex(c => c.id === id);
         if(idx === -1) carrito.push({ id, titulo, precio: parseInt(precio) });
         else carrito.splice(idx, 1);
@@ -629,8 +618,8 @@
         
         renderCatalogo(); 
         renderCarrito();
-        if(document.getElementById('modal-mochila-librillos').style.display === 'flex') {
-            renderLibrillosMochila();
+        if(document.getElementById('modal-cursar-librillos').style.display === 'flex') {
+            renderLibrillosCursar();
         }
     };
 
@@ -657,7 +646,7 @@
         carrito.splice(i, 1);
         localStorage.setItem("cecsocart", JSON.stringify(carrito));
         renderCarrito(); renderCatalogo();
-        if(document.getElementById('modal-mochila-librillos').style.display === 'flex') renderLibrillosMochila();
+        if(document.getElementById('modal-cursar-librillos').style.display === 'flex') renderLibrillosCursar();
     }
 
     document.getElementById('buscador-librillos').oninput = (e) => {
@@ -688,9 +677,6 @@
         carreraActivaId = idCarrera;
         document.getElementById('trayectoria-content').style.display = 'block';
         
-        const randomFrase = frasesZen[Math.floor(Math.random() * frasesZen.length)];
-        document.getElementById('frase-zen').innerText = randomFrase;
-        
         if (!estadoTrayectoria[idCarrera]) {
             estadoTrayectoria[idCarrera] = { aprobadas: [], cursar: [], creditos_optativos: {}, cursar_optativos: {} };
         }
@@ -718,6 +704,33 @@
             modulo.materias.forEach(mat => {
                 creditosTotalesModulo += mat.creditos; 
 
+                // ==================== LÓGICA ESPECIAL VECTOR ECONÓMICO (CIENCIA POLÍTICA) ====================
+                let htmlVectorEconomico = "";
+                if (mat.id === 'cp_dc_eco_elec') {
+                    const estadoCarrera = estadoTrayectoria[idCarrera] || { aprobadas: [] };
+                    const aprobadasEcon = estadoCarrera.aprobadas || [];
+                    const tieneMacro = aprobadasEcon.includes('cp_dc_eco_core1');
+                    const tieneMicro = aprobadasEcon.includes('cp_dc_eco_core2');
+
+                    if (tieneMacro && tieneMicro) {
+                        htmlVectorEconomico = `<div style="background: #d4edda; border-left: 4px solid #28a745; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #155724; border-radius: 4px;">
+                            ✅ <strong>¡Tenés Micro y Macro!</strong> Se te habilitan todas las optativas del vector económico (Desarrollo Económico Territorial, Economía de la Discriminación, etc.).
+                        </div>`;
+                    } else if (tieneMacro) {
+                        htmlVectorEconomico = `<div style="background: #d1ecf1; border-left: 4px solid #17a2b8; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #0c5460; border-radius: 4px;">
+                            📈 <strong>Al tener Macro aprobada</strong>, podés cursar electivas como: <br>• Desarrollo Económico Territorial<br>• Economía Internacional<br><em>(Las materias como Economía de la discriminación requieren dar Micro primero).</em>
+                        </div>`;
+                    } else if (tieneMicro) {
+                        htmlVectorEconomico = `<div style="background: #e2e3e5; border-left: 4px solid #6c757d; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #383d41; border-radius: 4px;">
+                            📊 <strong>Al tener Micro aprobada</strong>, podés cursar electivas como: <br>• Economía de la Discriminación<br>• Evaluación de Políticas<br><em>(Las materias como Desarrollo Económico Territorial requieren dar Macro primero).</em>
+                        </div>`;
+                    } else {
+                        htmlVectorEconomico = `<div style="background: #fff3cd; border-left: 4px solid #ffeeba; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #856404; border-radius: 4px;">
+                            ⚠️ <strong>Aviso sobre el Vector Económico:</strong> Las materias optativas que se te habilitan en este módulo dependen de si aprobaste primero Análisis Macroeconómico o Microeconómico. Marcá alguna de las dos como aprobada para ver tus opciones.
+                        </div>`;
+                    }
+                }
+
                 if (mat.es_bolsa_creditos) {
                     const valorOptativo = estadoTrayectoria[idCarrera].creditos_optativos[mat.id] || 0;
                     const valorCursar = estadoTrayectoria[idCarrera].cursar_optativos?.[mat.id] || 0;
@@ -736,6 +749,7 @@
                                 <h4 class="materia-nombre">${mat.nombre}</h4>
                                 ${mat.nota ? `<p class="materia-meta" style="color:var(--terracota); font-weight:700;">${mat.nota}</p>` : ''}
                                 ${btnCualesPuedoHacer}
+                                ${htmlVectorEconomico}
                             </div>
                             <div class="materia-acciones bolsa-mobile" style="flex-direction: column; align-items: flex-end; gap: 8px;">
                                 <div style="display: flex; align-items: center; gap: 8px;">
@@ -782,6 +796,7 @@
                                 <h4 class="materia-nombre">${mat.nombre}</h4>
                                 <p class="materia-meta">${txtSemestre} | ${mat.creditos} créditos ${mat.nota ? '<br><span style="color:var(--terracota); font-weight:700;">' + mat.nota + '</span>' : ''}</p>
                                 ${cartelLlave}
+                                ${htmlVectorEconomico}
                             </div>
                             <div class="materia-acciones">
                                 <button class="btn-estado btn-aprobada ${isAprobada ? 'activa' : ''}" 
@@ -790,7 +805,7 @@
                                 </button>
                                 <button class="btn-estado btn-cursar ${isCursar ? 'activa' : ''}" 
                                     onclick="toggleMateria('${idCarrera}', '${mat.id}', 'cursar')">
-                                    ${isCursar ? '🎒 En mochila' : 'A mi mochila'}
+                                    ${isCursar ? '🎒 Cursando' : 'Cursar'}
                                 </button>
                             </div>
                         </div>
@@ -884,10 +899,10 @@
             plan.modulos.forEach(modulo => {
                 modulo.materias.forEach(mat => {
                     if (mat.es_bolsa_creditos) {
-                        const credsMochila = parseInt(estado.cursar_optativos?.[mat.id] || 0);
-                        if (credsMochila > 0) {
-                            creditosSemestre += credsMochila;
-                            todasLasMateriasCursando.push(`<strong>[${plan.nombre.replace('Licenciatura en ', '')}]</strong> ${mat.nombre} (<em>${credsMochila} cr.</em>)`);
+                        const credsPlan = parseInt(estado.cursar_optativos?.[mat.id] || 0);
+                        if (credsPlan > 0) {
+                            creditosSemestre += credsPlan;
+                            todasLasMateriasCursando.push(`<strong>[${plan.nombre.replace('Licenciatura en ', '')}]</strong> ${mat.nombre} (<em>${credsPlan} cr.</em>)`);
                         }
                     } else {
                         if (estado.cursar.includes(mat.id)) {
@@ -906,7 +921,7 @@
 
             if (creditosSemestre > 52) {
                 alertaCreditos.style.display = 'block';
-                alertaCreditos.innerHTML = `⚠️ Tenés ${creditosSemestre} créditos. Estás superando el límite reglamentario (52 cr). Bedelía no te va a dejar inscribirte a todo, revisá la mochila.`;
+                alertaCreditos.innerHTML = `⚠️ Tenés ${creditosSemestre} créditos. Estás superando el límite reglamentario (52 cr). Bedelía no te va a dejar inscribirte a todo, revisá tu plan de semestre.`;
             } else {
                 alertaCreditos.style.display = 'none';
             }
@@ -1032,49 +1047,49 @@
         });
     }
 
-    window.abrirModalLibrillosMochila = function() {
-        let idsMochila = [];
+    window.abrirModalLibrillosCursar = function() {
+        let idsCursar = [];
         Object.keys(planesEstudio).forEach(carrera => {
             if(estadoTrayectoria[carrera] && estadoTrayectoria[carrera].cursar) {
-                idsMochila = idsMochila.concat(estadoTrayectoria[carrera].cursar);
+                idsCursar = idsCursar.concat(estadoTrayectoria[carrera].cursar);
             }
         });
 
-        if(idsMochila.length === 0) {
-            alert("No marcaste ninguna materia obligatoria en tu mochila este semestre.");
+        if(idsCursar.length === 0) {
+            alert("No marcaste ninguna materia obligatoria en tu plan de semestre.");
             return;
         }
 
-        document.getElementById('modal-mochila-librillos').style.display = 'flex';
-        const contenedor = document.getElementById('contenido-librillos-mochila');
+        document.getElementById('modal-cursar-librillos').style.display = 'flex';
+        const contenedor = document.getElementById('contenido-librillos-cursar');
         
         contenedor.innerHTML = '<p style="text-align:center; font-weight:900; color:var(--petroleo); margin: 40px 0;">Buscando tus materiales en fotocopiadora... 🏃💨</p>';
         
-        document.getElementById('check-envio-mochila').checked = conEnvio;
+        document.getElementById('check-envio-cursar').checked = conEnvio;
 
-        fetch(`${API_URL}?action=librillosPorIds&ids=${idsMochila.join(',')}`)
+        fetch(`${API_URL}?action=librillosPorIds&ids=${idsCursar.join(',')}`)
             .then(res => res.json())
             .then(data => {
-                librillosMochilaEncontrados = data;
-                renderLibrillosMochila();
+                librillosCursarEncontrados = data;
+                renderLibrillosCursar();
             })
             .catch(err => {
                 contenedor.innerHTML = `<p style='color:red; text-align:center; font-weight:700;'>⚠️ Ups! Hubo un error de conexión con el inventario de librillos.</p>`;
             });
     };
 
-    window.cerrarModalLibrillosMochila = function() {
-        document.getElementById('modal-mochila-librillos').style.display = 'none';
+    window.cerrarModalLibrillosCursar = function() {
+        document.getElementById('modal-cursar-librillos').style.display = 'none';
     };
 
-    function renderLibrillosMochila() {
-        const contenedor = document.getElementById('contenido-librillos-mochila');
+    function renderLibrillosCursar() {
+        const contenedor = document.getElementById('contenido-librillos-cursar');
         contenedor.innerHTML = '';
         
-        if (librillosMochilaEncontrados.length === 0) {
-            contenedor.innerHTML = '<p style="font-weight:700; color:var(--terracota); text-align:center;">Todavía no subimos a la web los librillos de las materias que tenés en tu mochila. ¡Pegate una vuelta por fotocopiadora!</p>';
+        if (librillosCursarEncontrados.length === 0) {
+            contenedor.innerHTML = '<p style="font-weight:700; color:var(--terracota); text-align:center;">Todavía no subimos a la web los librillos de las materias que tenés en tu plan de semestre. ¡Pegate una vuelta por fotocopiadora!</p>';
         } else {
-            librillosMochilaEncontrados.forEach(item => {
+            librillosCursarEncontrados.forEach(item => {
                 const isAdded = carrito.some(c => c.id === item.id);
                 contenedor.innerHTML += `
                     <div style="border-bottom: 1px dashed #ccc; padding: 15px 0; display: flex; justify-content: space-between; align-items: center; gap: 15px;">
@@ -1093,21 +1108,21 @@
         let subtotal = 0;
         carrito.forEach(c => subtotal += c.precio);
         if(conEnvio) subtotal += COSTO_ENVIO;
-        document.getElementById('display-total-mochila').innerText = `$${subtotal}`;
+        document.getElementById('display-total-cursar').innerText = `$${subtotal}`;
     }
 
-    window.toggleEnvioMochila = function() {
-        const check = document.getElementById('check-envio-mochila');
+    window.toggleEnvioCursar = function() {
+        const check = document.getElementById('check-envio-cursar');
         if(event && event.target.tagName !== 'INPUT') check.checked = !check.checked;
         conEnvio = check.checked;
         
         document.getElementById('check-envio').checked = conEnvio;
         
         renderCarrito();
-        renderLibrillosMochila();
+        renderLibrillosCursar();
     };
 
-    window.finalizarCompraMochila = function() {
+    window.finalizarCompraCursar = function() {
         finalizar(); 
     };
 
