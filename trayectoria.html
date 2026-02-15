@@ -18,10 +18,9 @@
         --sombra: 8px 8px 0px #000000;
         --sombra-pet: 6px 6px 0px var(--petroleo);
         --sombra-terra: 6px 6px 0px var(--terracota);
-        
-        /* Colores de fondo para módulos */
+        /* Colores para los bloques de trayectoria */
         --fondo-obligatoria: #e8f2f3; 
-        --fondo-optativa: #fdf2ef;    
+        --fondo-optativa: #fdf2ef; 
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -37,7 +36,7 @@
 
     .font-logo { font-family: 'Archivo Black', sans-serif; text-transform: uppercase; letter-spacing: -1.5px; }
 
-    /* NAVBAR */
+    /* ============ NAVBAR ============ */
     .navbar {
         display: flex; justify-content: space-between; align-items: center;
         padding: 15px 30px; background: white; border-bottom: var(--borde);
@@ -50,67 +49,149 @@
         font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0px var(--negro);
         transition: 0.1s; text-transform: uppercase; font-size: 0.75rem;
     }
+    .nav-links button:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px var(--negro); }
 
-    /* INICIO */
+    /* ============ INICIO ============ */
     #seccion-inicio { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
-    .hero h1 { font-size: clamp(1.8rem, 6.5vw, 4.5rem); color: var(--petroleo); line-height: 1; margin: 0; -webkit-text-stroke: 1px var(--negro); }
+    .hero { text-align: left; }
+    .hero h1 { 
+        font-size: clamp(1.8rem, 6.5vw, 4.5rem); color: var(--petroleo); line-height: 1; 
+        margin: 0; -webkit-text-stroke: 1px var(--negro); white-space: nowrap; 
+    }
     .btn-cta-top {
         display: inline-block; margin: 40px 0; padding: 22px 45px;
         background: var(--terracota); color: white; border: var(--borde);
         font-weight: 900; font-size: 1.4rem; text-transform: uppercase;
         cursor: pointer; box-shadow: var(--sombra); transition: 0.1s;
     }
+    .btn-cta-top:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px #000; }
 
-    /* TRAYECTORIA */
+    .neo-bubble {
+        background: white; border: var(--borde); padding: 40px;
+        box-shadow: var(--sombra); margin-bottom: 60px; border-radius: 20px;
+        position: relative;
+    }
+    .neo-bubble::after {
+        content: ""; position: absolute; bottom: -24px; left: 40px;
+        width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent;
+        border-top: 24px solid var(--negro);
+    }
+    .neo-bubble::before {
+        content: ""; position: absolute; bottom: -16px; left: 43px;
+        width: 0; height: 0; z-index: 2; border-left: 17px solid transparent; border-right: 17px solid transparent;
+        border-top: 21px solid white;
+    }
+    .neo-bubble h2 { font-size: 1.3rem; font-family: 'Archivo Black'; margin-top: 0; color: var(--petroleo); border-bottom: 6px solid var(--rosa-suave); display: inline-block; }
+    .neo-bubble p { font-weight: 600; line-height: 1.6; }
+    .neo-bubble strong { color: var(--terracota); }
+
+    /* ============ APP / SELECCIÓN ============ */
+    #app-container { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+    .step-view { display: flex; flex-direction: column; align-items: center; min-height: 70vh; text-align: center; }
+    .step-title { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 3.5rem; color: var(--terracota); text-transform: uppercase; letter-spacing: 2px; }
+
+    .btn-choice {
+        background: white; border: var(--borde); padding: 22px; width: 100%; max-width: 450px; 
+        margin-bottom: 20px; font-weight: 800; font-size: 1.1rem; cursor: pointer; text-transform: uppercase;
+        box-shadow: 6px 6px 0px var(--petroleo); transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .btn-choice:nth-of-type(even) { box-shadow: 6px 6px 0px var(--terracota); }
+    .btn-choice:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0px var(--negro); }
+    .btn-choice:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px transparent; }
+
+    .btn-back { margin-top:10px; font-weight:800; cursor:pointer; background:none; border:none; text-decoration:underline; font-size: 1rem; color: var(--negro); }
+
+    /* ============ BUSCADOR & GRILLA ============ */
+    #buscador-librillos {
+        width: 100%; max-width: 600px; padding: 18px 25px; border: var(--borde);
+        font-size: 1.1rem; font-weight: 700; outline: none; box-shadow: 6px 6px 0px var(--petroleo);
+        margin-bottom: 40px; background: white;
+    }
+
+    .grid-libros { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+    
+    .lib-bubble { 
+        background: white; border: var(--borde); padding: 25px; border-radius: 20px; 
+        box-shadow: var(--sombra-pet); display: flex; flex-direction: column; height: 100%;
+        transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .grid-libros .lib-bubble:nth-child(even) { box-shadow: var(--sombra-terra); }
+    .lib-bubble:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0px var(--petroleo); }
+    .grid-libros .lib-bubble:nth-child(even):hover { box-shadow: 8px 8px 0px var(--terracota); }
+
+    .lib-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 20px; color: var(--petroleo); line-height: 1.2; }
+    .btn-add { background: white; border: 3px solid var(--negro); padding: 10px 18px; font-weight: 900; cursor: pointer; font-size: 0.75rem; box-shadow: 4px 4px 0px var(--negro); text-transform: uppercase; transition:0.1s;}
+    .btn-add:active { transform: translate(2px,2px); box-shadow: 0 0 0 #000; }
+    .btn-add.active { background: var(--petroleo); color: white; border-color: var(--petroleo); box-shadow: 4px 4px 0px var(--terracota); }
+
+    /* ============ CARRITO BLINDADO (NO SE AGRANDA) ============ */
+    .cart-box { 
+        background: white; border: var(--borde); padding: 25px; 
+        box-shadow: var(--sombra); position: sticky; top: 120px; 
+        min-width: 280px; 
+    }
+    
+    .cart-item { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        padding: 12px 0; 
+        border-bottom: 1px solid #eee; 
+        width: 100%; 
+    }
+
+    .cart-item-title {
+        font-weight: 700; 
+        font-size: 0.85rem; 
+        flex: 1; 
+        min-width: 0; 
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        margin-right: 10px; 
+        text-align: left;
+    }
+
+    .cart-item-actions {
+        display: flex; 
+        align-items: center; 
+        gap: 10px; 
+        flex-shrink: 0; 
+    }
+
+    .total-amount { font-family: 'Archivo Black'; font-size: 2.2rem; color: var(--petroleo); text-align: right; margin-bottom: 20px; }
+    .envio-wrapper { background: #eee; padding: 15px; margin-bottom: 20px; border-left: 5px solid var(--terracota); display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .envio-wrapper input { width: 20px; height: 20px; cursor: pointer; accent-color: var(--terracota); }
+    .envio-label { font-weight: 700; font-size: 0.9rem; cursor: pointer; }
+
+    #cart-toggle-btn { display: none; position: fixed; bottom: 25px; right: 20px; background: var(--terracota); border: 3px solid #000; padding: 15px 25px; color: white; font-weight: 900; box-shadow: 5px 5px 0px #000; z-index: 3000; cursor: pointer; border-radius: 50px; text-transform: uppercase; font-size: 0.9rem; }
+
+    /* ============ ESTILOS TRAYECTORIA ============ */
     #seccion-trayectoria { display: none; padding: 40px 20px; max-width: 900px; margin: 0 auto; }
-    .panel-zen {
-        background: white; border: var(--borde); padding: 30px 20px; border-radius: 15px;
-        box-shadow: var(--sombra); margin-bottom: 40px; text-align: center;
-        position: sticky; top: 75px; z-index: 100;
-    }
-
-    /* MÓDULOS */
-    .modulo-box {
-        background: white; border: var(--borde); padding: 25px; border-radius: 15px;
-        box-shadow: var(--sombra-terra); margin-bottom: 30px;
-    }
+    .panel-zen { background: white; border: var(--borde); padding: 30px; border-radius: 15px; box-shadow: var(--sombra); margin-bottom: 40px; text-align: center; position: sticky; top: 75px; z-index: 100; }
+    .modulo-box { background: white; border: var(--borde); padding: 25px; border-radius: 15px; box-shadow: var(--sombra-terra); margin-bottom: 30px; }
     .modulo-obligatoria { background-color: var(--fondo-obligatoria); }
     .modulo-optativa { background-color: var(--fondo-optativa); }
-
-    .modulo-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid rgba(0,0,0,0.1); padding-bottom: 10px; margin-bottom: 20px; }
-    .modulo-header h3 { margin: 0; font-family: 'Archivo Black'; font-size: 1.4rem; color: var(--petroleo); }
-    
-    .materia-item {
-        display: flex; justify-content: space-between; align-items: center;
-        padding: 15px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); gap: 15px;
-    }
-    .btn-estado {
-        background: white; border: 2px solid var(--negro); padding: 8px 15px;
-        font-weight: 800; cursor: pointer; font-size: 0.75rem; text-transform: uppercase;
-        box-shadow: 3px 3px 0px var(--negro); transition: 0.1s; border-radius: 5px;
-    }
-    .btn-aprobada.activa { background: #d4edda; border-color: #28a745; box-shadow: 3px 3px 0px #28a745; color: #155724; }
-    .btn-cursar.activa { background: var(--terracota); border-color: var(--terracota); box-shadow: 3px 3px 0px var(--negro); color: white; }
-
-    .asesoramiento-box {
-        background: var(--crema-papel); border: 3px dashed var(--petroleo); padding: 30px;
-        text-align: center; border-radius: 15px; margin-top: 50px;
-    }
+    .materia-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); gap: 15px; }
+    .btn-estado { background: white; border: 2px solid var(--negro); padding: 8px 15px; font-weight: 800; cursor: pointer; font-size: 0.75rem; text-transform: uppercase; box-shadow: 3px 3px 0px var(--negro); border-radius: 5px; }
+    .btn-aprobada.activa { background: #d4edda; color: #155724; border-color: #28a745; box-shadow: 3px 3px 0px #28a745; }
+    .asesoramiento-box { background: var(--crema-papel); border: 3px dashed var(--petroleo); padding: 30px; text-align: center; border-radius: 15px; margin-top: 50px; }
+    .input-moi { width: 60px; padding: 8px; border: 2px solid var(--negro); font-family: 'Archivo Black'; font-size: 1rem; text-align: center; border-radius: 5px; box-shadow: 3px 3px 0px var(--negro); }
 
     /* MODALES */
-    .modal-overlay { 
-        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-        background: rgba(0,0,0,0.6); z-index: 4000; align-items: center; justify-content: center; padding: 20px; 
-    }
-    .modal-content { 
-        background: white; border: var(--borde); border-radius: 15px; padding: 30px; 
-        max-width: 500px; width: 100%; box-shadow: var(--sombra); position: relative; max-height: 90vh; overflow-y: auto;
-    }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 4000; align-items: center; justify-content: center; padding: 20px; }
+    .modal-content { background: white; border: var(--borde); border-radius: 15px; padding: 30px; max-width: 500px; width: 100%; box-shadow: var(--sombra); position: relative; max-height: 90vh; overflow-y: auto; }
 
+    /* ============ MEDIA QUERIES ============ */
     @media (max-width: 900px) {
-        .materia-item { flex-direction: column; align-items: flex-start; }
-        .materia-acciones { width: 100%; display: flex; }
-        .btn-estado { flex: 1; }
+        .navbar .brand { display: none; }
+        .navbar { justify-content: center; padding: 12px; }
+        .nav-links { width: 100%; justify-content: center; gap: 15px; }
+        .nav-links button { background: var(--rosa-suave); border: 2px solid var(--negro); box-shadow: none; border-radius: 50px; padding: 8px 25px; font-size: 0.85rem; width: auto; }
+        .main-layout { flex-direction: column; }
+        .cart-box { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 2500; border-top: var(--borde); transform: translateY(110%); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); background: white; padding: 30px 20px; max-height: 85vh; overflow-y: auto; }
+        .cart-box.open { transform: translateY(0); }
+        #app-container { padding-bottom: 120px; }
     }
   </style>
 </head>
@@ -126,78 +207,197 @@
       </div>
   </nav>
 
+  <div id="cart-toggle-btn" onclick="toggleCartView()">🛒 Mi Pedido: $0</div>
+
   <section id="seccion-inicio">
     <div class="hero">
         <h1 class="font-logo">Servicios del CECSo</h1>
+        <br>
         <button class="btn-cta-top" onclick="navegar('app')">Conseguí tus librillos</button>
+    </div>
+
+    <div class="neo-bubble">
+        <h2>¿Qué son los Servis?</h2>
+        <p>Los Servis son el <strong>mayor proyecto político del Centro de Estudiantes de Ciencias Sociales.</strong><br><br>
+        Su objetivo es brindar becas de trabajo para que estudiantes de FCS puedan continuar con sus trayectorias estudiantiles como también ofrecer la bibliografía de los cursos y productos de cantina a precios accesibles.<br><br>
+        <strong>La sostenibilidad de este proyecto es uno de los cometidos fundamentales del CECSO.</strong></p>
     </div>
   </section>
 
   <section id="seccion-trayectoria">
-      <div class="trayectoria-header">
-          <h2>Mi Trayectoria</h2>
-          <p>Marcá lo que ya hiciste y armá tu plan de cursada.</p>
-          <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-               <button class="btn-choice" style="padding: 10px 20px;" onclick="cargarPlan('ciclo_inicial')">Ciclo Inicial</button>
-               <button class="btn-choice" style="padding: 10px 20px;" onclick="cargarPlan('ciencia_politica')">Ciencia Política</button>
-               <button class="btn-choice" style="padding: 10px 20px;" onclick="cargarPlan('desarrollo')">Desarrollo</button>
-               <button class="btn-choice" style="padding: 10px 20px;" onclick="cargarPlan('sociologia')">Sociología</button>
-               <button class="btn-choice" style="padding: 10px 20px;" onclick="cargarPlan('trabajo_social')">Trabajo Social</button>
+      <div style="text-align:center; margin-bottom:30px;">
+          <h2 class="font-logo">Mi Trayectoria</h2>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:20px;">
+               <button class="btn-choice" style="max-width:200px; padding:12px;" onclick="cargarPlan('ciclo_inicial')">Ciclo Inicial</button>
+               <button class="btn-choice" style="max-width:200px; padding:12px;" onclick="cargarPlan('ciencia_politica')">Ciencia Política</button>
+               <button class="btn-choice" style="max-width:200px; padding:12px;" onclick="cargarPlan('desarrollo')">Desarrollo</button>
+               <button class="btn-choice" style="max-width:200px; padding:12px;" onclick="cargarPlan('sociologia')">Sociología</button>
+               <button class="btn-choice" style="max-width:200px; padding:12px;" onclick="cargarPlan('trabajo_social')">Trabajo Social</button>
           </div>
       </div>
 
-      <div id="trayectoria-content" style="display: none; margin-top: 40px;">
+      <div id="trayectoria-content" style="display:none;">
           <div class="panel-zen">
-              <h3 id="titulo-carrera-activa" class="titulo-zen">Ciclo Inicial</h3>
-              <div class="contador-box">
-                  <span id="texto-progreso-global" class="numero-zen">0 / 0 cr.</span>
+              <h3 id="titulo-carrera-activa" class="font-logo" style="margin:0; color:var(--petroleo);"></h3>
+              <div class="contador-box" style="margin-top:10px;">
+                  <span id="texto-progreso-global" class="font-logo" style="font-size:1.5rem;">0 / 0 cr.</span>
               </div>
           </div>
-
           <div id="modulos-container"></div>
-
+          
           <div class="asesoramiento-box">
-              <h3>¿Dudas con tu trayectoria?</h3>
-              <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 20px;">
-                  Si te queda alguna duda, podes plantearla por acá y capaz te podemos ayudar.
-              </p>
-              <input type="text" id="asesor_nombre" placeholder="Tu nombre (opcional)" style="width:100%; margin-bottom:10px; padding:10px;">
-              <textarea id="asesor_consulta" placeholder="Escribí tu consulta acá..." style="width:100%; height:100px; padding:10px;"></textarea>
-              <button class="btn-cta-top" style="padding:15px; width:100%;" onclick="alert('Próximamente disponible')">Enviar consulta</button>
+              <h3 class="font-logo">¿Dudas con tu trayectoria?</h3>
+              <p>Si te queda alguna duda, podes plantearla por acá y capaz te podemos ayudar.</p>
+              <textarea id="asesor_consulta" placeholder="Escribí tu consulta acá..." style="width:100%; max-width:400px; height:100px; padding:10px; border:2px solid #000; margin-top:10px;"></textarea>
+              <br>
+              <button class="btn-cta-top" style="padding:15px; margin-top:10px;" onclick="alert('Próximamente disponible')">Enviar duda</button>
           </div>
       </div>
   </section>
 
+  <div id="app-container">
+      <div id="step-carrera" class="step-view">
+          <h2 class="step-title">Elegí tu Carrera</h2>
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+              <button class="btn-choice" onclick="seleccionarCarrera('Ciclo Inicial')">Ciclo Inicial</button>
+              <button class="btn-choice" onclick="seleccionarCarrera('Sociología')">Sociología</button>
+              <button class="btn-choice" onclick="seleccionarCarrera('Trabajo Social')">Trabajo Social</button>
+              <button class="btn-choice" onclick="seleccionarCarrera('Ciencia Política')">Ciencia Política</button>
+              <button class="btn-choice" onclick="seleccionarCarrera('Desarrollo')">Desarrollo</button>
+          </div>
+      </div>
+
+      <div id="step-semestre" class="step-view" style="display:none;">
+          <h2 id="txt-carrera-header" class="step-title"></h2>
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+              <button class="btn-choice" onclick="seleccionarSemestre('Par')">Semestre Par</button>
+              <button class="btn-choice" onclick="seleccionarSemestre('Impar')">Semestre Impar</button>
+              <button class="btn-back" onclick="navegarApp('step-carrera')">← Volver</button>
+          </div>
+      </div>
+
+      <div id="step-tipo" class="step-view" style="display:none;">
+          <h2 id="txt-semestre-header" class="step-title"></h2>
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+              <button class="btn-choice" onclick="iniciarCarga('Obligatorias')">Materias Obligatorias</button>
+              <button class="btn-choice" onclick="iniciarCarga('Optativas')">Materias Optativas</button>
+              <button class="btn-back" onclick="navegarApp('step-semestre')">← Volver</button>
+          </div>
+      </div>
+
+      <div id="step-catalogo" style="display:none;">
+          <div style="text-align: center; margin-bottom: 40px;">
+              <h2 id="txt-hoja-sel" class="step-title" style="border-bottom: 2px solid var(--rosa-suave); display: inline-block; font-size: 1.8rem;"></h2>
+              <br><br>
+              <button class="btn-back" onclick="navegarApp('step-tipo')" style="margin-top:0; margin-bottom:20px;">← Elegir otro tipo</button>
+              <br>
+              <input type="text" id="buscador-librillos" placeholder="🔍 Buscar materia..."/>
+          </div>
+
+          <div class="main-layout" style="display: flex; gap: 40px; align-items: flex-start;">
+              <div id="lista-libros" class="grid-libros" style="flex:2;"></div>
+              <div class="cart-box" id="carrito-panel">
+                  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--negro); padding-bottom: 10px; margin-bottom: 20px;">
+                      <h3 class="font-logo" style="margin:0; font-size: 1.1rem;">Tu Pedido</h3>
+                      <button onclick="toggleCartView()" style="background: var(--rosa-suave); border: 2px solid #000; font-weight: 900; padding: 5px 10px; cursor: pointer;" class="mobile-only-btn">CERRAR ✕</button>
+                  </div>
+                  <div id="cart-items-container"></div>
+                  <div class="total-amount" id="display-total">$0</div>
+                  <div class="envio-wrapper" onclick="toggleEnvio()">
+                      <input type="checkbox" id="check-envio">
+                      <label for="check-envio" class="envio-label">Envío al interior (+$200)</label>
+                  </div>
+                  <button class="btn-cta-top" style="width:100%; margin:0; padding:20px;" onclick="finalizar()">FINALIZAR COMPRA</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
   <div id="modal-optativas" class="modal-overlay">
       <div class="modal-content">
-          <button class="modal-close" onclick="document.getElementById('modal-optativas').style.display='none'">✕</button>
-          <h3 id="titulo-modal-optativas" style="font-family:'Archivo Black'; color:var(--petroleo);">Optativas</h3>
+          <button style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.5rem; cursor:pointer;" onclick="document.getElementById('modal-optativas').style.display='none'">✕</button>
+          <h3 id="titulo-modal-optativas" class="font-logo" style="color:var(--petroleo);">Optativas</h3>
           <div id="lista-optativas-modal"></div>
       </div>
   </div>
 
   <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbwvN6HrSUH1qTNEnXGruTGpFI0386sLHJnqZTWSKFvAAsPvmSddeYRlTLZtzERuf8NX/exec"; 
+    const COSTO_ENVIO = 200; 
+
+    let cacheCatalogo = {};
+    let carrito = JSON.parse(localStorage.getItem("cecsocart")) || [];
     let planesEstudio = null;
     let estadoTrayectoria = JSON.parse(localStorage.getItem("cecso_trayectoria")) || {};
+    let db = [], filtered = [];
+    let licActual = "", semActual = "", tipoActual = "", conEnvio = false;
 
-    window.onload = () => {
-        fetch("TU_URL_DE_APPS_SCRIPT?action=obtenerMallas")
-            .then(res => res.json())
-            .then(data => { planesEstudio = data; });
+    // SANEADOR
+    function sanearTexto(texto) {
+        if (!texto) return "";
+        const correcciones = { 'Ã¡': 'á', 'Ã©': 'é', 'Ã­': 'í', 'Ã³': 'ó', 'Ãº': 'ú', 'Ã±': 'ñ', 'à': 'á', 'è': 'é', 'ì': 'í', 'ò': 'ó', 'ù': 'ú' };
+        let saneado = texto;
+        Object.keys(correcciones).forEach(error => { saneado = saneado.split(error).join(correcciones[error]); });
+        return saneado;
+    }
+
+    // NAVEGACIÓN
+    window.navegar = function(seccion) {
+        window.scrollTo(0,0);
+        document.getElementById('seccion-inicio').style.display = (seccion === 'inicio') ? 'block' : 'none';
+        document.getElementById('app-container').style.display = (seccion === 'app') ? 'block' : 'none';
+        document.getElementById('seccion-trayectoria').style.display = (seccion === 'trayectoria') ? 'block' : 'none';
+        document.getElementById('cart-toggle-btn').style.display = 'none';
+        if(seccion === 'app') navegarApp('step-carrera');
     };
 
-    function navegar(sec) {
-        document.getElementById('seccion-inicio').style.display = (sec==='inicio'?'block':'none');
-        document.getElementById('seccion-trayectoria').style.display = (sec==='trayectoria'?'block':'none');
+    window.navegarApp = function(step) {
+        const steps = ['step-carrera', 'step-semestre', 'step-tipo', 'step-catalogo'];
+        steps.forEach(s => { document.getElementById(s).style.display = (s === step) ? (s === 'step-catalogo' ? 'block' : 'flex') : 'none'; });
+        const btn = document.getElementById('cart-toggle-btn');
+        if (step === 'step-catalogo' && window.innerWidth < 900) btn.style.display = 'block';
+        else btn.style.display = 'none';
+    };
+
+    // LOGICA BUSCADOR
+    window.seleccionarCarrera = function(c) { licActual = c; document.getElementById('txt-carrera-header').innerText = c; navegarApp('step-semestre'); };
+    window.seleccionarSemestre = function(s) { semActual = s; document.getElementById('txt-semestre-header').innerText = `${licActual} - ${s}`; navegarApp('step-tipo'); };
+    window.iniciarCarga = function(t) { tipoActual = t; const hoja = `${licActual} ${semActual} ${t}`; document.getElementById('txt-hoja-sel').innerText = hoja; navegarApp('step-catalogo'); fetchAPI(hoja); };
+
+    function fetchAPI(hoja) {
+        if (cacheCatalogo[hoja]) { db = cacheCatalogo[hoja]; filtered = db; renderCatalogo(); return; }
+        document.getElementById('lista-libros').innerHTML = "<p>Cargando catálogo...</p>";
+        fetch(`${API_URL}?action=obtenerCatalogo&licenciatura=${encodeURIComponent(hoja)}`)
+            .then(res => res.json())
+            .then(data => {
+                const procesados = data.map(item => ({ ...item, titulo: sanearTexto(item.titulo) }));
+                cacheCatalogo[hoja] = procesados; db = procesados; filtered = db; renderCatalogo();
+            });
     }
 
-    function cargarPlan(id) {
+    function renderCatalogo() {
+        const grid = document.getElementById('lista-libros');
+        grid.innerHTML = "";
+        filtered.forEach(item => {
+            const isAdded = carrito.some(c => c.id === item.id);
+            grid.innerHTML += `<div class="lib-bubble">
+                <p class="lib-title">${item.titulo}</p>
+                <div class="lib-footer">
+                    <p class="lib-price">$${item.precio}</p>
+                    <button class="btn-add ${isAdded ? 'active' : ''}" onclick="toggleCart('${item.id}', '${item.titulo}', ${item.precio})">${isAdded ? 'LISTO' : 'AÑADIR'}</button>
+                </div>
+            </div>`;
+        });
+    }
+
+    // LOGICA TRAYECTORIA
+    window.cargarPlan = function(id) {
         document.getElementById('trayectoria-content').style.display = 'block';
-        if(!estadoTrayectoria[id]) estadoTrayectoria[id] = { aprobadas: [], creditos_optativos: {} };
-        renderPlan(id);
+        if(!estadoTrayectoria[id]) estadoTrayectoria[id] = { aprobadas: [], creds_moi: 0, tipo_moi: 'pendiente' };
+        renderTrayectoria(id);
     }
 
-    function renderPlan(idCarrera) {
+    function renderTrayectoria(idCarrera) {
         const plan = planesEstudio[idCarrera];
         const container = document.getElementById('modulos-container');
         container.innerHTML = '';
@@ -206,56 +406,103 @@
 
         document.getElementById('titulo-carrera-activa').innerText = plan.nombre;
 
-        plan.modulos.forEach(modulo => {
-            // Inyección MOI antes del Trabajo Final
-            if (idCarrera === 'desarrollo' && modulo.nombre.toLowerCase().includes('trabajo final') && !moiRenderizado) {
-                container.innerHTML += `<div class="modulo-box" style="border: 3px solid var(--petroleo)"><h3>🎯 Configuración de MOI</h3><p>Aquí va el selector de MOI...</p></div>`;
-                moiRenderizado = true;
+        function inyectarMOI() {
+            if (idCarrera !== 'desarrollo' || moiRenderizado) return;
+            moiRenderizado = true;
+            const moi = estadoTrayectoria[idCarrera].tipo_moi || 'pendiente';
+            let htmlMOI = `<div class="modulo-box" style="border:3px solid var(--petroleo); background:#fdfaf6;">
+                <h3 class="font-logo" style="color:var(--petroleo); font-size:1.1rem; border-bottom:2px solid var(--petroleo); padding-bottom:10px;">🎯 Módulo Optativo Integral (MOI)</h3>`;
+            if (moi === 'propio') {
+                const creds = estadoTrayectoria[idCarrera].creds_moi || 0;
+                totalAprobados += parseInt(creds);
+                htmlMOI += `<p>Ingresá tus créditos del MOI:</p><input type="number" value="${creds}" class="input-moi" onchange="actMoi('${idCarrera}', this.value)"> / 35 cr.
+                <button class="btn-back" style="margin-left:10px;" onclick="setMoi('${idCarrera}', 'pendiente')">Cambiar</button>`;
+            } else {
+                htmlMOI += `<button class="btn-estado" onclick="setMoi('${idCarrera}', 'propio')">Armar mi MOI propio</button>`;
             }
+            container.innerHTML += htmlMOI + `</div>`;
+        }
 
-            const nMod = modulo.nombre.toLowerCase();
+        plan.modulos.forEach(mod => {
+            if (idCarrera === 'desarrollo' && mod.nombre.toLowerCase().includes('trabajo final')) inyectarMOI();
+            
+            const nMod = mod.nombre.toLowerCase();
             let claseColor = (nMod.includes('oblig') || nMod.includes('core')) ? 'modulo-obligatoria' : 'modulo-optativa';
-
             let materiasHtml = '';
-            modulo.materias.forEach(mat => {
+
+            mod.materias.forEach(mat => {
                 const isAprobada = estadoTrayectoria[idCarrera].aprobadas.includes(mat.id);
                 if(isAprobada) totalAprobados += mat.creditos;
-
-                materiasHtml += `
-                    <div class="materia-item">
-                        <div class="materia-info">
-                            <h4 class="materia-nombre">${mat.nombre}</h4>
-                            <p class="materia-meta">${mat.creditos} créditos</p>
-                            ${mat.es_bolsa_creditos ? `<button class="btn-estado" onclick="abrirModalOptativas('${mat.id}')">¿Y cuáles puedo hacer?</button>` : ''}
-                        </div>
-                        <div class="materia-acciones">
-                            <button class="btn-estado btn-aprobada ${isAprobada?'activa':''}" onclick="toggleMateria('${idCarrera}','${mat.id}')">Aprobada</button>
-                        </div>
-                    </div>`;
-            });
-
-            container.innerHTML += `
-                <div class="modulo-box ${claseColor}">
-                    <div class="modulo-header"><h3>${modulo.nombre}</h3></div>
-                    ${materiasHtml}
+                materiasHtml += `<div class="materia-item">
+                    <div style="flex:1">
+                        <strong>${mat.nombre}</strong><br><small>${mat.creditos} cr.</small>
+                        ${mat.es_bolsa_creditos ? `<br><button class="btn-estado" style="font-size:0.6rem; padding:3px;" onclick="abrirModal('${mat.id}')">¿Qué hay?</button>` : ''}
+                    </div>
+                    <button class="btn-estado ${isAprobada?'activa':''}" onclick="toggleMateria('${idCarrera}','${mat.id}')">${isAprobada?'✓':'Aprobada'}</button>
                 </div>`;
+            });
+            container.innerHTML += `<div class="modulo-box ${claseColor}"><h3 class="font-logo" style="font-size:1rem;">${mod.nombre}</h3>${materiasHtml}</div>`;
         });
-
         document.getElementById('texto-progreso-global').innerText = `${totalAprobados} / ${plan.creditos_totales_requeridos} cr.`;
     }
 
     function toggleMateria(carrera, id) {
-        const idx = estadoTrayectoria[carrera].aprobadas.indexOf(id);
-        if(idx === -1) estadoTrayectoria[carrera].aprobadas.push(id);
-        else estadoTrayectoria[carrera].aprobadas.splice(idx, 1);
+        let list = estadoTrayectoria[carrera].aprobadas;
+        const idx = list.indexOf(id);
+        if(idx === -1) list.push(id); else list.splice(idx, 1);
         localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria));
-        renderPlan(carrera);
+        renderTrayectoria(carrera);
     }
 
-    function abrirModalOptativas(idBolsa) {
+    window.setMoi = function(id, tipo) { estadoTrayectoria[id].tipo_moi = tipo; localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria)); renderTrayectoria(id); }
+    window.actMoi = function(id, val) { estadoTrayectoria[id].creds_moi = val; localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria)); renderTrayectoria(id); }
+
+    function abrirModal(idBolsa) {
         document.getElementById('modal-optativas').style.display = 'flex';
-        // Aquí llamarías a una función del Apps Script que busque en la hoja "catalogo_optativas"
+        fetch(`${API_URL}?action=obtenerOptativas&bolsa=${idBolsa}`).then(res => res.json()).then(data => {
+            const list = document.getElementById('lista-optativas-modal');
+            list.innerHTML = '';
+            data.forEach(opt => {
+                list.innerHTML += `<div style="padding:10px 0; border-bottom:1px solid #eee;">
+                    <strong>${opt.nombre}</strong> (${opt.creditos} cr.)
+                    ${opt.horario ? `<div style="background:#f0f4f4; padding:5px; border-radius:4px; font-size:0.8rem; border-left:3px solid var(--petroleo); margin-top:5px;">${opt.horario}</div>` : ''}
+                    ${opt.link ? `<br><a href="${opt.link}" target="_blank">Ver programa</a>` : ''}
+                </div>`;
+            });
+        });
     }
+
+    // CARRITO (ESTO LO DEJÉ IGUAL A TU ORIGINAL)
+    function renderCarrito() {
+        const container = document.getElementById('cart-items-container'); container.innerHTML = "";
+        let subtotal = 0;
+        carrito.forEach((c, i) => {
+            subtotal += c.precio;
+            container.innerHTML += `<div class="cart-item">
+                <span class="cart-item-title">${c.titulo}</span>
+                <div class="cart-item-actions"><span style="font-weight:900;">$${c.precio}</span><button onclick="removeCart(${i})">✕</button></div>
+            </div>`;
+        });
+        if(conEnvio) subtotal += COSTO_ENVIO;
+        document.getElementById('display-total').innerText = `$${subtotal}`;
+        document.getElementById('cart-toggle-btn').innerText = `🛒 Mi Pedido: $${subtotal}`;
+    }
+
+    window.toggleCart = function(id, titulo, precio) {
+        const idx = carrito.findIndex(c => c.id === id);
+        if(idx === -1) carrito.push({ id, titulo, precio }); else carrito.splice(idx, 1);
+        localStorage.setItem("cecsocart", JSON.stringify(carrito)); renderCatalogo(); renderCarrito();
+    };
+
+    window.removeCart = function(i) { carrito.splice(i, 1); localStorage.setItem("cecsocart", JSON.stringify(carrito)); renderCarrito(); renderCatalogo(); }
+    window.toggleEnvio = function() { conEnvio = !conEnvio; document.getElementById('check-envio').checked = conEnvio; renderCarrito(); }
+    window.toggleCartView = function() { document.getElementById('carrito-panel').classList.toggle('open'); };
+
+    window.onload = () => { 
+        renderCarrito(); navegar('inicio'); 
+        fetch(API_URL + "?action=obtenerMallas").then(res => res.json()).then(data => { planesEstudio = data; });
+    };
+
   </script>
 </body>
 </html>
