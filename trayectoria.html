@@ -483,8 +483,8 @@
   </div>
 
   <script>
-    // ACA PONÉ EL LINK DE TU APPS SCRIPT (EL QUE TE DIO GOOGLE)
-    const API_URL = "https://script.google.com/macros/s/AKfycbwGPzuKCAN2H-h1FDr-26__T3HzhfPOHjDBoXzv9fXBXTHKc3Ch45qn8ZAEGQSBR9aX/exec"; 
+    // URL DEFINITIVA DE TU API EN GOOGLE APPS SCRIPT
+    const API_URL = "https://script.google.com/macros/s/AKfycbwvN6HrSUH1qTNEnXGruTGpFI0386sLHJnqZTWSKFvAAsPvmSddeYRlTLZtzERuf8NX/exec"; 
     
     const COSTO_ENVIO = 200; 
 
@@ -500,7 +500,6 @@
     let optativasActuales = [];
     let librillosMochilaEncontrados = []; 
 
-    // VARIABLE CLAVE: Ahora arranca vacía y se llena con Google Sheets
     let planesEstudio = null;
 
     const frasesZen = [
@@ -511,17 +510,19 @@
         "\"Los números de los semestres en la malla son solo una sugerencia, no una regla de oro.\""
     ];
 
-    // INICIALIZACIÓN MAGICA
     window.onload = () => { 
         renderCarrito(); 
         navegar('inicio'); 
         
-        // Carga las mallas silenciosamente por detrás
         fetch(`${API_URL}?action=obtenerMallas`)
             .then(res => res.json())
             .then(data => {
-                planesEstudio = data;
-                console.log("Mallas maestras sincronizadas con el Google Sheets ✅");
+                if(data.error) {
+                    console.error("Error desde el Apps Script:", data.error);
+                } else {
+                    planesEstudio = data;
+                    console.log("Mallas maestras sincronizadas con el Google Sheets ✅");
+                }
             })
             .catch(err => console.error("Error al sincronizar las mallas: ", err));
     };
@@ -675,14 +676,12 @@
         window.open(url, "_blank");
     };
 
-    // ================= LÓGICA DE MI TRAYECTORIA =================
-    
     let estadoTrayectoria = JSON.parse(localStorage.getItem("cecso_trayectoria")) || {};
     let carreraActivaId = null;
 
     window.cargarPlan = function(idCarrera) {
-        if (!planesEstudio) {
-            alert("Las trayectorias se están actualizando desde la nube. ¡Esperá unos segunditos e intentá de nuevo! ☁️");
+        if (!planesEstudio || Object.keys(planesEstudio).length === 0) {
+            alert("Las trayectorias se están actualizando desde la nube. ¡Esperá unos segunditos e intentá de nuevo! ☁️ (O verificá tu conexión)");
             return;
         }
 
@@ -703,7 +702,7 @@
 
     function renderPlan(idCarrera) {
         const plan = planesEstudio[idCarrera];
-        if (!plan) return; // Por si falla la carga
+        if (!plan) return; 
 
         document.getElementById('titulo-carrera-activa').innerText = plan.nombre;
         const container = document.getElementById('modulos-container');
@@ -980,7 +979,6 @@
 
     window.cerrarModalInscripcion = function() { document.getElementById('modal-inscripcion').style.display = 'none'; };
 
-    // ================= LOGICA CATÁLOGO OPTATIVAS =================
     window.abrirModalOptativas = function(idBolsa, nombreBolsa) {
         document.getElementById('modal-optativas').style.display = 'flex';
         document.getElementById('buscador-optativas').value = '';
@@ -1034,7 +1032,6 @@
         });
     }
 
-    // ================= LOGICA LIBRILLOS DE LA MOCHILA =================
     window.abrirModalLibrillosMochila = function() {
         let idsMochila = [];
         Object.keys(planesEstudio).forEach(carrera => {
