@@ -38,7 +38,7 @@
     <div class="neo-bubble" style="border-color: var(--terracota);">
         <h2>Materiales y Carpetas</h2>
         <p>Acá podés ver en cada carpeta las materias correspondientes a su semestre y los materiales disponibles.<br><br>
-        Para encargar tus librillos, hacé click en <strong>"Conseguí tus librillos"</strong>. ¡Los librillos del segundo semestre aun no están terminados!<br><br>
+        Para encargar tus librillos, hacé click en <strong>"Conseguí tus librillos"</strong>.<br><br>
         Si hay materias que no encontrás, puede que por la extensión o el idioma de sus textos no tengan librillos. Cualquier cosa, podés consultarnos por ig: <strong>@serviciosdelcecso</strong>, escribir a <strong>fotocecso@gmail.com</strong> o pasarte por fotocopiadora. ¡Te esperamos!</p>
         
         <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
@@ -84,13 +84,17 @@
 
       <div id="trayectoria-content" style="display: none;">
           <div class="panel-zen">
-              <h3 id="titulo-carrera-activa" class="titulo-zen">Ciclo Inicial</h3>
-              <div class="contador-box">
-                  <span id="texto-progreso-global" class="numero-zen">0 / 120 cr.</span>
+              <div class="panel-zen-info">
+                  <h3 id="titulo-carrera-activa" class="titulo-zen"></h3>
               </div>
-              <button id="btn-estado-inscripcion" class="btn-estado" style="margin-top: 10px; background: white; padding: 10px 20px; font-size: 0.85rem;" onclick="abrirModalInscripcion()">
-                  ¿Qué me falta para poder inscribirme a Ciclo Avanzado?
-              </button>
+              <div class="panel-zen-acciones">
+                  <button id="btn-estado-inscripcion" class="btn-estado" style="display:none; margin:0;" onclick="abrirModalInscripcion()">
+                      📋 Ver Requisitos
+                  </button>
+                  <div class="contador-box">
+                      <span id="texto-progreso-global" class="numero-zen">0 / 0 cr.</span>
+                  </div>
+              </div>
           </div>
 
           <div id="modulos-container">
@@ -105,6 +109,10 @@
               <input type="email" id="asesor_email" placeholder="Tu email (para que te respondamos)" required>
               <textarea id="asesor_consulta" placeholder="Escribí tu consulta acá..." required></textarea>
               <button class="btn-cta-top" style="padding: 15px 30px; font-size: 1.1rem; margin: 10px 0 0 0;" onclick="enviarAsesoramiento()">Pedir Ayuda</button>
+          </div>
+          
+          <div style="text-align: center; margin-top: 20px;">
+              <button onclick="limpiarTodo()" style="background: none; border: none; text-decoration: underline; color: #999; font-size: 0.8rem; cursor: pointer;">Limpiar datos guardados</button>
           </div>
       </div>
   </section>
