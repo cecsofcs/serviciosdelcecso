@@ -180,6 +180,22 @@ window.cargarPlan = function(idCarrera) {
     if (!estadoTrayectoria[idCarrera].creditos_optativos) estadoTrayectoria[idCarrera].creditos_optativos = {};
     if (!estadoTrayectoria[idCarrera].cursar_optativos) estadoTrayectoria[idCarrera].cursar_optativos = {};
     
+    // Panel Zen limpio y sin frases inspiracionales
+    const panelZen = document.querySelector('.panel-zen');
+    panelZen.innerHTML = `
+        <div class="panel-zen-info">
+            <h3 id="titulo-carrera-activa" class="titulo-zen"></h3>
+        </div>
+        <div class="panel-zen-acciones">
+            <button id="btn-estado-inscripcion" class="btn-estado" style="display:none; margin:0;" onclick="abrirModalInscripcion()">
+                📋 Ver Requisitos
+            </button>
+            <div class="contador-box">
+                <span id="texto-progreso-global" class="numero-zen">0 / 0 cr.</span>
+            </div>
+        </div>
+    `;
+
     renderPlan(idCarrera);
 };
 
@@ -258,8 +274,8 @@ function renderPlan(idCarrera) {
             `;
         }
 
-        container.innerHTML += `<div class="modulo-box" style="border-color:var(--petroleo); border-width:3px; background:#fdfaf6;">
-            <div class="modulo-header" style="border-bottom: 3px solid var(--petroleo); margin-bottom: ${['moi_eco', 'moi_terr', 'moi_gpp'].includes(moiActual) ? '15px' : '0'}; padding-bottom: ${['moi_eco', 'moi_terr', 'moi_gpp'].includes(moiActual) ? '10px' : '0'};">
+        container.innerHTML += `<div class="modulo-box modulo-moi">
+            <div class="modulo-header">
                 <h3 style="color:var(--petroleo); display: ${['moi_eco', 'moi_terr', 'moi_gpp'].includes(moiActual) ? 'block' : 'none'};">🎯 Tu MOI Elegido</h3>
             </div>
             ${contenidoMOI}
@@ -393,9 +409,10 @@ function renderPlan(idCarrera) {
     actualizarVisibilidadBotonInscripcion(idCarrera);
 }
 
+// CORRECCIÓN: Botón "Ver Requisitos" solo visible para Ciclo Inicial
 function actualizarVisibilidadBotonInscripcion(idCarrera) {
     const btn = document.getElementById('btn-estado-inscripcion');
-    if (btn) btn.style.display = (idCarrera === 'ciclo_inicial') ? 'block' : 'none';
+    if (btn) btn.style.display = (idCarrera === 'ciclo_inicial') ? 'inline-block' : 'none';
 }
 
 window.actualizarBolsaOptativas = function(idGuardado, idMateria, valor, maximo) {
