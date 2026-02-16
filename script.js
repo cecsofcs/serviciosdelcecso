@@ -180,7 +180,6 @@ window.cargarPlan = function(idCarrera) {
     if (!estadoTrayectoria[idCarrera].creditos_optativos) estadoTrayectoria[idCarrera].creditos_optativos = {};
     if (!estadoTrayectoria[idCarrera].cursar_optativos) estadoTrayectoria[idCarrera].cursar_optativos = {};
     
-    // Panel Zen limpio y sin frases inspiracionales
     const panelZen = document.querySelector('.panel-zen');
     panelZen.innerHTML = `
         <div class="panel-zen-info">
@@ -294,12 +293,7 @@ function renderPlan(idCarrera) {
             }
 
             const nMod = modulo.nombre.toLowerCase();
-            let claseColor = '';
-            if (nMod.includes('obligatoria') || nMod.includes('core') || nMod.includes('proyecto') || nMod.includes('metodológico') || nMod.includes('introducción')) {
-                claseColor = 'modulo-obligatoria';
-            } else if (nMod.includes('optativa') || nMod.includes('electiva') || nMod.includes('bolsa') || nMod.includes('temática')) {
-                claseColor = 'modulo-optativa';
-            }
+            let claseColor = (nMod.includes('optativa') || nMod.includes('electiva') || nMod.includes('bolsa')) ? 'modulo-optativa' : 'modulo-obligatoria';
 
             let creditosModulo = 0;
             let creditosTotalesModulo = 0; 
@@ -307,31 +301,19 @@ function renderPlan(idCarrera) {
 
             modulo.materias.forEach(mat => {
                 creditosTotalesModulo += mat.creditos; 
-
                 let htmlVectorEconomico = "";
+
                 if (mat.id === 'cp_dc_eco_elec') {
-                    const estadoCarrera = estadoTrayectoria[idGuardado] || { aprobadas: [] };
-                    const aprobadasEcon = estadoCarrera.aprobadas || [];
-                    const tieneMacro = aprobadasEcon.includes('cp_dc_eco_core1');
-                    const tieneMicro = aprobadasEcon.includes('cp_dc_eco_core2');
+                    const aprobadas = estadoTrayectoria[idGuardado]?.aprobadas || [];
+                    const tieneMacro = aprobadas.includes('cp_dc_eco_core1');
+                    const tieneMicro = aprobadas.includes('cp_dc_eco_core2');
 
                     if (tieneMacro && tieneMicro) {
                         htmlVectorEconomico = `<div style="background: #d4edda; border-left: 4px solid #28a745; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #155724; border-radius: 4px;">✅ <strong>¡Tenés Micro y Macro!</strong> Estás habilitado para cursar <strong>todas</strong> las optativas del vector económico.</div>`;
                     } else if (tieneMacro) {
-                        htmlVectorEconomico = `<div style="background: #d1ecf1; border-left: 4px solid #17a2b8; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #0c5460; border-radius: 4px;">📈 <strong>Al tener Análisis Macro aprobado</strong>, podés cursar electivas como:<br>
-                        • Educación y desarrollo (6 cr)<br>
-                        • Economía internacional (6 cr)<br>
-                        • Economía de la discriminación (6 cr)<br>
-                        • Desigualdad y pobreza (6 cr)<br>
-                        <em>(Para Economía Pública o Mercado de Trabajo se recomienda Análisis Micro).</em></div>`;
+                        htmlVectorEconomico = `<div style="background: #d1ecf1; border-left: 4px solid #17a2b8; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #0c5460; border-radius: 4px;">📈 <strong>Al tener Análisis Macro aprobado</strong>, podés cursar electivas como:<br>• Educación y desarrollo (6 cr)<br>• Economía internacional (6 cr)<br>• Economía de la discriminación (6 cr)<br>• Desigualdad y pobreza (10 cr)<br><em>(Para Economía Pública o Mercado de Trabajo se recomienda Análisis Micro).</em></div>`;
                     } else if (tieneMicro) {
-                        htmlVectorEconomico = `<div style="background: #e2e3e5; border-left: 4px solid #6c757d; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #383d41; border-radius: 4px;">📊 <strong>Al tener Análisis Micro aprobado</strong>, podés cursar electivas como:<br>
-                        • Economía pública (6 cr)<br>
-                        • Mercado de trabajo y familia (6 cr)<br>
-                        • Educación y desarrollo (6 cr)<br>
-                        • Economía de la discriminación (6 cr)<br>
-                        • Desigualdad y pobreza (6 cr)<br>
-                        <em>(Para Economía Internacional se recomienda Análisis Macro).</em></div>`;
+                        htmlVectorEconomico = `<div style="background: #e2e3e5; border-left: 4px solid #6c757d; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #383d41; border-radius: 4px;">📊 <strong>Al tener Análisis Micro aprobado</strong>, podés cursar electivas como:<br>• Economía pública (6 cr)<br>• Mercado de trabajo y familia (6 cr)<br>• Educación y desarrollo (6 cr)<br>• Economía de la discriminación (6 cr)<br>• Desigualdad y pobreza (10 cr)<br><em>(Para Economía Internacional se recomienda Análisis Macro).</em></div>`;
                     } else {
                         htmlVectorEconomico = `<div style="background: #fff3cd; border-left: 4px solid #ffeeba; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #856404; border-radius: 4px;">⚠️ <strong>Aviso sobre el Vector Económico:</strong> Marcá Macro o Micro como aprobada para ver las electivas habilitadas.</div>`;
                     }
@@ -344,20 +326,14 @@ function renderPlan(idCarrera) {
                     creditosModulo += parseInt(valorOptativo);
                     creditosTotalesAprobados += parseInt(valorOptativo);
 
-                    let btnCualesPuedoHacer = "";
-                    if (valorOptativo < mat.creditos) {
-                        btnCualesPuedoHacer = `<button class="btn-estado" style="margin-top: 10px; font-size: 0.7rem; background: rgba(255,255,255,0.8);" onclick="abrirModalOptativas('${mat.id}', '${mat.nombre}')">¿Y cuáles puedo hacer?</button>`;
-                    }
-
                     htmlMaterias += `
                         <div class="materia-item">
                             <div class="materia-info">
                                 <h4 class="materia-nombre">${mat.nombre}</h4>
-                                ${mat.nota ? `<p class="materia-meta" style="color:var(--terracota); font-weight:700;">${mat.nota}</p>` : ''}
-                                ${btnCualesPuedoHacer}
+                                <button class="btn-estado" style="margin-top: 10px; font-size: 0.7rem; background: rgba(255,255,255,0.8);" onclick="abrirModalOptativas('${mat.id}', '${mat.nombre}')">¿Y cuáles puedo hacer?</button>
                                 ${htmlVectorEconomico}
                             </div>
-                            <div class="materia-acciones bolsa-mobile" style="flex-direction: column; align-items: flex-end; gap: 8px;">
+                            <div class="materia-acciones bolsa-mobile">
                                 <div style="display: flex; align-items: center; gap: 8px;">
                                     <span style="font-size: 0.8rem; font-weight: 700; color: #666;">Ya aprobados:</span>
                                     <input type="number" min="0" max="${mat.creditos}" value="${valorOptativo}" class="input-optativos" onchange="actualizarBolsaOptativas('${idGuardado}', '${mat.id}', this.value, ${mat.creditos})">
@@ -375,22 +351,28 @@ function renderPlan(idCarrera) {
                     const isAprobada = estadoTrayectoria[idGuardado].aprobadas.includes(mat.id);
                     const isCursar = estadoTrayectoria[idGuardado].cursar.includes(mat.id);
                     
-                    if (isAprobada) { creditosModulo += mat.creditos; creditosTotalesAprobados += mat.creditos; }
+                    if (isAprobada) { 
+                        creditosModulo += mat.creditos; 
+                        creditosTotalesAprobados += mat.creditos; 
+                    }
+
+                    let cartelLlave = mat.llave_de ? `
+                        <div style="background: rgba(217, 125, 96, 0.1); border-left: 4px solid var(--terracota); padding: 8px 12px; margin-top: 10px; font-size: 0.8rem; font-weight: 700; color: var(--negro); border-radius: 4px;">
+                            🔑 Materia previa de <strong>${mat.llave_de}</strong>. ¡Importante priorizar!
+                        </div>` : '';
 
                     let txtSemestre = mat.semestre ? ((mat.semestre % 2 === 0) ? 'Semestre Par' : 'Semestre Impar') : 'Semestre variable';
-                    let cartelLlave = mat.llave_de ? `<div style="background: rgba(255,255,255,0.5); border-left: 4px solid var(--terracota); padding: 5px 10px; margin-top: 8px; font-size: 0.8rem; font-weight: 700; color: var(--petroleo);">🔑 Materia previa de <strong>${mat.llave_de}</strong>. ¡Importante priorizar!</div>` : '';
 
                     htmlMaterias += `
                         <div class="materia-item">
                             <div class="materia-info">
                                 <h4 class="materia-nombre">${mat.nombre}</h4>
-                                <p class="materia-meta">${txtSemestre} | ${mat.creditos} créditos ${mat.nota ? '<br><span style="color:var(--terracota); font-weight:700;">' + mat.nota + '</span>' : ''}</p>
+                                <p class="materia-meta">${mat.creditos} créditos | ${txtSemestre}</p>
                                 ${cartelLlave}
-                                ${htmlVectorEconomico}
                             </div>
                             <div class="materia-acciones">
                                 <button class="btn-estado btn-aprobada ${isAprobada ? 'activa' : ''}" onclick="toggleMateria('${idGuardado}', '${mat.id}', 'aprobada')">${isAprobada ? '✅ Aprobada' : 'Aprobada'}</button>
-                                <button class="btn-estado btn-cursar ${isCursar ? 'activa' : ''}" onclick="toggleMateria('${idGuardado}', '${mat.id}', 'cursar')">${isCursar ? '🎒 Cursando' : 'Cursar'}</button>
+                                <button class="btn-estado btn-cursar ${isCursar ? 'activa' : ''}" onclick="toggleMateria('${idGuardado}', '${mat.id}', 'cursar')">${isCursar ? '🎒 Cursar' : 'Cursar'}</button>
                             </div>
                         </div>
                     `;
@@ -420,7 +402,6 @@ function renderPlan(idCarrera) {
     actualizarVisibilidadBotonInscripcion(idCarrera);
 }
 
-// CORRECCIÓN: Botón "Ver Requisitos" solo visible para Ciclo Inicial
 function actualizarVisibilidadBotonInscripcion(idCarrera) {
     const btn = document.getElementById('btn-estado-inscripcion');
     if (btn) btn.style.display = (idCarrera === 'ciclo_inicial') ? 'inline-block' : 'none';
@@ -496,7 +477,7 @@ function actualizarEsteSemestreGlobal() {
                     const credsPlan = parseInt(estado.cursar_optativos?.[mat.id] || 0);
                     if (credsPlan > 0) {
                         creditosSemestre += credsPlan;
-                        todasLasMateriasCursando.push(`<strong>[${nombreCarreraLimpio}]</strong> ${mat.nombre} (<em>${credsPlan} cr.</em>)`);
+                        todasLasMateriasCursando.push(`<strong>[${nombreCarreraLimpio}]</strong> ${mat.nombre} - Electivas (<em>${credsPlan} cr.</em>)`);
                     }
                 } else {
                     if (estado.cursar && estado.cursar.includes(mat.id)) {
@@ -693,4 +674,11 @@ window.enviarAsesoramiento = function() {
     const consulta = document.getElementById('asesor_consulta').value;
     if (!email || !consulta) return alert("Por favor completá tu email y la consulta.");
     alert("¡Consulta guardada! (Acá conectaremos con tu Apps Script).");
+};
+
+window.limpiarTodo = function() {
+    if(confirm("¿Querés borrar todo tu progreso guardado? Esto soluciona errores de sincronización con la nube.")) {
+        localStorage.removeItem("cecso_trayectoria");
+        location.reload();
+    }
 };
