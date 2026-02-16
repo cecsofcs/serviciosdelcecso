@@ -157,11 +157,9 @@ body {
 .btn-carrera:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--negro); }
 .btn-carrera:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px transparent; }
 
-/* PANEL ZEN (Rediseñado - Opción C) */
 .panel-zen {
     background: white; border: var(--borde); padding: 20px; border-radius: 15px;
     box-shadow: var(--sombra); margin-bottom: 40px; 
-    position: sticky; top: 75px; z-index: 100;
     display: flex; justify-content: space-between; align-items: center; gap: 15px;
 }
 .panel-zen-info { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
