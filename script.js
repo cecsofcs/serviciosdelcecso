@@ -303,6 +303,7 @@ function renderPlan(idCarrera) {
                 creditosTotalesModulo += mat.creditos; 
                 let htmlVectorEconomico = "";
 
+                // 1. LÓGICA DEL VECTOR ECONÓMICO (Ciencia Política)
                 if (mat.id === 'cp_dc_eco_elec') {
                     const aprobadas = estadoTrayectoria[idGuardado]?.aprobadas || [];
                     const tieneMacro = aprobadas.includes('cp_dc_eco_core1');
@@ -319,6 +320,16 @@ function renderPlan(idCarrera) {
                     }
                 }
 
+                // 2. LÓGICA DE PREVIAS Y NOTAS EXTRAS
+                let cartelLlave = mat.llave_de ? `
+                    <div style="background: rgba(217, 125, 96, 0.1); border-left: 4px solid var(--terracota); padding: 8px 12px; margin-top: 10px; font-size: 0.8rem; font-weight: 700; color: var(--negro); border-radius: 4px;">
+                        🔑 Materia previa de <strong>${mat.llave_de}</strong>. ¡Importante priorizar!
+                    </div>` : '';
+
+                let txtSemestre = mat.semestre ? ((mat.semestre % 2 === 0) ? 'Semestre Par' : 'Semestre Impar') : 'Semestre variable';
+                let notaExtra = mat.nota ? `<div style="color:var(--terracota); font-weight:700; font-size: 0.8rem; margin-top: 5px;">📝 ${mat.nota}</div>` : '';
+
+                // 3. RENDERIZADO (Dependiendo si es Bolsa Optativa o Materia Normal)
                 if (mat.es_bolsa_creditos) {
                     const valorOptativo = estadoTrayectoria[idGuardado].creditos_optativos[mat.id] || 0;
                     const valorCursar = estadoTrayectoria[idGuardado].cursar_optativos?.[mat.id] || 0;
@@ -330,8 +341,10 @@ function renderPlan(idCarrera) {
                         <div class="materia-item">
                             <div class="materia-info">
                                 <h4 class="materia-nombre">${mat.nombre}</h4>
+                                ${notaExtra}
                                 <button class="btn-estado" style="margin-top: 10px; font-size: 0.7rem; background: rgba(255,255,255,0.8);" onclick="abrirModalOptativas('${mat.id}', '${mat.nombre}')">¿Y cuáles puedo hacer?</button>
                                 ${htmlVectorEconomico}
+                                ${cartelLlave}
                             </div>
                             <div class="materia-acciones bolsa-mobile">
                                 <div style="display: flex; align-items: center; gap: 8px;">
@@ -356,19 +369,14 @@ function renderPlan(idCarrera) {
                         creditosTotalesAprobados += mat.creditos; 
                     }
 
-                    let cartelLlave = mat.llave_de ? `
-                        <div style="background: rgba(217, 125, 96, 0.1); border-left: 4px solid var(--terracota); padding: 8px 12px; margin-top: 10px; font-size: 0.8rem; font-weight: 700; color: var(--negro); border-radius: 4px;">
-                            🔑 Materia previa de <strong>${mat.llave_de}</strong>. ¡Importante priorizar!
-                        </div>` : '';
-
-                    let txtSemestre = mat.semestre ? ((mat.semestre % 2 === 0) ? 'Semestre Par' : 'Semestre Impar') : 'Semestre variable';
-
                     htmlMaterias += `
                         <div class="materia-item">
                             <div class="materia-info">
                                 <h4 class="materia-nombre">${mat.nombre}</h4>
                                 <p class="materia-meta">${mat.creditos} créditos | ${txtSemestre}</p>
+                                ${notaExtra}
                                 ${cartelLlave}
+                                ${htmlVectorEconomico}
                             </div>
                             <div class="materia-acciones">
                                 <button class="btn-estado btn-aprobada ${isAprobada ? 'activa' : ''}" onclick="toggleMateria('${idGuardado}', '${mat.id}', 'aprobada')">${isAprobada ? '✅ Aprobada' : 'Aprobada'}</button>
