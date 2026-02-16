@@ -316,13 +316,24 @@ function renderPlan(idCarrera) {
                     const tieneMicro = aprobadasEcon.includes('cp_dc_eco_core2');
 
                     if (tieneMacro && tieneMicro) {
-                        htmlVectorEconomico = `<div style="background: #d4edda; border-left: 4px solid #28a745; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #155724; border-radius: 4px;">✅ <strong>¡Tenés Micro y Macro!</strong> Se habilitan todas las optativas del vector económico.</div>`;
+                        htmlVectorEconomico = `<div style="background: #d4edda; border-left: 4px solid #28a745; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #155724; border-radius: 4px;">✅ <strong>¡Tenés Micro y Macro!</strong> Estás habilitado para cursar <strong>todas</strong> las optativas del vector económico.</div>`;
                     } else if (tieneMacro) {
-                        htmlVectorEconomico = `<div style="background: #d1ecf1; border-left: 4px solid #17a2b8; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #0c5460; border-radius: 4px;">📈 <strong>Al tener Macro aprobada</strong>, podés cursar electivas como Desarrollo Económico Territorial.</div>`;
+                        htmlVectorEconomico = `<div style="background: #d1ecf1; border-left: 4px solid #17a2b8; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #0c5460; border-radius: 4px;">📈 <strong>Al tener Análisis Macro aprobado</strong>, podés cursar electivas como:<br>
+                        • Educación y desarrollo (6 cr)<br>
+                        • Economía internacional (6 cr)<br>
+                        • Economía de la discriminación (6 cr)<br>
+                        • Desigualdad y pobreza (6 cr)<br>
+                        <em>(Para Economía Pública o Mercado de Trabajo se recomienda Análisis Micro).</em></div>`;
                     } else if (tieneMicro) {
-                        htmlVectorEconomico = `<div style="background: #e2e3e5; border-left: 4px solid #6c757d; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #383d41; border-radius: 4px;">📊 <strong>Al tener Micro aprobada</strong>, podés cursar electivas como Economía de la Discriminación.</div>`;
+                        htmlVectorEconomico = `<div style="background: #e2e3e5; border-left: 4px solid #6c757d; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #383d41; border-radius: 4px;">📊 <strong>Al tener Análisis Micro aprobado</strong>, podés cursar electivas como:<br>
+                        • Economía pública (6 cr)<br>
+                        • Mercado de trabajo y familia (6 cr)<br>
+                        • Educación y desarrollo (6 cr)<br>
+                        • Economía de la discriminación (6 cr)<br>
+                        • Desigualdad y pobreza (6 cr)<br>
+                        <em>(Para Economía Internacional se recomienda Análisis Macro).</em></div>`;
                     } else {
-                        htmlVectorEconomico = `<div style="background: #fff3cd; border-left: 4px solid #ffeeba; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #856404; border-radius: 4px;">⚠️ <strong>Aviso sobre el Vector Económico:</strong> Marcá Macro o Microeconómico como aprobada para ver tus opciones electivas.</div>`;
+                        htmlVectorEconomico = `<div style="background: #fff3cd; border-left: 4px solid #ffeeba; padding: 10px; margin-top: 10px; font-size: 0.85rem; color: #856404; border-radius: 4px;">⚠️ <strong>Aviso sobre el Vector Económico:</strong> Marcá Macro o Micro como aprobada para ver las electivas habilitadas.</div>`;
                     }
                 }
 
