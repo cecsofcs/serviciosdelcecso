@@ -2,6 +2,7 @@
     --petroleo: #1b5e63;
     --terracota: #d97d60;
     --crema-papel: #fdfaf6;
+    --crema-oscuro: #f0e9df; /* Nuevo color para destacar sutilmente */
     --rosa-suave: #fce4ec;
     --negro: #000000;
     --borde: 4px solid #000000;
@@ -156,21 +157,32 @@ body {
 .btn-carrera:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--negro); }
 .btn-carrera:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px transparent; }
 
-/* CONTADOR ZEN */
+/* PANEL ZEN (Rediseñado - Opción C) */
 .panel-zen {
-    background: white; border: var(--borde); padding: 30px 20px; border-radius: 15px;
-    box-shadow: var(--sombra); margin-bottom: 40px; text-align: center;
+    background: white; border: var(--borde); padding: 20px; border-radius: 15px;
+    box-shadow: var(--sombra); margin-bottom: 40px; 
     position: sticky; top: 75px; z-index: 100;
-    display: flex; flex-direction: column; align-items: center; gap: 15px;
+    display: flex; justify-content: space-between; align-items: center; gap: 15px;
 }
-.titulo-zen { margin: 0; font-family: 'Archivo Black'; font-size: 1.5rem; color: var(--petroleo); }
-.contador-box { background: var(--rosa-suave); border: 2px solid var(--negro); padding: 10px 25px; border-radius: 50px; display: inline-block; box-shadow: 3px 3px 0px var(--negro); }
-.numero-zen { font-size: 1.4rem; font-family: 'Archivo Black'; color: var(--negro); }
+.panel-zen-info { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
+.titulo-zen { margin: 0; font-family: 'Archivo Black'; font-size: 1.3rem; color: var(--petroleo); text-transform: uppercase; }
+.subtexto-zen { font-size: 0.85rem; font-weight: 600; color: #666; margin: 0; }
+.panel-zen-acciones { display: flex; align-items: center; gap: 15px; }
+.contador-box { background: transparent; border: none; padding: 0; display: inline-block; box-shadow: none; }
+.numero-zen { font-size: 1rem; font-weight: 800; color: var(--terracota); }
 
 .modulo-box {
     background: white; border: var(--borde); padding: 25px; border-radius: 15px;
     box-shadow: var(--sombra-terra); margin-bottom: 30px;
 }
+
+/* ESTILOS MOI (Destacado) */
+.modulo-moi {
+    background-color: var(--crema-oscuro) !important;
+    border: 3px dashed var(--petroleo) !important;
+    box-shadow: 6px 6px 0px rgba(27, 94, 99, 0.2) !important; /* Sombra sutil del color petroleo */
+}
+.modulo-moi .modulo-header { border-bottom: 2px solid rgba(27, 94, 99, 0.3); }
 
 .modulo-obligatoria { background-color: var(--fondo-obligatoria); }
 .modulo-optativa { background-color: var(--fondo-optativa); }
@@ -197,6 +209,7 @@ body {
 .btn-estado:active { transform: translate(2px,2px); box-shadow: 0 0 0 #000; }
 
 .btn-aprobada.activa { background: #d4edda; border-color: #28a745; box-shadow: 3px 3px 0px #28a745; color: #155724; }
+.btn-cursar { border-color: var(--petroleo); color: var(--petroleo); }
 .btn-cursar.activa { background: var(--terracota); border-color: var(--terracota); box-shadow: 3px 3px 0px var(--negro); color: white; }
 
 .asesoramiento-box {
@@ -265,6 +278,12 @@ body {
     .cart-box { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 2500; border-top: var(--borde); transform: translateY(110%); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0px -10px 30px rgba(0,0,0,0.2); background: white; padding: 30px 20px; max-height: 85vh; overflow-y: auto; }
     .cart-box.open { transform: translateY(0); }
     #app-container { padding-bottom: 120px; }
+    
+    /* Ajustes Panel Zen en móviles */
+    .panel-zen { flex-direction: column; align-items: flex-start; padding: 15px; gap: 10px;}
+    .panel-zen-acciones { width: 100%; justify-content: space-between; }
+    #btn-estado-inscripcion { padding: 8px 12px; font-size: 0.75rem; }
+
     .materia-item { flex-direction: column; align-items: flex-start; gap: 10px; }
     .materia-acciones { width: 100%; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: stretch; }
     .btn-estado { flex: 1; padding: 12px 5px; }
