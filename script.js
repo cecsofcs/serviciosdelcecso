@@ -11,7 +11,6 @@ let licActual = "", semActual = "", tipoActual = "", conEnvio = false;
 let planesEstudio = null;
 let estadoTrayectoria = JSON.parse(localStorage.getItem("cecso_trayectoria")) || {};
 let carreraActivaId = null;
-let optativasActuales = []; 
 
 // Carrito General (Buscador)
 let carrito = JSON.parse(localStorage.getItem("cecsocart")) || []; 
@@ -346,7 +345,6 @@ function renderPlan(idCarrera) {
                             <div class="materia-info">
                                 <h4 class="materia-nombre">${mat.nombre}</h4>
                                 ${notaExtra}
-                                <button class="btn-estado" style="margin-top: 10px; font-size: 0.7rem; background: rgba(255,255,255,0.8);" onclick="abrirModalOptativas('${mat.id}', '${mat.nombre}')">¿Y cuáles puedo hacer?</button>
                                 ${htmlVectorEconomico}
                                 ${cartelLlave}
                             </div>
@@ -409,7 +407,32 @@ function renderPlan(idCarrera) {
         inyectarMOI();
     }
 
-    document.getElementById('texto-progreso-global').innerText = `${creditosTotalesAprobados} / ${plan.creditos_totales_requeridos} cr.`;
+    // --- CÁLCULO DE CRÉDITOS TOTALES (INCLUYENDO CI) ---
+    let creditosExtraCI = 0;
+    // Si no estamos en Ciclo Inicial, y el CI existe en los planes...
+    if (idCarrera !== 'ciclo_inicial' && planesEstudio['ciclo_inicial']) {
+        const estCI = estadoTrayectoria['ciclo_inicial'] || {};
+        const aprCI = estCI.aprobadas || [];
+        const optCI = estCI.creditos_optativos || {};
+        
+        planesEstudio['ciclo_inicial'].modulos.forEach(mod => {
+            mod.materias.forEach(mat => {
+                if (mat.es_bolsa_creditos) {
+                    creditosExtraCI += parseInt(optCI[mat.id] || 0);
+                } else if (aprCI.includes(mat.id)) {
+                    creditosExtraCI += mat.creditos;
+                }
+            });
+        });
+        
+        // Topeamos en 120 por si hicieron materias extra en el CI
+        creditosExtraCI = Math.min(creditosExtraCI, 120);
+    }
+
+    let progresoTotal = creditosTotalesAprobados + creditosExtraCI;
+
+    document.getElementById('texto-progreso-global').innerText = `${progresoTotal} / ${plan.creditos_totales_requeridos} cr.`;
+    
     actualizarEsteSemestreGlobal();
     actualizarVisibilidadBotonInscripcion(idCarrera);
 }
@@ -529,7 +552,7 @@ function actualizarVisibilidadBotonInscripcion(idCarrera) {
 }
 
 // ========================================================
-// 6. MODALES: INSCRIPCIÓN Y OPTATIVAS
+// 6. MODAL: INSCRIPCIÓN AL CI
 // ========================================================
 window.abrirModalInscripcion = function() {
     const estado = estadoTrayectoria['ciclo_inicial'] || { aprobadas: [], creditos_optativos: {} };
@@ -592,46 +615,6 @@ window.abrirModalInscripcion = function() {
 };
 
 window.cerrarModalInscripcion = function() { document.getElementById('modal-inscripcion').style.display = 'none'; };
-
-window.abrirModalOptativas = function(idBolsa, nombreBolsa) {
-    document.getElementById('modal-optativas').style.display = 'flex';
-    document.getElementById('buscador-optativas').value = '';
-    document.getElementById('titulo-modal-optativas').innerText = nombreBolsa;
-    const contenedor = document.getElementById('lista-optativas-modal');
-
-    if (cacheCatalogo[idBolsa]) { optativasActuales = cacheCatalogo[idBolsa]; renderListaOptativas(optativasActuales); return; }
-
-    contenedor.innerHTML = '<p style="text-align:center; font-weight:900; color:var(--petroleo); margin: 40px 0;">Cargando programas de Drive... ⏳</p>';
-    fetch(`${API_URL}?action=obtenerOptativas&bolsa=${encodeURIComponent(idBolsa)}`)
-        .then(res => res.json())
-        .then(data => { optativasActuales = data; cacheCatalogo[idBolsa] = data; renderListaOptativas(optativasActuales); })
-        .catch(err => { contenedor.innerHTML = `<p style='color:red; text-align:center; font-weight:700;'>⚠️ Ups! No encontramos el listado de esta materia en la base de datos.</p>`; });
-};
-
-window.cerrarModalOptativas = function() { document.getElementById('modal-optativas').style.display = 'none'; };
-
-window.filtrarOptativas = function() {
-    const query = normalizar(document.getElementById('buscador-optativas').value);
-    const filtradas = optativasActuales.filter(opt => normalizar(opt.nombre).includes(query));
-    renderListaOptativas(filtradas);
-};
-
-function renderListaOptativas(lista) {
-    const contenedor = document.getElementById('lista-optativas-modal');
-    contenedor.innerHTML = '';
-    if (lista.length === 0) { contenedor.innerHTML = '<p style="font-weight:700; color:var(--terracota); text-align:center;">No encontramos ninguna materia con ese nombre.</p>'; return; }
-    lista.forEach(opt => {
-        contenedor.innerHTML += `
-            <div class="optativa-card">
-                <div style="flex: 1;">
-                    <h4 style="margin: 0; font-size: 1rem; color: var(--petroleo);">${opt.nombre}</h4>
-                    <span style="font-weight: 900; color: var(--terracota); font-size: 0.85rem;">${opt.creditos} créditos</span>
-                </div>
-                <a href="${opt.link}" target="_blank" class="btn-programa">Ver Programa</a>
-            </div>
-        `;
-    });
-}
 
 // ========================================================
 // 7. MODAL: LIBRILOS PARA CURSAR (CARRITO AISLADO)
