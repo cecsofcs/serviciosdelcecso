@@ -11,6 +11,7 @@ let licActual = "", semActual = "", tipoActual = "", conEnvio = false;
 let planesEstudio = null;
 let estadoTrayectoria = JSON.parse(localStorage.getItem("cecso_trayectoria")) || {};
 let carreraActivaId = null;
+let promesaCargaMallas = null;
 
 // Carrito General (Buscador)
 let carrito = JSON.parse(localStorage.getItem("cecsocart")) || []; 
@@ -27,29 +28,21 @@ window.onload = () => {
     renderCarrito(); 
     navegar('inicio'); 
     
-    fetch(`${API_URL}?action=obtenerMallas&t=${Date.now()}`, {
-    method: "GET",
-    mode: "cors",
-    cache: "no-store"
-})
-
-        .then(res => res.text()) // Lo leemos como texto primero para atrapar errores de Google
-        .then(texto => {
-            try {
-                const data = JSON.parse(texto);
-                if (data.error) {
-                    alert("Error en Excel: " + data.error);
-                } else if (Object.keys(data).length === 0) {
-                    alert("❌ ERROR: El Apps Script se conectó, pero dice que no encontró la pestaña 'mallas_maestras' o está vacía. Revisá el nombre de la pestaña en Excel.");
-                } else {
-                    planesEstudio = data; // Éxito total
-                }
-            } catch (e) {
-                alert("❌ BLOQUEO DE GOOGLE: La página intentó conectarse pero Google le pidió iniciar sesión.\n\nSolución: Andá a Apps Script > Nueva Implementación > 'Quién tiene acceso' DEBE decir 'Cualquier persona' (NO 'Cualquier persona con cuenta de Google').");
-            }
-        })
-        .catch(err => alert("❌ ERROR DE LINK: La URL del API_URL está mal copiada o no existe. Revisá la línea 1 de tu código."));
+    promesaCargaMallas = fetch(`${API_URL}?action=obtenerMallas&t=${Date.now()}`, {
+        method: "GET",
+        mode: "cors",
+        cache: "no-store"
+    })
+    .then(res => res.json())
+    .then(data => {
+        planesEstudio = data;
+        return data;
+    })
+    .catch(err => {
+        console.error("Error cargando mallas:", err);
+    });
 };
+
 
 function sanearTexto(texto) {
     if (!texto) return "";
@@ -185,36 +178,42 @@ window.finalizar = function() {
 // 4. MI TRAYECTORIA (CARGA Y RENDERIZADO)
 // ========================================================
 window.cargarPlan = function(idCarrera) {
-    if (!planesEstudio || Object.keys(planesEstudio).length === 0) {
-        alert("Las trayectorias se están actualizando desde la nube. ¡Esperá unos segunditos e intentá de nuevo!");
-        return;
-    }
-    carreraActivaId = idCarrera;
-    document.getElementById('trayectoria-content').style.display = 'block';
-    
-    if (!estadoTrayectoria[idCarrera]) {
-        estadoTrayectoria[idCarrera] = { aprobadas: [], cursar: [], creditos_optativos: {}, cursar_optativos: {} };
-    }
-    if (!estadoTrayectoria[idCarrera].creditos_optativos) estadoTrayectoria[idCarrera].creditos_optativos = {};
-    if (!estadoTrayectoria[idCarrera].cursar_optativos) estadoTrayectoria[idCarrera].cursar_optativos = {};
-    
-    const panelZen = document.querySelector('.panel-zen');
-    panelZen.innerHTML = `
-        <div class="panel-zen-info">
-            <h3 id="titulo-carrera-activa" class="titulo-zen"></h3>
-        </div>
-        <div class="panel-zen-acciones">
-            <button id="btn-estado-inscripcion" class="btn-estado" style="display:none; margin:0;" onclick="abrirModalInscripcion()">
-                📋 Ver Requisitos
-            </button>
-            <div class="contador-box">
-                <span id="texto-progreso-global" class="numero-zen">0 / 0 cr.</span>
-            </div>
-        </div>
-    `;
 
-    renderPlan(idCarrera);
+    const boton = event?.target;
+    if (boton) {
+        boton.disabled = true;
+        boton.innerText = "Cargando...";
+    }
+
+    promesaCargaMallas.then(() => {
+
+        if (!planesEstudio || Object.keys(planesEstudio).length === 0) {
+            alert("Hubo un problema cargando los datos.");
+            return;
+        }
+
+        carreraActivaId = idCarrera;
+        document.getElementById('trayectoria-content').style.display = 'block';
+
+        if (!estadoTrayectoria[idCarrera]) {
+            estadoTrayectoria[idCarrera] = { 
+                aprobadas: [], 
+                cursar: [], 
+                creditos_optativos: {}, 
+                cursar_optativos: {} 
+            };
+        }
+
+        renderPlan(idCarrera);
+
+    }).finally(() => {
+        if (boton) {
+            boton.disabled = false;
+            boton.innerText = boton.dataset.original || "Ver Trayectoria";
+        }
+    });
 };
+
 
 function renderPlan(idCarrera) {
     const plan = planesEstudio[idCarrera];
@@ -485,7 +484,10 @@ window.toggleMateria = function(idGuardado, idMateria, accion) {
         } else { estado.cursar.splice(idx, 1); }
     }
     localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria));
+    requestAnimationFrame(() => {
     renderPlan(idGuardado);
+});
+
 };
 
 function actualizarEsteSemestreGlobal() {
