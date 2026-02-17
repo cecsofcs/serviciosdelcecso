@@ -221,7 +221,7 @@ function renderPlan(idCarrera) {
 
         if (moiActual === 'pendiente') {
             contenidoMOI = `
-                <p style="font-size:0.95rem; margin-bottom:15px; font-weight:600;">A partir del 6to semestre tenés que elegir un Módulo Optativo Integral (MOI) de 35 créditos.</p>
+                <p style="font-size:0.95rem; margin-bottom:15px; font-weight:600;">A partir del 6to semestre podés elegir un Módulo Optativo Integral (MOI) de 35 créditos.</p>
                 <div style="display:flex; gap:10px; flex-wrap:wrap;">
                     <button class="btn-estado" style="background:#d1ecf1; border-color:#17a2b8;" onclick="seleccionarMOI('${idCarrera}', 'elegir_pre')">📘 Elegir un MOI existente</button>
                     <button class="btn-estado" style="background:#fff3cd; border-color:#ffc107;" onclick="seleccionarMOI('${idCarrera}', 'propio')">🛠️ Voy a armar el mío propio</button>
@@ -234,7 +234,7 @@ function renderPlan(idCarrera) {
                     <h4 style="margin:0; color:var(--petroleo);">🤔 Todavía no elegí MOI</h4>
                     <button class="btn-back" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'pendiente')">Cambiar</button>
                 </div>
-                <p style="margin:10px 0 0 0; font-size:0.85rem;">El MOI se define en el Ciclo Avanzado. Aprovechá estos primeros semestres para explorar materias.</p>
+                <p style="margin:10px 0 0 0; font-size:0.85rem;">El MOI te da la oportunidad de definir tu propia trayectoria en base a lo que te interese profundizar.</p>
             `;
         } else if (moiActual === 'propio') {
             const credsPropios = parseInt(estadoTrayectoria[idCarrera].creditos_moi_propio || 0);
