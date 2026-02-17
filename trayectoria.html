@@ -1,202 +1,256 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <title>Servicios del CECSo — ¡Conseguí tus librillos!</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CECSO - Materiales y Trayectoria</title>
+    
+    <style>
+        /* VARIABLES DE COLOR (Basado en tu diseño) */
+        :root {
+            --petroleo: #004d40;
+            --terracota: #d97d60;
+            --rosa-suave: #fce4ec;
+            --negro: #333333;
+            --fondo: #f5f7fa;
+        }
 
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--fondo); color: var(--negro); margin: 0; padding: 0; }
+        .header { background-color: var(--petroleo); color: white; padding: 15px 20px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .nav-buttons { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+        .nav-btn { background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .nav-btn:hover { background: white; color: var(--petroleo); }
+        
+        .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
+        
+        /* BOTONES Y TARJETAS */
+        .btn-estado { background-color: white; border: 2px solid #ccc; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: 0.2s; }
+        .btn-estado:hover { border-color: var(--petroleo); }
+        .btn-estado.activa { background-color: var(--petroleo); color: white; border-color: var(--petroleo); }
+        .btn-aprobada.activa { background-color: #28a745; border-color: #28a745; }
+        .btn-cursar.activa { background-color: var(--terracota); border-color: var(--terracota); }
+        .btn-add { background-color: var(--petroleo); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .btn-add.active { background-color: #28a745; }
+
+        .lib-bubble { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
+        .lib-title { font-weight: bold; font-size: 0.95rem; margin-top: 0; }
+        .lib-price { color: var(--terracota); font-weight: 900; font-size: 1.2rem; margin: 0; }
+        .lib-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+        
+        .grid-libros { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-top: 20px; }
+        
+        /* TRAYECTORIA */
+        .carrera-selector { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .modulo-box { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 5px solid #ccc; }
+        .modulo-obligatoria { border-left-color: var(--petroleo); }
+        .modulo-optativa { border-left-color: var(--terracota); }
+        .modulo-moi { border-left-color: #ffc107; background-color: #fffdf5; }
+        .modulo-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
+        .modulo-header h3 { margin: 0; color: var(--petroleo); font-size: 1.2rem; }
+        .modulo-progreso { font-weight: 900; color: var(--terracota); }
+        
+        .materia-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 15px 0; border-bottom: 1px dashed #eee; gap: 15px; }
+        .materia-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .materia-nombre { margin: 0 0 5px 0; font-size: 1rem; color: var(--negro); }
+        .materia-meta { margin: 0; font-size: 0.8rem; color: #666; }
+        .materia-acciones { display: flex; gap: 10px; flex-wrap: wrap; }
+        
+        .input-optativos { width: 60px; padding: 5px; border: 2px solid #ccc; border-radius: 5px; text-align: center; font-weight: bold; }
+        .caja-estado { border: 1px solid #ccc; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+        .panel-zen { background: white; border-radius: 10px; padding: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .numero-zen { font-size: 1.5rem; font-weight: 900; color: var(--petroleo); }
+        
+        /* MODALES Y CARRITO */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 15px; box-sizing: border-box; }
+        .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 12px; padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666; }
+        
+        #carrito-panel { position: fixed; right: -350px; top: 0; width: 320px; height: 100%; background: white; box-shadow: -2px 0 10px rgba(0,0,0,0.1); z-index: 200; transition: 0.3s; display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; }
+        #carrito-panel.open { right: 0; }
+        
+        #cart-toggle-btn { position: fixed; bottom: 20px; right: 20px; background: var(--terracota); color: white; border: none; padding: 15px 20px; border-radius: 30px; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; z-index: 99; display: none; }
+        
+        @media (max-width: 600px) {
+            .materia-item { flex-direction: column; }
+            .panel-zen { flex-direction: column; text-align: center; gap: 15px; }
+            #carrito-panel { width: 100%; right: -100%; }
+        }
+    </style>
+</head>
 <body>
 
-  <nav class="navbar">
-      <div class="brand font-logo" onclick="navegar('inicio')">Servicios del CECSo</div>
-      <div class="nav-links">
-          <button onclick="navegar('inicio')">Inicio</button>
-          <button onclick="navegar('app')">Buscador</button>
-          <button onclick="navegar('trayectoria')">Mi Trayectoria</button>
-      </div>
-  </nav>
-
-  <div id="cart-toggle-btn" onclick="toggleCartView()">🛒 Mi Pedido: $0</div>
-
-  <section id="seccion-inicio">
-    <div class="hero">
-        <h1 class="font-logo">Servicios del CECSo</h1>
-        <br>
-        <button class="btn-cta-top" onclick="navegar('app')">Conseguí tus librillos</button>
+    <div class="header">
+        <h1 style="margin: 0; font-family: 'Archivo Black', sans-serif;">Web CECSO</h1>
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="navegar('inicio')">🛒 Buscador de Librillos</button>
+            <button class="nav-btn" onclick="navegar('trayectoria')">🎓 Mi Trayectoria</button>
+        </div>
     </div>
 
-    <div class="neo-bubble">
-        <h2>¿Qué son los Servis?</h2>
-        <p>Los Servis son el <strong>mayor proyecto político del Centro de Estudiantes de Ciencias Sociales.</strong><br><br>
-        Su objetivo es brindar becas de trabajo para que estudiantes de FCS puedan continuar con sus trayectorias estudiantiles como también ofrecer la bibliografía de los cursos y productos de cantina a precios accesibles.<br><br>
-        <strong>La sostenibilidad de este proyecto es uno de los cometidos fundamentales del CECSO.</strong></p>
+    <div id="seccion-inicio" class="container">
+        <div id="app-container">
+            <div id="step-carrera" style="display: flex; flex-direction: column; gap: 10px;">
+                <h2 style="color: var(--petroleo);">¿Qué estudiás?</h2>
+                <button class="btn-estado" onclick="seleccionarCarrera('Ciencia Política')">Ciencia Política</button>
+                <button class="btn-estado" onclick="seleccionarCarrera('Sociología')">Sociología</button>
+                <button class="btn-estado" onclick="seleccionarCarrera('Trabajo Social')">Trabajo Social</button>
+                <button class="btn-estado" onclick="seleccionarCarrera('Desarrollo')">Desarrollo</button>
+                <button class="btn-estado" onclick="seleccionarCarrera('Ciclo Inicial')">Ciclo Inicial (FCS)</button>
+            </div>
+
+            <div id="step-semestre" style="display: none; flex-direction: column; gap: 10px;">
+                <button class="btn-estado" style="background: #eee; border:none;" onclick="navegarApp('step-carrera')">← Volver</button>
+                <h2 id="txt-carrera-header" style="color: var(--petroleo); margin-bottom: 5px;"></h2>
+                <h3>¿De qué semestre buscás?</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <button class="btn-estado" onclick="seleccionarSemestre('Semestre 1')">Semestre 1</button>
+                    <button class="btn-estado" onclick="seleccionarSemestre('Semestre 2')">Semestre 2</button>
+                    <button class="btn-estado" onclick="seleccionarSemestre('Semestre 3')">Semestre 3</button>
+                    <button class="btn-estado" onclick="seleccionarSemestre('Semestre 4')">Semestre 4</button>
+                    <button class="btn-estado" onclick="seleccionarSemestre('Semestre 5')">Semestre 5</button>
+                    <button class="btn-estado" onclick="seleccionarSemestre('Semestre 6')">Semestre 6</button>
+                    <button class="btn-estado" onclick="seleccionarSemestre('Semestre 7')">Semestre 7</button>
+                    <button class="btn-estado" onclick="seleccionarSemestre('Semestre 8')">Semestre 8</button>
+                </div>
+            </div>
+
+            <div id="step-tipo" style="display: none; flex-direction: column; gap: 10px;">
+                <button class="btn-estado" style="background: #eee; border:none;" onclick="navegarApp('step-semestre')">← Volver</button>
+                <h2 id="txt-semestre-header" style="color: var(--petroleo); margin-bottom: 5px;"></h2>
+                <h3>¿Qué tipo de material buscás?</h3>
+                <button class="btn-estado" onclick="iniciarCarga('Obligatorias')">Materias Obligatorias</button>
+                <button class="btn-estado" onclick="iniciarCarga('Optativas')">Materias Optativas</button>
+            </div>
+
+            <div id="step-catalogo" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <div>
+                        <button class="btn-estado" style="background: #eee; border:none; padding: 5px 10px; font-size: 0.8rem;" onclick="navegarApp('step-tipo')">← Volver</button>
+                        <h3 id="txt-hoja-sel" style="margin: 5px 0 0 0; color: var(--petroleo);"></h3>
+                    </div>
+                    <button class="btn-estado" style="background: var(--terracota); color: white; border: none;" onclick="toggleCartView()">🛒 Ver Pedido</button>
+                </div>
+                
+                <input type="text" id="buscador-librillos" placeholder="🔍 Buscar librillo por título..." style="width: 100%; padding: 12px; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem; box-sizing: border-box;">
+                
+                <div id="lista-libros" class="grid-libros"></div>
+            </div>
+        </div>
     </div>
 
-    <div class="neo-bubble" style="border-color: var(--terracota);">
-        <h2>Materiales y Carpetas</h2>
-        <p>Acá podés ver en cada carpeta las materias correspondientes a su semestre y los materiales disponibles.<br><br>
-        Para encargar tus librillos, hacé click en <strong>"Conseguí tus librillos"</strong>.<br><br>
-        Si hay materias que no encontrás, puede que por la extensión o el idioma de sus textos no tengan librillos. Cualquier cosa, podés consultarnos por ig: <strong>@serviciosdelcecso</strong>, escribir a <strong>fotocecso@gmail.com</strong> o pasarte por fotocopiadora. ¡Te esperamos!</p>
+    <div id="seccion-trayectoria" class="container" style="display: none;">
+        <h2 style="color: var(--petroleo); margin-top: 0;">Mi Trayectoria</h2>
         
-        <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
-            <button class="btn-choice" style="max-width: 330px; font-size: 0.85rem; background: var(--rosa-suave); flex: 1; min-width: 250px;" onclick="window.open('https://drive.google.com/drive/folders/1FHf3V4HAhwpLYOpaevKk3GsVMGEFqgXs', '_blank')">
-                📂 Primer Semestre
-            </button>
-            <button class="btn-choice" style="max-width: 330px; font-size: 0.85rem; flex: 1; min-width: 250px;" onclick="window.open('https://drive.google.com/drive/folders/16w8F8sBeJSbU2rO11O8owofr13l4ZIyK', '_blank')">
-                📁 Años anteriores
+        <p style="font-weight: 600; margin-bottom: 5px; font-size: 0.95rem; color: var(--petroleo);">
+            Seleccioná qué vas a cursar, marcá lo que ya hiciste y armá tu plan.<br>
+            Tus datos se guardan solo en este dispositivo.
+        </p>
+        <p style="font-size: 0.8rem; color: var(--terracota); margin-top: 0; margin-bottom: 25px; line-height: 1.4;">
+            <em>⚠️ <strong>Aviso:</strong> Para simplificar la información de la página, no se aclaran todas las previaturas ni se sugieren trayectorias. Consultá siempre la información oficial en la página de FCS.</em>
+        </p>
+
+        <div class="carrera-selector">
+            <button class="btn-estado" onclick="cargarPlan('ciclo_inicial')">Ciclo Inicial</button>
+            <button class="btn-estado" onclick="cargarPlan('ciencia_politica')">Ciencia Política</button>
+            <button class="btn-estado" onclick="cargarPlan('sociologia')">Sociología</button>
+            <button class="btn-estado" onclick="cargarPlan('trabajo_social')">Trabajo Social</button>
+            <button class="btn-estado" onclick="cargarPlan('desarrollo')">Desarrollo</button>
+        </div>
+
+        <div id="trayectoria-content" style="display: none;">
+            
+            <div class="panel-zen"></div>
+
+            <div id="este-semestre-container" style="background: var(--petroleo); color: white; border-radius: 10px; padding: 20px; margin-bottom: 25px; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+                <h3 style="margin-top: 0; color: white;">🎒 Mi Plan para este Semestre</h3>
+                <ul id="lista-este-semestre" style="margin-bottom: 15px; padding-left: 20px; line-height: 1.6;"></ul>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;">
+                    <div>
+                        <span style="font-size: 0.9rem; opacity: 0.9;">Total de créditos a cursar:</span><br>
+                        <span id="txt-creditos-semestre" style="font-size: 1.5rem; font-weight: 900; color: var(--rosa-suave);">0 cr.</span>
+                    </div>
+                    <button class="btn-estado" style="background: white; color: var(--petroleo); border: none;" onclick="abrirModalLibrillosCursar()">
+                        📚 Buscar Materiales de esto
+                    </button>
+                </div>
+                <div id="alerta-creditos-semestre" style="background: #ffc107; color: #856404; padding: 10px; border-radius: 5px; margin-top: 15px; font-size: 0.85rem; font-weight: 700; display: none;"></div>
+            </div>
+
+            <div id="modulos-container"></div>
+            
+        </div>
+        
+        <div style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #ccc;">
+            <h3 style="color: var(--petroleo);">¿Precisás una mano?</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 15px;">
+                No hay una manera correcta de hacer la carrera, cada estudiante va armando su propia trayectoria educativa. Si te quedan dudas, ¡escribinos!
+            </p>
+            <input type="text" id="asesor_email" placeholder="Tu mail o celular para contactarte" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
+            <textarea id="asesor_consulta" placeholder="Contanos qué duda tenés..." style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; min-height: 80px; box-sizing: border-box;"></textarea>
+            <button class="btn-estado" style="width: 100%; background-color: var(--petroleo); color: white;" onclick="enviarAsesoramiento()">Enviar consulta</button>
+            
+            <button class="btn-estado" style="width: 100%; margin-top: 20px; background-color: #f8d7da; color: #721c24; border-color: #f5c6cb;" onclick="limpiarTodo()">
+                🗑️ Borrar todo mi progreso guardado
             </button>
         </div>
     </div>
-  </section>
 
-  <section id="seccion-trayectoria">
-      <div class="trayectoria-header">
-          <h2 class="trayectoria-header-title">Mi Trayectoria</h2>
-          <p class="trayectoria-subtitle">Seleccioná qué vas a cursar, marcá lo que ya hiciste y armá tu plan.<br><span style="font-size:0.9rem; font-weight:400;">Tus datos se guardan solo en este dispositivo.</span></p>
-          
-       <div style="margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 15px;">
-               <div>
-                   <button class="btn-carrera" onclick="cargarPlan('ciclo_inicial')" style="background-color: var(--rosa-suave); font-size: 1.1rem; padding: 15px 30px;">Ciclo Inicial</button>
-               </div>
-               <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-                   <button class="btn-carrera" onclick="cargarPlan('ciencia_politica')">Ciencia Política</button>
-                   <button class="btn-carrera" onclick="cargarPlan('desarrollo')">Desarrollo</button>
-                   <button class="btn-carrera" onclick="cargarPlan('sociologia')">Sociología</button>
-                   <button class="btn-carrera" onclick="cargarPlan('trabajo_social')">Trabajo Social</button>
-               </div>
-          </div>
-      </div>
+    <div id="carrito-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">
+            <h2 style="margin: 0; color: var(--petroleo);">Tu Pedido</h2>
+            <button onclick="toggleCartView()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">✕</button>
+        </div>
+        
+        <div id="cart-items-container" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;"></div>
+        
+        <div style="margin-top: 20px; border-top: 2px solid #eee; padding-top: 15px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; cursor: pointer;" onclick="toggleEnvio()">
+                <input type="checkbox" id="check-envio" style="transform: scale(1.5);">
+                <label style="font-weight: 600; cursor: pointer;">Quiero envío (+$200)</label>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <span style="font-size: 1.2rem; font-weight: bold;">Total:</span>
+                <span id="display-total" style="font-size: 1.5rem; font-weight: 900; color: var(--terracota);">$0</span>
+            </div>
+            <button class="btn-add" style="width: 100%; padding: 15px; font-size: 1.1rem;" onclick="finalizar()">Confirmar Pedido por WhatsApp</button>
+        </div>
+    </div>
+    
+    <button id="cart-toggle-btn" onclick="toggleCartView()">🛒 Mi Pedido: $0</button>
 
-      <div id="este-semestre-container" style="display: none; max-width: 900px; margin: 0 auto 40px auto;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 15px;">
-              <h3 style="font-family:'Archivo Black'; margin:0; color:var(--petroleo); font-size: 1.8rem;">🎯 Plan de semestre</h3>
-              <div style="background: white; border: 3px solid var(--negro); padding: 8px 15px; border-radius: 50px; font-family: 'Archivo Black'; font-size: 1.1rem; box-shadow: 4px 4px 0px var(--negro);">
-                  <span id="txt-creditos-semestre" style="color: var(--terracota);">0 cr.</span> / 52 cr. max
-              </div>
-          </div>
-          <p id="alerta-creditos-semestre" style="display: none; background: #f8d7da; border: 2px solid #721c24; color: #721c24; padding: 12px; border-radius: 8px; font-weight: 700; margin-top: 15px; font-size: 0.9rem;"></p>
-          <p style="font-weight: 600; margin-top: 20px;">Marcaste que vas a cursar las siguientes materias este semestre:</p>
-          <ul id="lista-este-semestre"></ul>
-          
-          <button class="btn-cta-top" style="margin: 10px 0 0 0; padding: 15px 25px; font-size: 1.1rem; width:100%;" onclick="abrirModalLibrillosCursar()">
-              📚 VER LIBRILLOS PARA CURSAR
-          </button>
-      </div>
+    <div id="modal-inscripcion" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="cerrarModalInscripcion()">✕</button>
+            <h3 style="font-family:'Archivo Black'; color:var(--petroleo); margin-top:0; font-size:1.5rem;">Requisitos de Inscripción</h3>
+            <div id="modal-inscripcion-body"></div>
+        </div>
+    </div>
 
-      <div id="trayectoria-content" style="display: none;">
-          <div class="panel-zen">
-              <div class="panel-zen-info">
-                  <h3 id="titulo-carrera-activa" class="titulo-zen"></h3>
-              </div>
-              <div class="panel-zen-acciones">
-                  <button id="btn-estado-inscripcion" class="btn-estado" style="display:none; margin:0;" onclick="abrirModalInscripcion()">
-                      📋 Ver Requisitos
-                  </button>
-                  <div class="contador-box">
-                      <span id="texto-progreso-global" class="numero-zen">0 / 0 cr.</span>
-                  </div>
-              </div>
-          </div>
+    <div id="modal-cursar-librillos" class="modal-overlay">
+        <div class="modal-content" style="max-width: 600px; display: flex; flex-direction: column; max-height: 90vh;">
+            <button class="modal-close" onclick="cerrarModalLibrillosCursar()">✕</button>
+            <h3 style="font-family:'Archivo Black'; color:var(--petroleo); margin-top:0; font-size:1.5rem; margin-bottom: 5px;">Materiales de tu Semestre</h3>
+            <p style="font-weight: 600; font-size: 0.9rem; margin-top: 0; margin-bottom: 20px;">Acá tenés los librillos disponibles para las materias que marcaste como "Cursar". Seleccioná los que necesites.</p>
+            
+            <div id="contenido-librillos-cursar" style="flex: 1; overflow-y: auto; padding-right: 10px; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 15px;">
+                </div>
 
-          <div id="modulos-container">
-              </div>
+            <div style="background: var(--fondo); padding: 15px; border-radius: 8px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; cursor: pointer;" onclick="toggleEnvioCursar()">
+                    <input type="checkbox" id="check-envio-cursar" style="transform: scale(1.5);">
+                    <label style="font-weight: 600; cursor: pointer; color: var(--petroleo);">Quiero envío a domicilio (+$200)</label>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <span style="font-size: 1.1rem; font-weight: bold; color: var(--negro);">Total de esta compra:</span>
+                    <span id="display-total-cursar" style="font-size: 1.5rem; font-weight: 900; color: var(--terracota);">$0</span>
+                </div>
+                <button class="btn-add" style="width: 100%; padding: 15px; font-size: 1.1rem;" onclick="finalizarCompraCursar()">Pedir estos materiales por WhatsApp</button>
+            </div>
+        </div>
+    </div>
 
-          <div class="asesoramiento-box">
-              <h3>¿Dudas con tu trayectoria?</h3>
-              <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 20px;">
-                  Entre los mates, las reuniones largas y la facu, a veces es difícil acomodar los horarios. Pedinos asesoramiento y un compañero te va a escribir para darte una mano.
-              </p>
-              <input type="text" id="asesor_nombre" placeholder="Tu nombre (opcional)">
-              <input type="email" id="asesor_email" placeholder="Tu email (para que te respondamos)" required>
-              <textarea id="asesor_consulta" placeholder="Escribí tu consulta acá..." required></textarea>
-              <button class="btn-cta-top" style="padding: 15px 30px; font-size: 1.1rem; margin: 10px 0 0 0;" onclick="enviarAsesoramiento()">Pedir Ayuda</button>
-          </div>
-          
-          <div style="text-align: center; margin-top: 20px;">
-              <button onclick="limpiarTodo()" style="background: none; border: none; text-decoration: underline; color: #999; font-size: 0.8rem; cursor: pointer;">Limpiar datos guardados</button>
-          </div>
-      </div>
-  </section>
+    <script src="script.js"></script>
 
-  <div id="modal-inscripcion" class="modal-overlay">
-      <div class="modal-content">
-          <button class="modal-close" onclick="cerrarModalInscripcion()">✕</button>
-          <h3 style="font-family:'Archivo Black'; color:var(--petroleo); margin-top:0; font-size:1.5rem;">Estado de Inscripción</h3>
-          <div id="modal-inscripcion-body" style="font-weight: 600; line-height:1.6;"></div>
-      </div>
-  </div>
-
-  <div id="modal-cursar-librillos" class="modal-overlay">
-      <div class="modal-content" style="max-width: 650px; background: var(--crema-papel);">
-          <button class="modal-close" onclick="cerrarModalLibrillosCursar()">✕</button>
-          <h3 style="font-family:'Archivo Black'; color:var(--petroleo); margin-top:0; font-size:1.5rem; border-bottom: 4px solid var(--negro); padding-bottom: 10px;">Librillos para Cursar</h3>
-          <div id="contenido-librillos-cursar" style="min-height: 100px; margin-bottom: 20px;"></div>
-          <div style="background: white; border: var(--borde); padding: 20px; box-shadow: var(--sombra);">
-              <div class="total-amount" id="display-total-cursar">$0</div>
-              <div class="envio-wrapper" onclick="toggleEnvioCursar()">
-                  <input type="checkbox" id="check-envio-cursar">
-                  <label for="check-envio-cursar" class="envio-label">Envío al interior (+$200)</label>
-              </div>
-              <button class="btn-cta-top" style="width:100%; margin:0; padding:15px;" onclick="finalizarCompraCursar()">FINALIZAR COMPRA</button>
-          </div>
-      </div>
-  </div>
-
-  <div id="app-container">
-      <div id="step-carrera" class="step-view">
-          <h2 class="step-title">Elegí tu Carrera</h2>
-          <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-              <button class="btn-choice" onclick="seleccionarCarrera('Ciclo Inicial')">Ciclo Inicial</button>
-              <button class="btn-choice" onclick="seleccionarCarrera('Sociología')">Sociología</button>
-              <button class="btn-choice" onclick="seleccionarCarrera('Trabajo Social')">Trabajo Social</button>
-              <button class="btn-choice" onclick="seleccionarCarrera('Ciencia Política')">Ciencia Política</button>
-              <button class="btn-choice" onclick="seleccionarCarrera('Desarrollo')">Desarrollo</button>
-          </div>
-      </div>
-      <div id="step-semestre" class="step-view" style="display:none;">
-          <h2 id="txt-carrera-header" class="step-title"></h2>
-          <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-              <button class="btn-choice" onclick="seleccionarSemestre('Par')">Semestre Par</button>
-              <button class="btn-choice" onclick="seleccionarSemestre('Impar')">Semestre Impar</button>
-              <button class="btn-back" onclick="navegarApp('step-carrera')">← Volver</button>
-          </div>
-      </div>
-      <div id="step-tipo" class="step-view" style="display:none;">
-          <h2 id="txt-semestre-header" class="step-title"></h2>
-          <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-              <button class="btn-choice" onclick="iniciarCarga('Obligatorias')">Materias Obligatorias</button>
-              <button class="btn-choice" onclick="iniciarCarga('Optativas')">Materias Optativas</button>
-              <button class="btn-back" onclick="navegarApp('step-semestre')">← Volver</button>
-          </div>
-      </div>
-      <div id="step-catalogo" style="display:none;">
-          <div style="text-align: center; margin-bottom: 40px;">
-              <h2 id="txt-hoja-sel" class="step-title" style="border-bottom: 2px solid var(--rosa-suave); display: inline-block; font-size: 1.8rem;"></h2><br><br>
-              <button class="btn-back" onclick="navegarApp('step-tipo')" style="margin-top:0; margin-bottom:20px;">← Elegir otro tipo</button><br>
-              <input type="text" id="buscador-librillos" placeholder="🔍 Buscar materia..."/>
-          </div>
-          <div class="main-layout" style="display: flex; gap: 40px; align-items: flex-start;">
-              <div id="lista-libros" class="grid-libros" style="flex:2;"></div>
-              <div class="cart-box" id="carrito-panel">
-                  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--negro); padding-bottom: 10px; margin-bottom: 20px;">
-                      <h3 class="font-logo" style="margin:0; font-size: 1.1rem;">Tu Pedido</h3>
-                      <button onclick="toggleCartView()" style="background: var(--rosa-suave); border: 2px solid #000; font-weight: 900; padding: 5px 10px; cursor: pointer;" class="mobile-only-btn">CERRAR ✕</button>
-                  </div>
-                  <div id="cart-items-container"></div>
-                  <div class="total-amount" id="display-total">$0</div>
-                  <div class="envio-wrapper" onclick="toggleEnvio()">
-                      <input type="checkbox" id="check-envio">
-                      <label for="check-envio" class="envio-label">Envío al interior (+$200)</label>
-                  </div>
-                  <button class="btn-cta-top" style="width:100%; margin:0; padding:20px;" onclick="finalizar()">FINALIZAR COMPRA</button>
-              </div>
-          </div>
-      </div>
-  </div>
-
-  <script src="script.js"></script>
 </body>
 </html>
