@@ -1,28 +1,15 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbwvN6HrSUH1qTNEnXGruTGpFI0386sLHJnqZTWSKFvAAsPvmSddeYRlTLZtzERuf8NX/exec"; 
 
 const COSTO_ENVIO = 200; 
-
-// ==========================================
-// 1. VARIABLES GLOBALES Y CARRITOS
-// ==========================================
 let cacheCatalogo = {};
+let carrito = JSON.parse(localStorage.getItem("cecsocart")) || [];
 let db = [], filtered = [];
 let licActual = "", semActual = "", tipoActual = "", conEnvio = false;
+let optativasActuales = [], librillosCursarEncontrados = []; 
 let planesEstudio = null;
 let estadoTrayectoria = JSON.parse(localStorage.getItem("cecso_trayectoria")) || {};
 let carreraActivaId = null;
 
-// Carrito General (Buscador)
-let carrito = JSON.parse(localStorage.getItem("cecsocart")) || []; 
-
-// Carrito Aislado (Modal Cursar)
-let carritoCursar = []; 
-let conEnvioCursar = false;
-let librillosCursarEncontrados = [];
-
-// ==========================================
-// 2. INICIO Y UTILIDADES
-// ==========================================
 window.onload = () => { 
     renderCarrito(); 
     navegar('inicio'); 
@@ -50,9 +37,10 @@ const normalizar = (str) => {
 window.navegar = function(seccion) {
     window.scrollTo(0,0);
     document.getElementById('seccion-inicio').style.display = (seccion === 'inicio') ? 'block' : 'none';
+    document.getElementById('app-container').style.display = (seccion === 'app') ? 'block' : 'none';
     document.getElementById('seccion-trayectoria').style.display = (seccion === 'trayectoria') ? 'block' : 'none';
     document.getElementById('cart-toggle-btn').style.display = 'none';
-    if(seccion === 'inicio') navegarApp('step-carrera');
+    if(seccion === 'app') navegarApp('step-carrera');
 };
 
 window.navegarApp = function(step) {
@@ -69,9 +57,6 @@ window.navegarApp = function(step) {
     }
 };
 
-// ==========================================
-// 3. BUSCADOR Y CARRITO GENERAL
-// ==========================================
 window.seleccionarCarrera = function(c) { licActual = c; document.getElementById('txt-carrera-header').innerText = c; navegarApp('step-semestre'); };
 window.seleccionarSemestre = function(s) { semActual = s; document.getElementById('txt-semestre-header').innerText = `${licActual} - ${s}`; navegarApp('step-tipo'); };
 window.iniciarCarga = function(t) { tipoActual = t; const hoja = `${licActual} ${semActual} ${t}`; document.getElementById('txt-hoja-sel').innerText = hoja; navegarApp('step-catalogo'); fetchAPI(hoja); };
@@ -113,13 +98,14 @@ window.toggleEnvio = function() {
     renderCarrito();
 };
 
-window.toggleCart = function(id, titulo, precio) {
+window.toggleCart = function(id, titulo, precio, esDesdeCursar = false) {
     const idx = carrito.findIndex(c => c.id === id);
     if(idx === -1) carrito.push({ id, titulo, precio: parseInt(precio) });
     else carrito.splice(idx, 1);
     localStorage.setItem("cecsocart", JSON.stringify(carrito));
     renderCatalogo(); 
     renderCarrito();
+    if(document.getElementById('modal-cursar-librillos').style.display === 'flex') renderLibrillosCursar();
 };
 
 function renderCarrito() {
@@ -132,7 +118,7 @@ function renderCarrito() {
             <span class="cart-item-title">${c.titulo}</span>
             <div class="cart-item-actions">
                 <span style="font-weight:900; color:var(--terracota);">$${c.precio}</span>
-                <button onclick="removeCart(${i})">✕</button>
+                <button onclick="removeCart(${i})" style="border:none; background:none; cursor:pointer;">✕</button>
             </div>
         </div>`;
     });
@@ -145,6 +131,7 @@ window.removeCart = function(i) {
     carrito.splice(i, 1);
     localStorage.setItem("cecsocart", JSON.stringify(carrito));
     renderCarrito(); renderCatalogo();
+    if(document.getElementById('modal-cursar-librillos').style.display === 'flex') renderLibrillosCursar();
 }
 
 document.getElementById('buscador-librillos').oninput = (e) => {
@@ -163,9 +150,22 @@ window.finalizar = function() {
     window.open(url, "_blank");
 };
 
-// ========================================================
-// 4. MI TRAYECTORIA (CARGA Y RENDERIZADO)
-// ========================================================
+window.seleccionarMOI = function(idCarrera, opcion) {
+    if (!estadoTrayectoria[idCarrera]) estadoTrayectoria[idCarrera] = {};
+    estadoTrayectoria[idCarrera].tipo_moi = opcion;
+    localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria));
+    renderPlan(idCarrera);
+};
+
+window.actualizarCreditosMOIPropio = function(idCarrera, valor) {
+    let numero = parseInt(valor);
+    if (isNaN(numero) || numero < 0) numero = 0;
+    if (numero > 35) numero = 35;
+    estadoTrayectoria[idCarrera].creditos_moi_propio = numero;
+    localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria));
+    renderPlan(idCarrera);
+};
+
 window.cargarPlan = function(idCarrera) {
     if (!planesEstudio || Object.keys(planesEstudio).length === 0) {
         alert("Las trayectorias se están actualizando desde la nube. ¡Esperá unos segunditos e intentá de nuevo!");
@@ -209,7 +209,6 @@ function renderPlan(idCarrera) {
     let creditosTotalesAprobados = 0;
     let moiRenderizado = false;
 
-    // ----- MOI DESARROLLO -----
     function inyectarMOI() {
         if (idCarrera !== 'desarrollo' || moiRenderizado) return;
         moiRenderizado = true;
@@ -219,7 +218,7 @@ function renderPlan(idCarrera) {
 
         if (moiActual === 'pendiente') {
             contenidoMOI = `
-                <p style="font-size:0.95rem; margin-bottom:15px; font-weight:600;">A partir del 6to semestre podés elegir un Módulo Optativo Integral (MOI) de 35 créditos.</p>
+                <p style="font-size:0.95rem; margin-bottom:15px; font-weight:600;">A partir del 6to semestre tenés que elegir un Módulo Optativo Integral (MOI) de 35 créditos. ¿Cómo vas a armar el tuyo?</p>
                 <div style="display:flex; gap:10px; flex-wrap:wrap;">
                     <button class="btn-estado" style="background:#d1ecf1; border-color:#17a2b8;" onclick="seleccionarMOI('${idCarrera}', 'elegir_pre')">📘 Elegir un MOI existente</button>
                     <button class="btn-estado" style="background:#fff3cd; border-color:#ffc107;" onclick="seleccionarMOI('${idCarrera}', 'propio')">🛠️ Voy a armar el mío propio</button>
@@ -230,9 +229,9 @@ function renderPlan(idCarrera) {
             contenidoMOI = `
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <h4 style="margin:0; color:var(--petroleo);">🤔 Todavía no elegí MOI</h4>
-                    <button class="btn-estado" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'pendiente')">Cambiar</button>
+                    <button class="btn-back" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'pendiente')">Cambiar</button>
                 </div>
-                <p style="margin:10px 0 0 0; font-size:0.85rem;">El MOI te da la oportunidad de definir tu propia trayectoria en base a lo que te interese profundizar.</p>
+                <p style="margin:10px 0 0 0; font-size:0.85rem;">El MOI se define en el Ciclo Avanzado. Aprovechá estos primeros semestres para explorar materias.</p>
             `;
         } else if (moiActual === 'propio') {
             const credsPropios = parseInt(estadoTrayectoria[idCarrera].creditos_moi_propio || 0);
@@ -241,10 +240,10 @@ function renderPlan(idCarrera) {
             contenidoMOI = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
                     <h4 style="margin:0; color:#856404; font-size:1.1rem;">🛠️ MOI Libre (Armado por estudiante)</h4>
-                    <button class="btn-estado" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'pendiente')">Cambiar</button>
+                    <button class="btn-back" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'pendiente')">Cambiar</button>
                 </div>
                 <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 5px;">
-                    <p style="margin:0 0 15px 0; font-size:0.85rem; color:#856404;">Recordá que para armar tu propio MOI tenés que presentar una carta a la Comisión de Carrera.</p>
+                    <p style="margin:0 0 15px 0; font-size:0.85rem; color:#856404;">Recordá que para armar tu propio MOI tenés que presentar una carta a la Comisión de Carrera justificando el hilo conductor de tus 35 créditos.</p>
                     <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #ffeeba; padding-top: 15px;">
                         <span style="font-weight: 800; color: #856404; font-size: 0.9rem;">Créditos listos de tu MOI:</span>
                         <div style="display: flex; align-items: center; gap: 8px;">
@@ -262,14 +261,14 @@ function renderPlan(idCarrera) {
                     <button class="btn-estado" onclick="seleccionarMOI('${idCarrera}', 'moi_terr')">Desarrollo Territorial</button>
                     <button class="btn-estado" onclick="seleccionarMOI('${idCarrera}', 'moi_gpp')">Gestión y Políticas Públicas</button>
                 </div>
-                <button class="btn-estado" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'pendiente')">← Volver atrás</button>
+                <button class="btn-back" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'pendiente')">← Volver atrás</button>
             `;
         } else if (['moi_eco', 'moi_terr', 'moi_gpp'].includes(moiActual)) {
             let titulos = { 'moi_eco': '📈 MOI: Desarrollo Económico', 'moi_terr': '🗺️ MOI: Desarrollo Territorial', 'moi_gpp': '🏛️ MOI: Gestión y Políticas Públicas' };
             contenidoMOI = `
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <h4 style="margin:0; color:#155724; font-size: 1.1rem;">${titulos[moiActual]}</h4>
-                    <button class="btn-estado" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'elegir_pre')">Cambiar MOI</button>
+                    <button class="btn-back" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'elegir_pre')">Cambiar MOI</button>
                 </div>
             `;
         }
@@ -286,7 +285,6 @@ function renderPlan(idCarrera) {
         }
     }
 
-    // ----- RENDERIZADO DE MÓDULOS -----
     function renderizarModulos(modulosArray, idGuardado) {
         modulosArray.forEach(modulo => {
             
@@ -305,7 +303,7 @@ function renderPlan(idCarrera) {
                 creditosTotalesModulo += mat.creditos; 
                 let htmlVectorEconomico = "";
 
-                // VECTOR ECONÓMICO (CIENCIA POLÍTICA)
+                // 1. LÓGICA DEL VECTOR ECONÓMICO (Ciencia Política)
                 if (mat.id === 'cp_dc_eco_elec') {
                     const aprobadas = estadoTrayectoria[idGuardado]?.aprobadas || [];
                     const tieneMacro = aprobadas.includes('cp_dc_eco_core1');
@@ -322,10 +320,8 @@ function renderPlan(idCarrera) {
                     }
                 }
 
-                // PREVIAS Y NOTAS EXTRAS (Filtro para ignorar vacíos o "NO")
-                let esLlaveValida = mat.llave_de && typeof mat.llave_de === 'string' && mat.llave_de.trim() !== "" && mat.llave_de.toUpperCase() !== "NO";
-                
-                let cartelLlave = esLlaveValida ? `
+                // 2. LÓGICA DE PREVIAS Y NOTAS EXTRAS
+                let cartelLlave = mat.llave_de ? `
                     <div style="background: rgba(217, 125, 96, 0.1); border-left: 4px solid var(--terracota); padding: 8px 12px; margin-top: 10px; font-size: 0.8rem; font-weight: 700; color: var(--negro); border-radius: 4px;">
                         🔑 Materia previa de <strong>${mat.llave_de}</strong>. ¡Importante priorizar!
                     </div>` : '';
@@ -333,7 +329,7 @@ function renderPlan(idCarrera) {
                 let txtSemestre = mat.semestre ? ((mat.semestre % 2 === 0) ? 'Semestre Par' : 'Semestre Impar') : 'Semestre variable';
                 let notaExtra = mat.nota ? `<div style="color:var(--terracota); font-weight:700; font-size: 0.8rem; margin-top: 5px;">📝 ${mat.nota}</div>` : '';
 
-                // BOLSAS VS MATERIAS NORMALES
+                // 3. RENDERIZADO (Dependiendo si es Bolsa Optativa o Materia Normal)
                 if (mat.es_bolsa_creditos) {
                     const valorOptativo = estadoTrayectoria[idGuardado].creditos_optativos[mat.id] || 0;
                     const valorCursar = estadoTrayectoria[idGuardado].cursar_optativos?.[mat.id] || 0;
@@ -346,6 +342,7 @@ function renderPlan(idCarrera) {
                             <div class="materia-info">
                                 <h4 class="materia-nombre">${mat.nombre}</h4>
                                 ${notaExtra}
+                                <button class="btn-estado" style="margin-top: 10px; font-size: 0.7rem; background: rgba(255,255,255,0.8);" onclick="abrirModalOptativas('${mat.id}', '${mat.nombre}')">¿Y cuáles puedo hacer?</button>
                                 ${htmlVectorEconomico}
                                 ${cartelLlave}
                             </div>
@@ -408,52 +405,15 @@ function renderPlan(idCarrera) {
         inyectarMOI();
     }
 
-    // --- CÁLCULO DE CRÉDITOS TOTALES (INCLUYENDO CI) ---
-    let creditosExtraCI = 0;
-    if (idCarrera !== 'ciclo_inicial' && planesEstudio['ciclo_inicial']) {
-        const estCI = estadoTrayectoria['ciclo_inicial'] || {};
-        const aprCI = estCI.aprobadas || [];
-        const optCI = estCI.creditos_optativos || {};
-        
-        planesEstudio['ciclo_inicial'].modulos.forEach(mod => {
-            mod.materias.forEach(mat => {
-                if (mat.es_bolsa_creditos) {
-                    creditosExtraCI += parseInt(optCI[mat.id] || 0);
-                } else if (aprCI.includes(mat.id)) {
-                    creditosExtraCI += mat.creditos;
-                }
-            });
-        });
-        
-        creditosExtraCI = Math.min(creditosExtraCI, 120);
-    }
-
-    let progresoTotal = creditosTotalesAprobados + creditosExtraCI;
-
-    document.getElementById('texto-progreso-global').innerText = `${progresoTotal} / ${plan.creditos_totales_requeridos} cr.`;
-    
+    actualizarProgresoGlobal(creditosTotalesAprobados, plan.creditos_totales_requeridos);
     actualizarEsteSemestreGlobal();
     actualizarVisibilidadBotonInscripcion(idCarrera);
 }
 
-// ========================================================
-// 5. MI TRAYECTORIA (INTERACCIONES)
-// ========================================================
-window.seleccionarMOI = function(idCarrera, opcion) {
-    if (!estadoTrayectoria[idCarrera]) estadoTrayectoria[idCarrera] = {};
-    estadoTrayectoria[idCarrera].tipo_moi = opcion;
-    localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria));
-    renderPlan(idCarrera);
-};
-
-window.actualizarCreditosMOIPropio = function(idCarrera, valor) {
-    let numero = parseInt(valor);
-    if (isNaN(numero) || numero < 0) numero = 0;
-    if (numero > 35) numero = 35;
-    estadoTrayectoria[idCarrera].creditos_moi_propio = numero;
-    localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria));
-    renderPlan(idCarrera);
-};
+function actualizarVisibilidadBotonInscripcion(idCarrera) {
+    const btn = document.getElementById('btn-estado-inscripcion');
+    if (btn) btn.style.display = (idCarrera === 'ciclo_inicial') ? 'inline-block' : 'none';
+}
 
 window.actualizarBolsaOptativas = function(idGuardado, idMateria, valor, maximo) {
     let numero = parseInt(valor);
@@ -494,6 +454,10 @@ window.toggleMateria = function(idGuardado, idMateria, accion) {
     localStorage.setItem("cecso_trayectoria", JSON.stringify(estadoTrayectoria));
     renderPlan(idGuardado);
 };
+
+function actualizarProgresoGlobal(creditos, totales) {
+    document.getElementById('texto-progreso-global').innerText = `${creditos} / ${totales} cr.`;
+}
 
 function actualizarEsteSemestreGlobal() {
     if (!planesEstudio) return;
@@ -545,14 +509,6 @@ function actualizarEsteSemestreGlobal() {
     } else { contenedor.style.display = 'none'; }
 }
 
-function actualizarVisibilidadBotonInscripcion(idCarrera) {
-    const btn = document.getElementById('btn-estado-inscripcion');
-    if (btn) btn.style.display = (idCarrera === 'ciclo_inicial') ? 'inline-block' : 'none';
-}
-
-// ========================================================
-// 6. MODAL: INSCRIPCIÓN AL CI
-// ========================================================
 window.abrirModalInscripcion = function() {
     const estado = estadoTrayectoria['ciclo_inicial'] || { aprobadas: [], creditos_optativos: {} };
     const plan = planesEstudio['ciclo_inicial'];
@@ -598,15 +554,23 @@ window.abrirModalInscripcion = function() {
             <ul style="margin:0; padding-left: 20px; font-size:0.9rem;">
                 <li>${provIntro >= 24 ? '✅' : '❌'} <strong>Intro. a las CCSS:</strong> ${provIntro} / 24 cr.</li>
                 <li>${provMet >= 16 ? '✅' : '❌'} <strong>Métodos aplicados:</strong> ${provMet} / 16 cr.</li>
-                <li>${provOpc >= 8 ? '✅' : '❌'} <strong>Otros módulos:</strong> ${provOpc} / 8 cr.</li>
+                <li>${provOpc >= 8 ? '✅' : '❌'} <strong>Otros módulos (Cualquiera):</strong> ${provOpc} / 8 cr.</li>
             </ul>
+            ${cumpleIngreso ? '<p style="color:#155724; font-weight:800; margin-top:10px;">¡Ya estás habilitado para cursar materias de la Licenciatura! 🎉</p>' : ''}
         </div>
+        ${!cumpleIngreso ? `
+        <div class="caja-estado" style="background: #e2e3e5; border-color: #6c757d;">
+            <h4 style="margin:0 0 10px 0; font-family:'Archivo Black'; color: #383d41;">⏳ Inscripción Provisoria (Excepción)</h4>
+            <p style="margin:0; font-size:0.85rem;">Durante los meses de <strong>febrero y julio</strong> es posible inscribirse al Ciclo Avanzado <em>aunque aún no tengas los créditos indicados arriba</em>. Tendrás la posibilidad de aprobar los créditos que te falten en el siguiente período acotado de exámenes (mayo o setiembre).</p>
+        </div>
+        ` : ''}
         <div class="caja-estado" style="background: ${cumpleDefinitiva ? '#d4edda' : '#f8d7da'};">
             <h4 style="margin:0 0 10px 0; font-family:'Archivo Black';">2. Egreso del Ciclo Inicial</h4>
             <p style="margin:0 0 10px 0; font-size:0.85rem;">Para obtener el certificado final de este ciclo necesitás completarlo en su totalidad.</p>
             <ul style="margin:0; padding-left: 20px; font-size:0.9rem;">
                 <li>${cumpleDefinitiva ? '✅' : '❌'} <strong>Créditos Totales CI:</strong> ${credTotales} / 120 cr.</li>
             </ul>
+            ${cumpleDefinitiva ? '<p style="color:#155724; font-weight:800; margin-top:10px;">¡Tenés el Ciclo Inicial completo! 🎓</p>' : ''}
         </div>
     `;
     document.getElementById('modal-inscripcion-body').innerHTML = html;
@@ -615,35 +579,58 @@ window.abrirModalInscripcion = function() {
 
 window.cerrarModalInscripcion = function() { document.getElementById('modal-inscripcion').style.display = 'none'; };
 
-// ========================================================
-// 7. MODAL: LIBRILOS PARA CURSAR (CARRITO AISLADO)
-// ========================================================
+window.abrirModalOptativas = function(idBolsa, nombreBolsa) {
+    document.getElementById('modal-optativas').style.display = 'flex';
+    document.getElementById('buscador-optativas').value = '';
+    document.getElementById('titulo-modal-optativas').innerText = nombreBolsa;
+    const contenedor = document.getElementById('lista-optativas-modal');
+
+    if (cacheCatalogo[idBolsa]) { optativasActuales = cacheCatalogo[idBolsa]; renderListaOptativas(optativasActuales); return; }
+
+    contenedor.innerHTML = '<p style="text-align:center; font-weight:900; color:var(--petroleo); margin: 40px 0;">Cargando programas de Drive... ⏳</p>';
+    fetch(`${API_URL}?action=obtenerOptativas&bolsa=${encodeURIComponent(idBolsa)}`)
+        .then(res => res.json())
+        .then(data => { optativasActuales = data; cacheCatalogo[idBolsa] = data; renderListaOptativas(optativasActuales); })
+        .catch(err => { contenedor.innerHTML = `<p style='color:red; text-align:center; font-weight:700;'>⚠️ Ups! No encontramos el listado de esta materia en la base de datos.</p>`; });
+};
+
+window.cerrarModalOptativas = function() { document.getElementById('modal-optativas').style.display = 'none'; };
+
+window.filtrarOptativas = function() {
+    const query = normalizar(document.getElementById('buscador-optativas').value);
+    const filtradas = optativasActuales.filter(opt => normalizar(opt.nombre).includes(query));
+    renderListaOptativas(filtradas);
+};
+
+function renderListaOptativas(lista) {
+    const contenedor = document.getElementById('lista-optativas-modal');
+    contenedor.innerHTML = '';
+    if (lista.length === 0) { contenedor.innerHTML = '<p style="font-weight:700; color:var(--terracota); text-align:center;">No encontramos ninguna materia con ese nombre.</p>'; return; }
+    lista.forEach(opt => {
+        contenedor.innerHTML += `
+            <div class="optativa-card">
+                <div style="flex: 1;">
+                    <h4 style="margin: 0; font-size: 1rem; color: var(--petroleo);">${opt.nombre}</h4>
+                    <span style="font-weight: 900; color: var(--terracota); font-size: 0.85rem;">${opt.creditos} créditos</span>
+                </div>
+                <a href="${opt.link}" target="_blank" class="btn-programa">Ver Programa</a>
+            </div>
+        `;
+    });
+}
+
 window.abrirModalLibrillosCursar = function() {
-    carritoCursar = [];
-    conEnvioCursar = false;
-    librillosCursarEncontrados = [];
-
-    const contenedor = document.getElementById('contenido-librillos-cursar');
-    const displayTotal = document.getElementById('display-total-cursar');
-    const checkEnvio = document.getElementById('check-envio-cursar');
-
-    if (contenedor) contenedor.innerHTML = '<p style="text-align:center; font-weight:900; color:var(--petroleo); margin: 40px 0;">Buscando tus materiales en fotocopiadora... 🏃💨</p>';
-    if (displayTotal) displayTotal.innerText = "$0";
-    if (checkEnvio) checkEnvio.checked = false;
-
     let idsCursar = [];
     Object.keys(planesEstudio).forEach(carrera => {
-        if(estadoTrayectoria[carrera] && estadoTrayectoria[carrera].cursar) {
-            idsCursar = idsCursar.concat(estadoTrayectoria[carrera].cursar);
-        }
+        if(estadoTrayectoria[carrera] && estadoTrayectoria[carrera].cursar) idsCursar = idsCursar.concat(estadoTrayectoria[carrera].cursar);
     });
 
-    if(idsCursar.length === 0) { 
-        alert("No marcaste ninguna materia obligatoria en tu plan de semestre."); 
-        return; 
-    }
+    if(idsCursar.length === 0) { alert("No marcaste ninguna materia obligatoria en tu plan de semestre."); return; }
 
     document.getElementById('modal-cursar-librillos').style.display = 'flex';
+    const contenedor = document.getElementById('contenido-librillos-cursar');
+    contenedor.innerHTML = '<p style="text-align:center; font-weight:900; color:var(--petroleo); margin: 40px 0;">Buscando tus materiales en fotocopiadora... 🏃💨</p>';
+    document.getElementById('check-envio-cursar').checked = conEnvio;
 
     fetch(`${API_URL}?action=librillosPorIds&ids=${idsCursar.join(',')}`)
         .then(res => res.json())
@@ -653,68 +640,43 @@ window.abrirModalLibrillosCursar = function() {
 
 window.cerrarModalLibrillosCursar = function() { document.getElementById('modal-cursar-librillos').style.display = 'none'; };
 
-window.toggleCartCursar = function(id, titulo, precio) {
-    const idx = carritoCursar.findIndex(c => c.id === id);
-    if(idx === -1) {
-        carritoCursar.push({ id, titulo, precio: parseInt(precio) });
-    } else {
-        carritoCursar.splice(idx, 1);
-    }
-    renderLibrillosCursar();
-};
-
 function renderLibrillosCursar() {
     const contenedor = document.getElementById('contenido-librillos-cursar');
-    if (!contenedor) return;
     contenedor.innerHTML = '';
-    
     if (librillosCursarEncontrados.length === 0) {
         contenedor.innerHTML = '<p style="font-weight:700; color:var(--terracota); text-align:center;">Todavía no subimos a la web los librillos de las materias que tenés en tu plan de semestre. ¡Pegate una vuelta por fotocopiadora!</p>';
     } else {
         librillosCursarEncontrados.forEach(item => {
-            const isAdded = carritoCursar.some(c => c.id === item.id);
+            const isAdded = carrito.some(c => c.id === item.id);
             contenedor.innerHTML += `
                 <div style="border-bottom: 1px dashed #ccc; padding: 15px 0; display: flex; justify-content: space-between; align-items: center; gap: 15px;">
                     <div style="flex: 1;">
                         <h4 style="margin: 0; font-size: 0.95rem; color: var(--petroleo);">${sanearTexto(item.titulo)}</h4>
                         <span style="font-weight: 900; color: var(--terracota); font-size: 1.1rem;">$${item.precio}</span>
                     </div>
-                    <button class="btn-estado ${isAdded ? 'activa' : ''}" onclick="toggleCartCursar('${item.id}', '${sanearTexto(item.titulo).replace(/'/g,"")}', ${item.precio})">
+                    <button class="btn-add ${isAdded ? 'active' : ''}" onclick="toggleCart('${item.id}', '${sanearTexto(item.titulo).replace(/'/g,"")}', ${item.precio}, true)">
                         ${isAdded ? 'AÑADIDO ✓' : 'SUMAR +'}
                     </button>
                 </div>
             `;
         });
     }
-
     let subtotal = 0;
-    carritoCursar.forEach(c => subtotal += c.precio);
-    if(conEnvioCursar) subtotal += COSTO_ENVIO;
-    
-    const displayTotal = document.getElementById('display-total-cursar');
-    if (displayTotal) displayTotal.innerText = `$${subtotal}`;
+    carrito.forEach(c => subtotal += c.precio);
+    if(conEnvio) subtotal += COSTO_ENVIO;
+    document.getElementById('display-total-cursar').innerText = `$${subtotal}`;
 }
 
 window.toggleEnvioCursar = function() {
     const check = document.getElementById('check-envio-cursar');
     if(event && event.target.tagName !== 'INPUT') check.checked = !check.checked;
-    conEnvioCursar = check.checked;
-    renderLibrillosCursar();
+    conEnvio = check.checked;
+    document.getElementById('check-envio').checked = conEnvio;
+    renderCarrito(); renderLibrillosCursar();
 };
 
-window.finalizarCompraCursar = function() {
-    if(carritoCursar.length === 0) return alert("No elegiste ningún librillo.");
-    const titulos = carritoCursar.map(c => c.titulo).join(", ");
-    const total = document.getElementById('display-total-cursar').innerText.replace("$","");
-    const envio = conEnvioCursar ? "Sí" : "No";
-    const url = "https://docs.google.com/forms/d/e/1FAIpQLSfdrntWehRkIJFXNd4SYQ7dczmur09LZ9ApGFjl5GA0J7wFTQ/viewform?usp=pp_url"
-        + "&entry.539670442=" + encodeURIComponent(titulos) + "&entry.482914514=" + encodeURIComponent(total) + "&entry.1104329366=" + encodeURIComponent(envio);
-    window.open(url, "_blank");
-};
+window.finalizarCompraCursar = function() { finalizar(); };
 
-// ========================================================
-// 8. ASESORAMIENTO Y LIMPIEZA
-// ========================================================
 window.enviarAsesoramiento = function() {
     const email = document.getElementById('asesor_email').value;
     const consulta = document.getElementById('asesor_consulta').value;
