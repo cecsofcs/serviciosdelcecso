@@ -50,10 +50,9 @@ const normalizar = (str) => {
 window.navegar = function(seccion) {
     window.scrollTo(0,0);
     document.getElementById('seccion-inicio').style.display = (seccion === 'inicio') ? 'block' : 'none';
-    document.getElementById('app-container').style.display = (seccion === 'app') ? 'block' : 'none';
     document.getElementById('seccion-trayectoria').style.display = (seccion === 'trayectoria') ? 'block' : 'none';
     document.getElementById('cart-toggle-btn').style.display = 'none';
-    if(seccion === 'app') navegarApp('step-carrera');
+    if(seccion === 'inicio') navegarApp('step-carrera');
 };
 
 window.navegarApp = function(step) {
@@ -133,7 +132,7 @@ function renderCarrito() {
             <span class="cart-item-title">${c.titulo}</span>
             <div class="cart-item-actions">
                 <span style="font-weight:900; color:var(--terracota);">$${c.precio}</span>
-                <button onclick="removeCart(${i})" style="border:none; background:none; cursor:pointer;">✕</button>
+                <button onclick="removeCart(${i})">✕</button>
             </div>
         </div>`;
     });
@@ -231,7 +230,7 @@ function renderPlan(idCarrera) {
             contenidoMOI = `
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <h4 style="margin:0; color:var(--petroleo);">🤔 Todavía no elegí MOI</h4>
-                    <button class="btn-back" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'pendiente')">Cambiar</button>
+                    <button class="btn-estado" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'pendiente')">Cambiar</button>
                 </div>
                 <p style="margin:10px 0 0 0; font-size:0.85rem;">El MOI te da la oportunidad de definir tu propia trayectoria en base a lo que te interese profundizar.</p>
             `;
@@ -242,7 +241,7 @@ function renderPlan(idCarrera) {
             contenidoMOI = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
                     <h4 style="margin:0; color:#856404; font-size:1.1rem;">🛠️ MOI Libre (Armado por estudiante)</h4>
-                    <button class="btn-back" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'pendiente')">Cambiar</button>
+                    <button class="btn-estado" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'pendiente')">Cambiar</button>
                 </div>
                 <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 5px;">
                     <p style="margin:0 0 15px 0; font-size:0.85rem; color:#856404;">Recordá que para armar tu propio MOI tenés que presentar una carta a la Comisión de Carrera.</p>
@@ -263,14 +262,14 @@ function renderPlan(idCarrera) {
                     <button class="btn-estado" onclick="seleccionarMOI('${idCarrera}', 'moi_terr')">Desarrollo Territorial</button>
                     <button class="btn-estado" onclick="seleccionarMOI('${idCarrera}', 'moi_gpp')">Gestión y Políticas Públicas</button>
                 </div>
-                <button class="btn-back" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'pendiente')">← Volver atrás</button>
+                <button class="btn-estado" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'pendiente')">← Volver atrás</button>
             `;
         } else if (['moi_eco', 'moi_terr', 'moi_gpp'].includes(moiActual)) {
             let titulos = { 'moi_eco': '📈 MOI: Desarrollo Económico', 'moi_terr': '🗺️ MOI: Desarrollo Territorial', 'moi_gpp': '🏛️ MOI: Gestión y Políticas Públicas' };
             contenidoMOI = `
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <h4 style="margin:0; color:#155724; font-size: 1.1rem;">${titulos[moiActual]}</h4>
-                    <button class="btn-back" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'elegir_pre')">Cambiar MOI</button>
+                    <button class="btn-estado" style="margin:0; font-size:0.8rem;" onclick="seleccionarMOI('${idCarrera}', 'elegir_pre')">Cambiar MOI</button>
                 </div>
             `;
         }
@@ -323,8 +322,10 @@ function renderPlan(idCarrera) {
                     }
                 }
 
-                // PREVIAS Y NOTAS EXTRAS
-                let cartelLlave = mat.llave_de ? `
+                // PREVIAS Y NOTAS EXTRAS (Filtro para ignorar vacíos o "NO")
+                let esLlaveValida = mat.llave_de && typeof mat.llave_de === 'string' && mat.llave_de.trim() !== "" && mat.llave_de.toUpperCase() !== "NO";
+                
+                let cartelLlave = esLlaveValida ? `
                     <div style="background: rgba(217, 125, 96, 0.1); border-left: 4px solid var(--terracota); padding: 8px 12px; margin-top: 10px; font-size: 0.8rem; font-weight: 700; color: var(--negro); border-radius: 4px;">
                         🔑 Materia previa de <strong>${mat.llave_de}</strong>. ¡Importante priorizar!
                     </div>` : '';
@@ -409,7 +410,6 @@ function renderPlan(idCarrera) {
 
     // --- CÁLCULO DE CRÉDITOS TOTALES (INCLUYENDO CI) ---
     let creditosExtraCI = 0;
-    // Si no estamos en Ciclo Inicial, y el CI existe en los planes...
     if (idCarrera !== 'ciclo_inicial' && planesEstudio['ciclo_inicial']) {
         const estCI = estadoTrayectoria['ciclo_inicial'] || {};
         const aprCI = estCI.aprobadas || [];
@@ -425,7 +425,6 @@ function renderPlan(idCarrera) {
             });
         });
         
-        // Topeamos en 120 por si hicieron materias extra en el CI
         creditosExtraCI = Math.min(creditosExtraCI, 120);
     }
 
@@ -680,7 +679,7 @@ function renderLibrillosCursar() {
                         <h4 style="margin: 0; font-size: 0.95rem; color: var(--petroleo);">${sanearTexto(item.titulo)}</h4>
                         <span style="font-weight: 900; color: var(--terracota); font-size: 1.1rem;">$${item.precio}</span>
                     </div>
-                    <button class="btn-add ${isAdded ? 'active' : ''}" onclick="toggleCartCursar('${item.id}', '${sanearTexto(item.titulo).replace(/'/g,"")}', ${item.precio})">
+                    <button class="btn-estado ${isAdded ? 'activa' : ''}" onclick="toggleCartCursar('${item.id}', '${sanearTexto(item.titulo).replace(/'/g,"")}', ${item.precio})">
                         ${isAdded ? 'AÑADIDO ✓' : 'SUMAR +'}
                     </button>
                 </div>
