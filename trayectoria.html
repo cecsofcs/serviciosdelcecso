@@ -1,81 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CECSO - Materiales y Trayectoria</title>
     
-    <style>
-        /* VARIABLES DE COLOR (Basado en tu diseño) */
-        :root {
-            --petroleo: #004d40;
-            --terracota: #d97d60;
-            --rosa-suave: #fce4ec;
-            --negro: #333333;
-            --fondo: #f5f7fa;
-        }
-
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--fondo); color: var(--negro); margin: 0; padding: 0; }
-        .header { background-color: var(--petroleo); color: white; padding: 15px 20px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .nav-buttons { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
-        .nav-btn { background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; }
-        .nav-btn:hover { background: white; color: var(--petroleo); }
-        
-        .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
-        
-        /* BOTONES Y TARJETAS */
-        .btn-estado { background-color: white; border: 2px solid #ccc; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: 0.2s; }
-        .btn-estado:hover { border-color: var(--petroleo); }
-        .btn-estado.activa { background-color: var(--petroleo); color: white; border-color: var(--petroleo); }
-        .btn-aprobada.activa { background-color: #28a745; border-color: #28a745; }
-        .btn-cursar.activa { background-color: var(--terracota); border-color: var(--terracota); }
-        .btn-add { background-color: var(--petroleo); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; }
-        .btn-add.active { background-color: #28a745; }
-
-        .lib-bubble { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
-        .lib-title { font-weight: bold; font-size: 0.95rem; margin-top: 0; }
-        .lib-price { color: var(--terracota); font-weight: 900; font-size: 1.2rem; margin: 0; }
-        .lib-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
-        
-        .grid-libros { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-top: 20px; }
-        
-        /* TRAYECTORIA */
-        .carrera-selector { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-        .modulo-box { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 5px solid #ccc; }
-        .modulo-obligatoria { border-left-color: var(--petroleo); }
-        .modulo-optativa { border-left-color: var(--terracota); }
-        .modulo-moi { border-left-color: #ffc107; background-color: #fffdf5; }
-        .modulo-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
-        .modulo-header h3 { margin: 0; color: var(--petroleo); font-size: 1.2rem; }
-        .modulo-progreso { font-weight: 900; color: var(--terracota); }
-        
-        .materia-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 15px 0; border-bottom: 1px dashed #eee; gap: 15px; }
-        .materia-item:last-child { border-bottom: none; padding-bottom: 0; }
-        .materia-nombre { margin: 0 0 5px 0; font-size: 1rem; color: var(--negro); }
-        .materia-meta { margin: 0; font-size: 0.8rem; color: #666; }
-        .materia-acciones { display: flex; gap: 10px; flex-wrap: wrap; }
-        
-        .input-optativos { width: 60px; padding: 5px; border: 2px solid #ccc; border-radius: 5px; text-align: center; font-weight: bold; }
-        .caja-estado { border: 1px solid #ccc; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
-        .panel-zen { background: white; border-radius: 10px; padding: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .numero-zen { font-size: 1.5rem; font-weight: 900; color: var(--petroleo); }
-        
-        /* MODALES Y CARRITO */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 15px; box-sizing: border-box; }
-        .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 12px; padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; }
-        .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666; }
-        
-        #carrito-panel { position: fixed; right: -350px; top: 0; width: 320px; height: 100%; background: white; box-shadow: -2px 0 10px rgba(0,0,0,0.1); z-index: 200; transition: 0.3s; display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; }
-        #carrito-panel.open { right: 0; }
-        
-        #cart-toggle-btn { position: fixed; bottom: 20px; right: 20px; background: var(--terracota); color: white; border: none; padding: 15px 20px; border-radius: 30px; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; z-index: 99; display: none; }
-        
-        @media (max-width: 600px) {
-            .materia-item { flex-direction: column; }
-            .panel-zen { flex-direction: column; text-align: center; gap: 15px; }
-            #carrito-panel { width: 100%; right: -100%; }
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
 </head>
 <body>
 
