@@ -181,9 +181,11 @@ window.cargarPlan = function(idCarrera) {
 
     const boton = event?.target;
     if (boton) {
-        boton.disabled = true;
-        boton.innerText = "Cargando...";
-    }
+    boton.dataset.original = boton.innerText; // guardar texto original
+    boton.disabled = true;
+    boton.innerText = "Cargando...";
+}
+
 
     promesaCargaMallas.then(() => {
 
