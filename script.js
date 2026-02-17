@@ -26,12 +26,24 @@ let librillosCursarEncontrados = [];
 window.onload = () => { 
     renderCarrito(); 
     navegar('inicio'); 
+    
     fetch(`${API_URL}?action=obtenerMallas`)
-        .then(res => res.json())
-        .then(data => {
-            if(data.error) console.error("Error desde el Apps Script:", data.error);
-            else planesEstudio = data;
-        }).catch(err => console.error("Error al sincronizar las mallas: ", err));
+        .then(res => res.text()) // Lo leemos como texto primero para atrapar errores de Google
+        .then(texto => {
+            try {
+                const data = JSON.parse(texto);
+                if (data.error) {
+                    alert("Error en Excel: " + data.error);
+                } else if (Object.keys(data).length === 0) {
+                    alert("❌ ERROR: El Apps Script se conectó, pero dice que no encontró la pestaña 'mallas_maestras' o está vacía. Revisá el nombre de la pestaña en Excel.");
+                } else {
+                    planesEstudio = data; // Éxito total
+                }
+            } catch (e) {
+                alert("❌ BLOQUEO DE GOOGLE: La página intentó conectarse pero Google le pidió iniciar sesión.\n\nSolución: Andá a Apps Script > Nueva Implementación > 'Quién tiene acceso' DEBE decir 'Cualquier persona' (NO 'Cualquier persona con cuenta de Google').");
+            }
+        })
+        .catch(err => alert("❌ ERROR DE LINK: La URL del API_URL está mal copiada o no existe. Revisá la línea 1 de tu código."));
 };
 
 function sanearTexto(texto) {
