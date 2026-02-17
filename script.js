@@ -27,7 +27,12 @@ window.onload = () => {
     renderCarrito(); 
     navegar('inicio'); 
     
-    fetch(`${API_URL}?action=obtenerMallas`)
+    fetch(`${API_URL}?action=obtenerMallas&t=${Date.now()}`, {
+    method: "GET",
+    mode: "cors",
+    cache: "no-store"
+})
+
         .then(res => res.text()) // Lo leemos como texto primero para atrapar errores de Google
         .then(texto => {
             try {
