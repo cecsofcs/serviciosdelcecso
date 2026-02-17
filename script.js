@@ -1,6 +1,6 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbwvN6HrSUH1qTNEnXGruTGpFI0386sLHJnqZTWSKFvAAsPvmSddeYRlTLZtzERuf8NX/exec"; 
 
-const COSTO_ENVIO = 200; 
+const COSTO_ENVIO = 100; 
 
 // ==========================================
 // 1. VARIABLES GLOBALES Y CARRITOS
