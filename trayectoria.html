@@ -107,8 +107,15 @@
              <p style="font-size: 0.9rem; margin-bottom: 15px;">
     No hay una manera correcta de hacer la carrera, cada estudiante va armando su propia trayectoria educativa. Si te quedan dudas, ¡escribinos!
 </p>
-<input type="text" id="asesor_email" placeholder="Tu mail o celular para contactarte" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
-<textarea id="asesor_consulta" placeholder="Contanos qué materia te tranca o qué duda tenés..." style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; min-height: 80px;"></textarea>
+<select id="asesor_carrera" style="width: 100%; padding: 12px; margin-bottom: 10px; border: 2px solid var(--negro); border-radius: 5px; font-family: 'Inter', sans-serif; box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05); outline: none;">
+    <option value="ciclo_inicial">Ciclo Inicial</option>
+    <option value="ciencia_politica">Ciencia Política</option>
+    <option value="sociologia">Sociología</option>
+    <option value="trabajo_social">Trabajo Social</option>
+    <option value="desarrollo">Desarrollo</option>
+</select>
+<input type="text" id="asesor_email" placeholder="Tu contacto (mail o celular)">
+<textarea id="asesor_consulta" placeholder="¿En qué te podemos ayudar?"></textarea>
 <button class="btn-estado" style="width: 100%; background-color: var(--petroleo); color: white;" onclick="enviarAsesoramiento()">Enviar consulta</button></div>
           
           <div style="text-align: center; margin-top: 20px;">
