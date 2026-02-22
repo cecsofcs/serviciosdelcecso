@@ -405,7 +405,14 @@ function renderPlan(idCarrera) {
                         </div>
                     `;
                 }
-            });
+           }); // Acá termina el modulo.materias.forEach(mat => { ... })
+
+            // === REGLA ESPECIAL PARA TEMÁTICAS CCSS ===
+            if (idCarrera === 'ciclo_inicial' && (nMod.includes('temática') || nMod.includes('tematica'))) {
+                creditosTotalesModulo = 8; // Fija la meta en 8 créditos
+                if (creditosModulo > 8) creditosModulo = 8; // Evita que diga 16/8 si el estudiante marca dos por error
+            }
+            // ===========================================
 
             container.innerHTML += `
                 <div class="modulo-box ${claseColor}">
@@ -714,10 +721,27 @@ window.finalizarCompraCursar = function() {
 // ========================================================
 window.enviarAsesoramiento = function() {
     const email = document.getElementById('asesor_email').value;
+    const carrera = document.getElementById('asesor_carrera').value;
     const consulta = document.getElementById('asesor_consulta').value;
+    
     if (!email || !consulta) return alert("Por favor completá tu email y la consulta.");
-    alert("¡Consulta guardada! (Acá conectaremos con tu Apps Script).");
-};
+    
+    // Diccionario con los mails reales de cada licenciatura
+    const correos = {
+        "ciclo_inicial": "cicloinicial@ejemplo.com", 
+        "ciencia_politica": "politica@ejemplo.com",
+        "sociologia": "sociologia@ejemplo.com",
+        "trabajo_social": "tsocial@ejemplo.com",
+        "desarrollo": "desarrollo@ejemplo.com"
+    };
+    
+    const mailDestino = correos[carrera];
+    const asunto = encodeURIComponent("Consulta desde Web CECSO");
+    const cuerpo = encodeURIComponent("Contacto del estudiante: " + email + "\n\nConsulta:\n" + consulta);
+    
+    // Esto abre automáticamente el Gmail/Outlook del estudiante con los datos precargados
+    window.location.href = `mailto:${mailDestino}?subject=${asunto}&body=${cuerpo}`;
+};;
 
 window.limpiarTodo = function() {
     if(confirm("¿Querés borrar todo tu progreso guardado? Esto soluciona errores de sincronización con la nube.")) {
