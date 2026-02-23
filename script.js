@@ -728,11 +728,11 @@ window.enviarAsesoramiento = function() {
     
     // Diccionario con los mails reales de cada licenciatura
     const correos = {
-        "ciclo_inicial": "cicloinicial@ejemplo.com", 
-        "ciencia_politica": "politica@ejemplo.com",
-        "sociologia": "sociologia@ejemplo.com",
-        "trabajo_social": "tsocial@ejemplo.com",
-        "desarrollo": "desarrollo@ejemplo.com"
+        "ciclo_inicial": "cicloinicial.cecso@gmail.com", 
+        "ciencia_politica": "comisoncpcecso@gmail.com",
+        "sociologia": "comisionsociologiacecso@gmail.com",
+        "trabajo_social": "trabajosocialcecso@gmail.com",
+        "desarrollo": "led.cecso@gmail.com"
     };
     
     const mailDestino = correos[carrera];
