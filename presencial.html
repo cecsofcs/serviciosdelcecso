@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Mostrador Presencial - CECSo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body style="background-color: #f0e9df;"> <nav class="navbar" style="justify-content: center;">
+      <div class="brand font-logo">Mostrador Fotocopiadora CECSO</div>
+  </nav>
+
+  <div id="cart-toggle-btn" onclick="toggleCartView()">🛒 Ver Pedido: $0</div>
+
+  <div id="app-container" style="display: block; padding-top: 40px;">
+      
+      <div id="step-carrera" class="step-view">
+          <h2 class="step-title" style="color: var(--petroleo);">Nueva Venta: Elegí Carrera</h2>
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+              <button class="btn-choice" onclick="seleccionarCarrera('Ciclo Inicial')">Ciclo Inicial</button>
+              <button class="btn-choice" onclick="seleccionarCarrera('Sociología')">Sociología</button>
+              <button class="btn-choice" onclick="seleccionarCarrera('Trabajo Social')">Trabajo Social</button>
+              <button class="btn-choice" onclick="seleccionarCarrera('Ciencia Política')">Ciencia Política</button>
+              <button class="btn-choice" onclick="seleccionarCarrera('Desarrollo')">Desarrollo</button>
+          </div>
+      </div>
+
+      <div id="step-semestre" class="step-view" style="display:none;">
+          <h2 id="txt-carrera-header" class="step-title"></h2>
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+              <button class="btn-choice" onclick="seleccionarSemestre('Par')">Semestre Par</button>
+              <button class="btn-choice" onclick="seleccionarSemestre('Impar')">Semestre Impar</button>
+              <button class="btn-back" onclick="navegarApp('step-carrera')">← Volver</button>
+          </div>
+      </div>
+
+      <div id="step-tipo" class="step-view" style="display:none;">
+          <h2 id="txt-semestre-header" class="step-title"></h2>
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+              <button class="btn-choice" onclick="iniciarCarga('Obligatorias')">Materias Obligatorias</button>
+              <button class="btn-choice" onclick="iniciarCarga('Optativas')">Materias Optativas</button>
+              <button class="btn-back" onclick="navegarApp('step-semestre')">← Volver</button>
+          </div>
+      </div>
+
+      <div id="step-catalogo" style="display:none; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+          <div style="text-align: center; margin-bottom: 40px;">
+              <h2 id="txt-hoja-sel" class="step-title" style="border-bottom: 2px solid var(--rosa-suave); display: inline-block; font-size: 1.8rem;"></h2><br><br>
+              <button class="btn-back" onclick="navegarApp('step-tipo')" style="margin-top:0; margin-bottom:20px;">← Elegir otro tipo</button><br>
+              <input type="text" id="buscador-librillos" placeholder="🔍 Buscar materia..." style="padding: 15px; width: 100%; max-width: 500px; font-size: 1.1rem; border: 3px solid #000; border-radius: 8px;"/>
+          </div>
+          
+          <div class="main-layout" style="display: flex; gap: 40px; align-items: flex-start;">
+              <div id="lista-libros" class="grid-libros" style="flex:2;"></div>
+              
+              <div class="cart-box" id="carrito-panel">
+                  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--negro); padding-bottom: 10px; margin-bottom: 20px;">
+                      <h3 class="font-logo" style="margin:0; font-size: 1.1rem;">Pedido Presencial</h3>
+                      <button onclick="toggleCartView()" style="background: var(--rosa-suave); border: 2px solid #000; font-weight: 900; padding: 5px 10px; cursor: pointer;" class="mobile-only-btn">CERRAR ✕</button>
+                  </div>
+                  <div id="cart-items-container"></div>
+                  <div class="total-amount" id="display-total">$0</div>
+                  <div class="envio-wrapper" style="display: none;">
+                      <input type="checkbox" id="check-envio"> </div>
+                  <button class="btn-cta-top" style="width:100%; margin:0; padding:20px; background: var(--petroleo); color: white;" onclick="finalizarPresencial()">CARGAR A PLANILLA</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <script src="script-presencial.js"></script>
+</body>
+</html>
