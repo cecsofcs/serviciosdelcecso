@@ -62,10 +62,10 @@
                   </div>
                   <div id="cart-items-container"></div>
                   <div class="total-amount" id="display-total">$0</div>
-                  <div class="envio-wrapper" style="display: none;">
-                      <input type="checkbox" id="check-envio"> </div>
-                  <button class="btn-cta-top" style="width:100%; margin:0; padding:20px; background: var(--petroleo); color: white;" onclick="finalizarPresencial()">CARGAR A PLANILLA</button>
-              </div>
+                 <div class="envio-wrapper" onclick="toggleEnvio()" style="display: flex; cursor: pointer;">
+              <input type="checkbox" id="check-envio">
+              <label class="envio-label" style="cursor: pointer;">Envío al interior (+$100)</label>
+                </div>
           </div>
       </div>
   </div>
