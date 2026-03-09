@@ -147,17 +147,19 @@ window.removeCart = function(i) {
 window.finalizarPresencial = function() {
     if(carrito.length === 0) return alert("El pedido está vacío.");
     
-    let titulos = carrito.map(c => c.titulo).join(" + ");
+    // Ahora los títulos vuelven a quedar limpios
+    const titulos = carrito.map(c => c.titulo).join(" + ");
     const total = document.getElementById('display-total').innerText.replace("$","");
     
-    // Si hay envío, lo aclaramos en el texto que viaja a la planilla
-    if (conEnvio) {
-        titulos += " (CON ENVÍO AL INTERIOR)";
-    }
-    
-    const urlFormulario = "https://docs.google.com/forms/d/e/1FAIpQLSfEylsrnpju-ncRy96vkcazPY0f8SnRHuEHQJYBA7OrudkLXg/viewform?usp=pp_url"
+    // Armamos la URL base con los librillos y el total
+    let urlFormulario = "https://docs.google.com/forms/d/e/1FAIpQLSfEylsrnpju-ncRy96vkcazPY0f8SnRHuEHQJYBA7OrudkLXg/viewform?usp=pp_url"
         + "&entry.1015275134=" + encodeURIComponent(titulos)
         + "&entry.24491170=" + encodeURIComponent(total);
+        
+    // Si marcaron envío, agregamos tu nueva pregunta a la URL
+    if (conEnvio) {
+        urlFormulario += "&entry.841002436=si"; 
+    }
         
     window.open(urlFormulario, "_blank");
     
