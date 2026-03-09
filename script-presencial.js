@@ -39,7 +39,7 @@ window.navegarApp = function(step) {
     });
     
     const btn = document.getElementById('cart-toggle-btn');
-    if (step === 'step-catalogo' && window.innerWidth < 900) {
+    if (step === 'step-catalogo') {
         btn.style.display = 'block';
     } else {
         btn.style.display = 'none';
