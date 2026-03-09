@@ -1,12 +1,12 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbwvN6HrSUH1qTNEnXGruTGpFI0386sLHJnqZTWSKFvAAsPvmSddeYRlTLZtzERuf8NX/exec"; 
-
+const COSTO_ENVIO = 100;
 // ==========================================
 // 1. VARIABLES GLOBALES Y ESTADO (Simplificado)
 // ==========================================
 let cacheCatalogo = {};
 let db = [], filtered = [];
 let licActual = "", semActual = "", tipoActual = "";
-
+let conEnvio = false;
 // Carrito presencial (no guarda en localStorage para que empiece de cero cada venta)
 let carrito = []; 
 
@@ -110,6 +110,13 @@ window.toggleCart = function(id, titulo, precio) {
     renderCarrito();
 };
 
+window.toggleEnvio = function() {
+    const check = document.getElementById('check-envio');
+    if(event && event.target.tagName !== 'INPUT') check.checked = !check.checked;
+    conEnvio = check.checked;
+    renderCarrito();
+};
+
 function renderCarrito() {
     const container = document.getElementById('cart-items-container');
     container.innerHTML = "";
@@ -125,7 +132,9 @@ function renderCarrito() {
             </div>
         </div>`;
     });
-    
+    if (conEnvio) {
+        subtotal += COSTO_ENVIO;
+    }
     document.getElementById('display-total').innerText = `$${subtotal}`;
     document.getElementById('cart-toggle-btn').innerText = `🛒 Ver Pedido: $${subtotal}`;
 }
@@ -135,22 +144,28 @@ window.removeCart = function(i) {
     renderCarrito(); renderCatalogo();
 };
 
-// FUNCIÓN MODIFICADA PARA ENVIAR AL FORMULARIO DE PRESENCIAL
 window.finalizarPresencial = function() {
     if(carrito.length === 0) return alert("El pedido está vacío.");
     
-    const titulos = carrito.map(c => c.titulo).join(", ");
+    let titulos = carrito.map(c => c.titulo).join(" + ");
     const total = document.getElementById('display-total').innerText.replace("$","");
     
-    // URL del formulario viejo (presencial) usando los 'entry' que me pasaste
+    // Si hay envío, lo aclaramos en el texto que viaja a la planilla
+    if (conEnvio) {
+        titulos += " (CON ENVÍO AL INTERIOR)";
+    }
+    
     const urlFormulario = "https://docs.google.com/forms/d/e/1FAIpQLSfEylsrnpju-ncRy96vkcazPY0f8SnRHuEHQJYBA7OrudkLXg/viewform?usp=pp_url"
         + "&entry.1015275134=" + encodeURIComponent(titulos)
         + "&entry.24491170=" + encodeURIComponent(total);
         
     window.open(urlFormulario, "_blank");
     
-    // Vaciar el carrito automáticamente para el próximo estudiante
+    // Vaciamos la caja y reseteamos el envío
     carrito = [];
+    conEnvio = false;
+    document.getElementById('check-envio').checked = false;
+    
     renderCarrito();
     renderCatalogo();
     if(window.innerWidth < 900) toggleCartView();
