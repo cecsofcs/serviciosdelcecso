@@ -1,6 +1,6 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbwvN6HrSUH1qTNEnXGruTGpFI0386sLHJnqZTWSKFvAAsPvmSddeYRlTLZtzERuf8NX/exec"; 
 
-const COSTO_ENVIO = 100; 
+const COSTO_ENVIO = 200; 
 
 // ==========================================
 // 1. VARIABLES GLOBALES Y CARRITOS
@@ -18,7 +18,7 @@ let carrito = JSON.parse(localStorage.getItem("cecsocart")) || [];
 
 // Carrito Aislado (Modal Cursar)
 let carritoCursar = []; 
-let conEnvioCursar = false;
+let conCursar = false;
 let librillosCursarEncontrados = [];
 
 // ==========================================
